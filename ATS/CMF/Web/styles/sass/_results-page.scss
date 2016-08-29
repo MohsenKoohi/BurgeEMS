@@ -1,0 +1,36 @@
+.general-buttons div,.general-buttons a
+{
+	font-size: 1.2em;
+}
+
+body.rtl .general-buttons div,body.rtl .general-buttons a
+{
+	float:left;
+}
+
+body.ltr .general-buttons div,body.ltr .general-buttons a
+{
+	float:right;
+}
+
+body.rtl .results-page-select,body.rtl .results-search-again
+{
+	float:left;
+	margin-right:4.161616%;
+}
+
+body.ltr .results-page-select,body.ltr .results-search-again
+{
+	float:right;
+	margin-left:4.161616%;
+}
+
+div.results-count
+{
+	margin-top:40px;
+	font-size:1.2em;
+	//padding:5px 15px;
+	border-radius: 5px;
+
+}
+
