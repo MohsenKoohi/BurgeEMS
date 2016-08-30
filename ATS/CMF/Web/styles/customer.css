@@ -882,12 +882,3 @@ body.post-page #cboxCurrent {
   height: 40px;
   vertical-align: middle;
   cursor: pointer; }
-
-body.rtl .header {
-  background: linear-gradient(to left, white, rgba(255, 255, 255, 0.3), rgba(0, 0, 0, 0.3)); }
-
-body.ltr .header {
-  background: linear-gradient(to right, white, rgba(255, 255, 255, 0.3), rgba(0, 0, 0, 0.3)); }
-
-.header {
-  border-bottom: 1px solid #2F6964; }
