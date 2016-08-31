@@ -2,11 +2,11 @@
 
 $lang['comma']="،";
 $lang['header_separator']=" | ";
-$lang['main_name']="سیستم پیگیری امور برگه";
-$lang['header_title']="سیستم پیگیری امور برگه";
-$lang['slogan']="سیستم پیگیری امور برگه";
-$lang['header_meta_keywords']="BurgeATS, Burge Affairs Tracking System, Open-Source MVC CRM System, برگه, سیستم پیگیری امور";
-$lang['header_meta_description']="BurgeATS, Customer Relationship Management System";
+$lang['main_name']="سیستم مدیریت آموزش برگه";
+$lang['header_title']="سیستم مدیریت آموزش برگه";
+$lang['slogan']="سیستم مدیریت آموزش برگه";
+$lang['header_meta_keywords']="BurgeEMS, Burge Education Management System, برگه, سیستم مدیریت آموزش ";
+$lang['header_meta_description']="BurgeATS,  Burge Education Management System";
 
 $lang['select']="انتخاب نمایید";
 $lang['read_more']="بیشتر بخوانید";

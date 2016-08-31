@@ -2,10 +2,10 @@
 
 $lang['comma']=",";
 $lang['header_separator']=" | ";
-$lang['main_name']="BurgeATS";
-$lang['header_title']="BurgeATS";
-$lang['slogan']="BurgeATS";
-$lang['header_meta_keywords']="BurgeATS, Burge Affairs Tracking System, Open-Source MVC CRM";
+$lang['main_name']="BurgeEMS";
+$lang['header_title']="BurgeEMS";
+$lang['slogan']="BurgeEMS";
+$lang['header_meta_keywords']="BurgeEMS, Burge Education Management System, School Management System";
 $lang['header_meta_description']="";
 
 $lang['select']="Please select";
