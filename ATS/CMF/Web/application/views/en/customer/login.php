@@ -1,15 +1,17 @@
 <div class="main">
 	<div class="container width-400">
 		<h1>{login_text}</h1>
+		<?php if(0){ ?>
 		<a class="results-search-again" style="font-size:1.2em" 
 			href="<?php echo get_link('customer_signup');?>"
 		>
 			{signup_text}
 		</a>
 		<br><br>
+		<?php } ?>
 		<?php echo form_open(get_link("customer_login"),array("id"=>"login-form")); ?>
 			<div class="twelve columns mrg-btn-20">
-				<label>{email_text}</label>
+				<label>{username_text}</label>
 				<input class="lang-en full-width" type="text" name="email" />
 			</div>
 			<div class="twelve columns mrg-btn-20">
@@ -25,6 +27,7 @@
 				<input class="full-width button-primary" type="submit"  value="{sign-in_text}" />
 			</div>
 		</form>		
+		<?php if(0) { ?>
 		<br>&nbsp;<br>
 		<a style="font-size:1.2em" 
 			onclick="forgottenPassword();"
@@ -87,5 +90,6 @@
 				}
 			</script>
 		</div>
+		<?php } ?>
 	</div>
 </div>

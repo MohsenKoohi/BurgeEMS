@@ -2,6 +2,7 @@
 
 $lang['login']="ورود";
 $lang['email']="پست الکترونیک";
+$lang['username']="نام کاربری";
 $lang['password']="رمز";
 $lang['sign-in']="ورود";
 

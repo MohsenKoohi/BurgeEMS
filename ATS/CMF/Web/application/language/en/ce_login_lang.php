@@ -2,6 +2,7 @@
 
 $lang['login']="Login";
 $lang['email']="Email";
+$lang['username']="Username";
 $lang['password']="Password";
 $lang['sign-in']="Sign in";
 
