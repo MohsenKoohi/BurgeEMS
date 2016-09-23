@@ -84,11 +84,22 @@ class Time_manager_model extends CI_Model
 
 	public function add($name)
 	{
+		$prev_time=$this->get_current_academic_year();
+
 		$this->db->insert($this->time_table_name,array("time_name"=>$name));
+		
+		$this->current_academic_year=NULL;
+		$new_time=$this->get_current_academic_year();
+
+		$this->complete_previous_time_actions($prev_time, $new_time)
 
 		return;
 	}
 
+	private function complete_previous_time_actions($prev_time, $new_time)
+	{
 
+		return;
+	}
 
 }
