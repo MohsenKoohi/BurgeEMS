@@ -91,7 +91,7 @@ class Time_manager_model extends CI_Model
 		$this->current_academic_year=NULL;
 		$new_time=$this->get_current_academic_year();
 
-		$this->complete_previous_time_actions($prev_time, $new_time)
+		$this->complete_previous_time_actions($prev_time, $new_time);
 
 		return;
 	}
