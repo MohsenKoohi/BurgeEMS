@@ -48,14 +48,14 @@ class Class_manager_model extends CI_Model
 		return;
 	}
 	
-	public function get_dashboard_info2()
+	public function get_dashboard_info()
 	{
 		$CI=& get_instance();
 		$lang=$CI->language->get();
 
 		$CI->lang->load('ae_class',$lang);
 			
-		//$data=$this->get_current_academic_year();
+		$data['classes']=$this->get_all_classes();
 
 		$CI->load->library('parser');
 		$ret=$CI->parser->parse($CI->get_admin_view_file("class_dashboard"),$data,TRUE);
