@@ -114,6 +114,8 @@ $route['message']																= "CE_Message/message";
 $route['message/(\d+)']														= "CE_Message/details/$1";
 $route['message/send/(\d+)']												= "CE_Message/c2c/$1";
 
+$route[ADMIN_URL_FOLDER."/time"]										= "AE_Time/index";
+
 $route['(((:any)/)*:any)']="CE_Home/redirect";
 
 /* End of file routes.php */
