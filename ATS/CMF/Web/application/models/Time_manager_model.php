@@ -93,6 +93,8 @@ class Time_manager_model extends CI_Model
 
 		$this->complete_previous_time_actions($prev_time, $new_time);
 
+		$this->log_manager_model->info("TIME_ADD",$new_time);	
+
 		return;
 	}
 

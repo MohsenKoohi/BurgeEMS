@@ -22,3 +22,5 @@ $lang['message']="Messages";
 $lang['message_access']="Access Levels of Messages";
 
 $lang['time']="Times";
+$lang['class']="Classes";
+$lang['class_access']="Access Levels of Classes";

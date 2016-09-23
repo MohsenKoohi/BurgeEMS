@@ -22,3 +22,5 @@ $lang['message']="پیام‌ها";
 $lang['message_access']="سطح دسترسی پیام‌ها";
 
 $lang['time']="زمان‌ها";
+$lang['class']="کلاس‌ها";
+$lang['class_access']="سطح دسترسی کلاس‌ها";

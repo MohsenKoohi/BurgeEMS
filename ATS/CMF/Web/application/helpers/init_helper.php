@@ -86,6 +86,9 @@ function &get_links($just_common=FALSE)
 			,'customer_message_c2c_format'			=> HOME_URL_LANG."/message/send/customer_id"
 
 			,'admin_time'					=> ADMIN_SURL_LANG."/time"
+
+			,'admin_class'					=> ADMIN_SURL_LANG."/class"
+			,'admin_class_access'		=> ADMIN_SURL_LANG."/class/access"
 		));
 	}
 

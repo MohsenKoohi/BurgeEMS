@@ -93,6 +93,14 @@ class Log_manager_model extends CI_Model
 		,"MESSAGE_SET_PROPS"				=>1135
 		,"MESSAGE_SET_PARTICIPANTS"	=>1136
 
+		,"TIME_ADD"					=>2001
+
+		,"CLASS_ADD"					=>2031
+		,"CLASS_DELETE"				=>2032
+		,"CLASS_RENAME"				=>2033
+		,"CLASS_RESORT"				=>2034
+
+
 	);
 
 	public function __construct()
