@@ -570,7 +570,7 @@
 									</div>
 									<div class="three columns">
 										<label>{type_text}</label>
-										<select name="customer_type" class="full-width">
+										<select name="customer_type" class="full-width" onchange="$('.subject-div,.class-div').toggleClass('disno');">
 											<?php
 												foreach ($customer_types as $type)
 												{
@@ -582,15 +582,45 @@
 											?>
 										</select>
 									</div>
+									<div class="three columns class-div
+										<?php if($customer_info['customer_type']==='teacher') echo 'disno' ?>
+									">
+										<label>{class_text}</label>
+										<select name="customer_class_id" class="full-width">
+											<option value="">&nbsp;</option>
+											<?php
+												foreach ($classes as $class)
+													echo "<option value='".$class['class_id']."' ".
+															($customer_info['customer_class_id']==$class['class_id']?"selected":"").
+															" >".$class['class_name']."</option>";
+											?>
+										</select>
+
+									</div>
+									<div class="three columns subject-div 
+										<?php if($customer_info['customer_type']==='student') echo 'disno' ?>
+									" >
+										<label>{subject_text}</label>
+										<input type="text" name="customer_subject" class="full-width" 
+											value="<?php echo $customer_info['customer_subject'];?>"
+										/>
+									</div>
+									<div class="three columns" >
+										<label>{code_text}</label>
+										<input type="text" name="customer_code" class="full-width" 
+											value="<?php echo $customer_info['customer_code'];?>"
+										/>
+									</div>
+									<div class="three columns" >
+										<label>{birthday_text}</label>
+										<input type="text" name="customer_birthday" class="full-width" 
+											value="<?php echo $customer_info['customer_birthday'];?>"
+										/>
+									</div>
 									<div class="three columns">
 										<label>{email_text}</label>
 										<input value="<?php echo $customer_info['customer_email'];?>" 
 											type="text" name="customer_email" class="full-width" />
-									</div>
-									<div class="three columns">
-										<label>{code_text}</label>
-										<input value="<?php echo $customer_info['customer_code'];?>" 
-											type="text" name="customer_code" class="full-width" />
 									</div>
 									<div class="three columns">
 										<label>{province_text}</label>
@@ -621,6 +651,11 @@
 										<label>{mobile_text}</label>
 										<input value="<?php echo $customer_info['customer_mobile'];?>" 
 											type="text" name="customer_mobile" class="full-width eng ltr" />
+									</div>
+									<div class="three columns">
+										<label>{active_text}</label>
+										<input <?php if($customer_info['customer_active']) echo "checked";?>
+											type="checkbox" name="customer_active" class="graphical" />
 									</div>
 								</div>
 								<div class="row even-odd-bg dont-magnify" >

@@ -1,13 +1,13 @@
 <?php 
 
-$lang['customer_details']="Customer Details";
+$lang['customer_details']="Person Details";
 $lang['print_address']="Print Address";
 
 $lang['properties']="Properties";
 $lang['name']="Full Name";
 $lang['type']="Type";
 
-$lang['customer_not_found']="Customer not found.";
+$lang['customer_not_found']="Person not found.";
 $lang['code']="Code";
 $lang['province']="Province";
 $lang['city']="City";
@@ -16,7 +16,7 @@ $lang['phone']="Phone";
 $lang['mobile']="Mobile";
 $lang['save']="Save";
 $lang['saved_successfully']="The new properties saved successfully.";
-$lang['customer_name_is_null']="Custome name hasn't been specified.";
+$lang['customer_name_is_null']="Name hasn't been specified.";
 $lang['customer_email_is_repetitive']="Email is repetitive.";
 $lang['customer_email_cant_be_deleted']="Email can't be deleted.";
 
@@ -24,7 +24,7 @@ $lang['type_student']="Student";
 $lang['type_teacher']="Teacher";
 $lang['desc']="Description";
 
-$lang['customer_logs']="Customer Logs";
+$lang['customer_logs']="Logs";
 $lang['log_type']="Log Type";
 $lang['search_again']="Search";
 
@@ -84,7 +84,7 @@ $lang['send_message']="Send Message";
 $lang['reciever']="Reciever";
 $lang['sender']="Sender";
 $lang['login']="Login as Customer";
-$lang['customer_email_has_not_been_specified']="Customer's email has not been specified.";
+$lang['customer_email_has_not_been_specified']="Email field has not been specified.";
 
 $lang['registeration_email_subject']="Account Info";
 $lang['registeration_email_content']='Your registeration completed successfully.<br>

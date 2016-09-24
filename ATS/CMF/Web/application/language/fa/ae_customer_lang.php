@@ -1,8 +1,8 @@
 <?php 
 
-$lang['customers']="مشتریان";
-$lang['customers_list']="لیست مشتریان";
-$lang['add_customer']="افزودن مشتری";
+$lang['customers']="افراد";
+$lang['customers_list']="لیست افراد";
+$lang['add_customer']="جدید";
 $lang['name']="نام و نام خانوادگی";
 $lang['type']="نوع";
 $lang['desc']="توضیح";
@@ -25,7 +25,11 @@ $lang['mobile']="موبایل";
 
 $lang['total']="تعداد";
 
-$lang['code']="کد";
+$lang['code']="شناسه";
 $lang['province']="استان";
 $lang['city']="شهر";
 $lang['address']="آدرس";
+
+$lang['class']="کلاس";
+$lang['subject']="سمت";
+$lang['birthday']="تاریخ تولد";

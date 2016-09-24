@@ -15,7 +15,7 @@ $lang['file']="فایل‌ها";
 $lang['category']="دسته‌ها";
 $lang['contact_us']="تماس با ما";
 
-$lang['customer']="مشتریان";
+$lang['customer']="افراد";
 $lang['task']="وظایف";
 $lang['task_exec']="اجرای وظایف";
 $lang['message']="پیام‌ها";

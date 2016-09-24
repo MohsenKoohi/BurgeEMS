@@ -47,7 +47,7 @@
 						<div class="three columns half-col-margin">
 							<label>{type_text}</label>
 							<select name="type" class="full-width">
-								<option value=""></option>
+								<option value="">&nbsp;</option>
 								<?php
 									foreach ($customer_types as $type)
 										echo "<option value='$type'>".${"type_".$type."_text"}."</option>";
@@ -251,12 +251,34 @@
 						</div>
 						<div class="three columns half-col-margin">
 							<label>{type_text}</label>
-							<select name="customer_type" class="full-width">
+							<select name="customer_type" class="full-width" onchange="typeChanges(this);">
 								<?php
 									foreach ($customer_types as $type)
 										echo "<option value='$type'>".${"type_".$type."_text"}."</option>";
 								?>
 							</select>
+						</div>
+						<div class="three columns half-col-margin class-div">
+							<label>{class_text}</label>
+							<select name="customer_class_id" class="full-width">
+								<option value="">&nbsp;</option>
+								<?php
+									foreach ($classes as $class)
+										echo "<option value='".$class['class_id']."'>".$class['class_name']."</option>";
+								?>
+							</select>
+						</div>
+						<div class="three columns half-col-margin subject-div disno" >
+							<label>{subject_text}</label>
+							<input type="text" name="customer_subject" class="full-width" />
+						</div>
+						<div class="three columns" >
+							<label>{code_text}</label>
+							<input type="text" name="customer_code" class="full-width" />
+						</div>
+						<div class="three columns half-col-margin" >
+							<label>{birthday_text}</label>
+							<input type="text" name="customer_birthday" class="full-width" />
 						</div>
 						<div class="three columns half-col-margin">
 							<label>{phone_text}</label>
@@ -277,6 +299,15 @@
 							<input type="submit" class=" button-primary four columns" value="{add_text}"/>
 					</div>				
 				</form>
+
+				<script type="text/javascript">
+					function typeChanges(el)
+					{
+						$(".subject-div").toggleClass("disno");
+						$(".class-div").toggleClass("disno");
+
+					}
+				</script>
 			</div>
 
 		</div>		

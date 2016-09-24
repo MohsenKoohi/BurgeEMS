@@ -1,14 +1,14 @@
 <?php 
 
-$lang['customer_details']="اطلاعات مشتری";
+$lang['customer_details']="اطلاعات افراد";
 $lang['print_address']="چاپ آدرس";
 
 $lang['properties']="مشخصات";
 $lang['name']="نام و نام خانوادگی";
 $lang['type']="نوع";
 
-$lang['customer_not_found']="مشتری پیدا نشد.";
-$lang['code']="کد";
+$lang['customer_not_found']="شخص مورد نظر پیدا نشد.";
+$lang['code']="شناسه";
 $lang['province']="استان";
 $lang['city']="شهر";
 $lang['address']="آدرس";
@@ -85,7 +85,7 @@ $lang['send_message']="ارسال پیام";
 $lang['reciever']="گیرنده";
 $lang['sender']="فرستنده";
 $lang['login']="ورود به سیستم";
-$lang['customer_email_has_not_been_specified']="پست الکترونیک مشتری مشخص نشده است.";
+$lang['customer_email_has_not_been_specified']="پست الکترونیک مشخص نشده است.";
 
 $lang['registeration_email_subject']="اطلاعات حساب کاربری";
 $lang['registeration_email_content']='ثبت نام شما با موفقیت انجام شد.<br>
@@ -95,3 +95,8 @@ $lang['registeration_email_content']='ثبت نام شما با موفقیت ا�
 			در صورت بروز هر مشکل با همین پست الکترونیک تماس بگیرید.<br>
 			با استفاده از  <a style="color:#0870E3" href="$link">حساب کاربری</a> می توانید به 
 			صفحه خود دسترسی پیدا کنید.<br>';
+
+$lang['class']="کلاس";
+$lang['subject']="سمت";
+$lang['birthday']="تاریخ تولد";
+$lang['active']="فعال";

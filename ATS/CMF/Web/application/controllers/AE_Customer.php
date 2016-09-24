@@ -7,6 +7,7 @@ class AE_Customer extends Burge_CMF_Controller {
 		parent::__construct();
 
 		$this->load->model("customer_manager_model");
+		$this->load->model("class_manager_model");
 	}
 
 	public function search($name)
@@ -35,67 +36,8 @@ class AE_Customer extends Burge_CMF_Controller {
     	return;
 	}
 
-	private function update_customers_provinces_and_cities()
-	{
-		$this->db
-			->set("province_name","چهارمحال بختیاری")
-			->where("province_id",9)
-			->where("province_lang","fa")
-			->update("province");
-
-		$table=$this->db->dbprefix("customer"); 
-		$this->db->query("UPDATE $table set customer_address = CONCAT(customer_city,'-',customer_address)");
-
-		$res=$this->db
-			->select("customer_id,customer_province,customer_city,province_id")
-			->from("customer")
-			->join("province","customer_province = province_name","left")
-			->where("province_lang","fa")
-			->get()
-			->result_array();
-
-		$this->db
-			->set("province_name","چهارمحال و بختیاری")
-			->where("province_id",9)
-			->where("province_lang","fa")
-			->update("province");
-
-		$b=array();
-		foreach($res as $r)
-			$b[]=array(
-				"customer_id"=>$r['customer_id']
-				,"customer_province"=>$r['province_id']
-			);
-
-		$this->db->update_batch("customer",$b,"customer_id");
-
-		$table=$this->db->dbprefix("customer"); 
-		$this->db->query("ALTER TABLE $table MODIFY customer_province INT NOT NULL");
-
-		$res=$this->db
-			->select("customer_id,customer_province,customer_city,city_id")
-			->from("customer")
-			->join("city","customer_city = city_name","left")
-			->where("city_lang","fa")
-			->get()
-			->result_array();
-
-		$b=array();
-		foreach($res as $r)
-			$b[]=array(
-				"customer_id"=>$r['customer_id']
-				,"customer_city"=>$r['city_id']
-			);
-
-		$this->db->update_batch("customer",$b,"customer_id");
-
-		$table=$this->db->dbprefix("customer"); 
-		$this->db->query("ALTER TABLE $table MODIFY customer_city INT NOT NULL");
-	}
 	public function index()
 	{
-		//$this->update_customers_provinces_and_cities();
-
 		$this->lang->load('ae_customer',$this->selected_lang);
 		
 		if($this->input->post())
@@ -103,14 +45,17 @@ class AE_Customer extends Burge_CMF_Controller {
 			$this->lang->load('error',$this->selected_lang);
 
 			if("add_customer" === $this->input->post("post_type"))
-				$this->add_customer();
+				return $this->add_customer();
 		}
+
+		$this->data['message']=get_message();
 		
 		$this->set_data_customers();
+		$this->data['classes']=$this->class_manager_model->get_all_classes();
 		$this->data['raw_page_url']=get_link("admin_customer");
 		$this->data['provinces']=$this->customer_manager_model->get_provinces($this->selected_lang);
 		$this->data['cities']=$this->customer_manager_model->get_cities($this->selected_lang);
-		
+
 		$page_raw_lang_url=get_link("admin_customer",TRUE);
 		$this->data['lang_pages']=get_lang_pages($page_raw_lang_url);
 
@@ -181,10 +126,17 @@ class AE_Customer extends Burge_CMF_Controller {
 		$customer_type=$this->input->post("customer_type");
 		$customer_phone=$this->input->post("customer_phone");
 		$customer_mobile=$this->input->post("customer_mobile");
+		$customer_subject=$this->input->post("customer_subject");
+		$customer_class_id=$this->input->post("customer_class_id");
+		$customer_code=$this->input->post("customer_code");
+
+		$customer_birthday=persian_normalize_word($this->input->post("customer_birthday"));
+		validate_persian_date($customer_birthday);
+		
 		$desc=$this->input->post("desc");
 
 		if(!$customer_type || !$customer_name)
-			$this->data['message']=$this->lang->line("fill_all_fields");
+			set_message($this->lang->line("fill_all_fields"));
 		else
 		{
 			$res=$this->customer_manager_model->add_customer(array(
@@ -192,13 +144,18 @@ class AE_Customer extends Burge_CMF_Controller {
 				,"customer_type"=>$customer_type
 				,"customer_phone"=>$customer_phone
 				,"customer_mobile"=>$customer_mobile
+				,"customer_subject"=>$customer_subject
+				,"customer_class_id"=>$customer_class_id
+				,"customer_code"=>$customer_code
+				,"customer_birthday"=>$customer_birthday
+
 				), $desc);
 
 			if($res)
-				$this->data['message']=$this->lang->line("added_successfully");
+				set_message($this->lang->line("added_successfully"));
 		}
 
-		return;
+		return redirect(get_link("admin_customer"));
 	}
 
 	public function customer_details($customer_id,$task_id=0)
@@ -258,6 +215,7 @@ class AE_Customer extends Burge_CMF_Controller {
 		$this->data['raw_page_url']=get_admin_customer_details_link($customer_id,$task_id);
 		$this->data['lang_pages']=get_lang_pages(get_admin_customer_details_link($customer_id,$task_id,NULL,TRUE));
 
+		$this->data['classes']=$this->class_manager_model->get_all_classes();
 		$this->data['customer_types']=$this->customer_manager_model->get_customer_types();		
 		$this->data['provinces']=$this->customer_manager_model->get_provinces($this->selected_lang);
 		$this->data['cities']=$this->customer_manager_model->get_cities($this->selected_lang);
@@ -365,6 +323,9 @@ class AE_Customer extends Burge_CMF_Controller {
 
 	private function save_customer_new_properties($customer_id,$task_id)
 	{
+		$customer_birthday=persian_normalize_word($this->input->post("customer_birthday"));
+		validate_persian_date($customer_birthday);
+
 		$args=array(
 			"customer_name"		=>$this->input->post("customer_name")
 			,"customer_type"		=>$this->input->post("customer_type")
@@ -375,6 +336,10 @@ class AE_Customer extends Burge_CMF_Controller {
 			,"customer_address"	=>$this->input->post("customer_address")
 			,"customer_phone"		=>$this->input->post("customer_phone")
 			,"customer_mobile"	=>$this->input->post("customer_mobile")
+			,"customer_subject"	=>$this->input->post("customer_subject")
+			,"customer_class_id"	=>$this->input->post("customer_class_id")
+			,"customer_birthday"	=>$customer_birthday
+			,"customer_active"	=>($this->input->post("customer_active")==="on")
 		);
 
 		$desc=$this->input->post("desc");

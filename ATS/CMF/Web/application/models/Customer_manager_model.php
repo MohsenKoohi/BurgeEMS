@@ -5,7 +5,7 @@ class Customer_manager_model extends CI_Model
 	private $customer_event_table_name="customer_event";
 	private $customer_types=array("student","teacher");
 
-	private $event_types=array("has_news","verification","has_message");
+	private $event_types=array(/*"has_news","verification",*/"has_message");
 
 	private $customer_props_can_be_written=array(
 		"customer_type"
@@ -893,6 +893,9 @@ class Customer_manager_model extends CI_Model
 
 	public function send_registeration_mail($email,$pass)
 	{
+		//we don't send registeration email
+		return ;
+
 		$this->lang->load('email_lang',$this->selected_lang);		
 		$this->lang->load('ae_customer_details_lang',$this->selected_lang);		
 

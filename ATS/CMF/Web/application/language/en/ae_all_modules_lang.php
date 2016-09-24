@@ -15,7 +15,7 @@ $lang['file']="Files";
 $lang['category']="Categories";
 $lang['contact_us']="Contact us";
 
-$lang['customer']="Customers";
+$lang['customer']="Persons";
 $lang['task']="Tasks";
 $lang['task_exec']="Tasks Execution";
 $lang['message']="Messages";
