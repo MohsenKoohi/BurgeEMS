@@ -2,7 +2,7 @@
 class Time_manager_model extends CI_Model
 {
 	private $time_table_name="time";
-	private $current_academic_year=NULL;
+	private $current_academic_time=NULL;
 
 	public function __construct()
 	{
@@ -42,7 +42,7 @@ class Time_manager_model extends CI_Model
 
 		$CI->lang->load('ae_time',$lang);
 			
-		$data=$this->get_current_academic_year();
+		$data=$this->get_current_academic_time();
 
 		$CI->load->library('parser');
 		$ret=$CI->parser->parse($CI->get_admin_view_file("time_dashboard"),$data,TRUE);
@@ -50,10 +50,10 @@ class Time_manager_model extends CI_Model
 		return $ret;		
 	}
 
-	public function get_current_academic_year()
+	public function get_current_academic_time()
 	{
-		if($this->current_academic_year)
-			return $this->current_academic_year;
+		if($this->current_academic_time)
+			return $this->current_academic_time;
 
 		$sub=$this->db
 			->select("MAX(time_id)")
@@ -66,9 +66,15 @@ class Time_manager_model extends CI_Model
 			->where("time_id = ($sub)")
 			->get();
 
-		$this->current_academic_year=$result->row_array();
+		$this->current_academic_time=$result->row_array();
 
-		return $this->current_academic_year;
+		return $this->current_academic_time;
+	}
+
+	public function get_current_academic_time_name()
+	{
+		$time=$this->get_current_academic_time();
+		return $time['time_name'];
 	}
 
 	public function get_all_times()
@@ -84,12 +90,12 @@ class Time_manager_model extends CI_Model
 
 	public function add($name)
 	{
-		$prev_time=$this->get_current_academic_year();
+		$prev_time=$this->get_current_academic_time();
 
 		$this->db->insert($this->time_table_name,array("time_name"=>$name));
 		
-		$this->current_academic_year=NULL;
-		$new_time=$this->get_current_academic_year();
+		$this->current_academic_time=NULL;
+		$new_time=$this->get_current_academic_time();
 
 		$this->complete_previous_time_actions($prev_time, $new_time);
 
@@ -100,6 +106,9 @@ class Time_manager_model extends CI_Model
 
 	private function complete_previous_time_actions($prev_time, $new_time)
 	{
+		$this->load->model("class_manager_model");
+		$this->class_manager_model->start_new_time($prev_time,$new_time);
+
 
 		return;
 	}

@@ -9,5 +9,5 @@ $lang['classes_list']="لیست کلاس‌ها";
 $lang['are_you_sure_to_submit']="تغییرات ذخیره شود؟";
 $lang['submit_changes']="ثبت";
 $lang['modifications_have_been_done_successfully']="تغییرات با موفقیت ثبت شدند.";
-$lang['']="";
+$lang['view']="مشاهده";
 $lang['']="";

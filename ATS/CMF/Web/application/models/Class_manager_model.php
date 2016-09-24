@@ -2,7 +2,7 @@
 class Class_manager_model extends CI_Model
 {
 	private $class_table_name="class";
-	private $class_access_table_name="class_access";
+	private $class_teacher_table_name="class_teacher";
 
 	public function __construct()
 	{
@@ -23,12 +23,12 @@ class Class_manager_model extends CI_Model
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8"
 		);
 
-		$class_access_table=$this->db->dbprefix($this->class_access_table_name); 
+		$class_teacher_table=$this->db->dbprefix($this->class_teacher_table_name); 
 		$this->db->query(
-			"CREATE TABLE IF NOT EXISTS $class_access_table (
-				`ca_class_id` INT  
-				,`ca_teacher_id` INT
-				,PRIMARY KEY (ca_class_id, ca_teacher_id)	
+			"CREATE TABLE IF NOT EXISTS $class_teacher_table (
+				`ct_class_id` INT  
+				,`ct_teacher_id` INT
+				,PRIMARY KEY (ct_class_id, ct_teacher_id)	
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8"
 		);
 
@@ -36,9 +36,6 @@ class Class_manager_model extends CI_Model
 
 		$this->module_manager_model->add_module("class","class_manager");
 		$this->module_manager_model->add_module_names_from_lang_file("class");
-
-		$this->module_manager_model->add_module("class_access","");
-		$this->module_manager_model->add_module_names_from_lang_file("class_access");
 		
 		return;
 	}
@@ -108,13 +105,30 @@ class Class_manager_model extends CI_Model
 			->delete($this->class_table_name);
 
 		$this->db
-			->where_in("ca_class_id", $classes)
-			->delete($this->class_access_table_name);
+			->where_in("ct_class_id", $classes)
+			->delete($this->class_teacher_table_name);
 
 		$this->log_manager_model->info("CLASS_DELETE",array("class_ids"=>implode(",",$classes)));	
 
 		return;
+	}
 
+	public function start_new_time($prev_time,$new_time)
+	{
+		$this->db
+			->where("1")
+			->delete($this->class_teacher_table_name);
+
+		$log=array(
+			"new_time_id"=>$new_time['time_id']
+			,"new_time_name"=>$new_time['time_name']
+			,"prev_time_id"=>$prev_time['time_id']
+			,"prev_time_name"=>$prev_time['time_name']
+		);
+
+		$this->log_manager_model->info("CLASS_TEACHER_RESET",$log);	
+
+		return;
 	}
 
 	public function set_props($new_props)

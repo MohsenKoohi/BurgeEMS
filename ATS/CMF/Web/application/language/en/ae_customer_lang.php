@@ -11,9 +11,8 @@ $lang['page']="Page";
 $lang['customer_page']="Customer Page";
 $lang['view']="View";
 
-$lang['type_regular']="Regular";
-$lang['type_agent']="Agent";
-
+$lang['type_student']="Student";
+$lang['type_teacher']="Teacher";
 $lang['added_successfully']="The new customer added successfully.";
 
 $lang['total_results']="Total results";

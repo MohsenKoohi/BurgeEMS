@@ -11,8 +11,8 @@ $lang['page']="صفحه";
 $lang['customer_page']="صفحه مشتری";
 $lang['view']="مشاهده";
 
-$lang['type_regular']="عادی";
-$lang['type_agent']="نماینده";
+$lang['type_student']="دانش‌آموز";
+$lang['type_teacher']="معلم";
 
 $lang['added_successfully']="مشتری جدید با موفقیت افزوده شد.";
 

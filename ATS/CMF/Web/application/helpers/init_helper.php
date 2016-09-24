@@ -85,10 +85,10 @@ function &get_links($just_common=FALSE)
 			,'customer_message_c2d'						=> HOME_URL_LANG."/contact_us"
 			,'customer_message_c2c_format'			=> HOME_URL_LANG."/message/send/customer_id"
 
-			,'admin_time'					=> ADMIN_SURL_LANG."/time"
+			,'admin_time'							=> ADMIN_SURL_LANG."/time"
 
-			,'admin_class'					=> ADMIN_SURL_LANG."/class"
-			,'admin_class_access'		=> ADMIN_SURL_LANG."/class/access"
+			,'admin_class'							=> ADMIN_SURL_LANG."/class"
+			,'admin_class_details_format'		=> ADMIN_SURL_LANG."/class/class_id"
 		));
 	}
 
@@ -106,6 +106,13 @@ function get_customer_message_c2c_link($customer_id, $do_not_set_lang=FALSE)
 		,get_link("customer_message_c2c_format",$do_not_set_lang)
 	);
 }
+
+function get_admin_class_details_link($class_id, $do_not_set_lang=FALSE)
+{
+	$format_link=get_link("admin_class_details_format",$do_not_set_lang);
+	return str_replace("class_id", $class_id, $format_link);
+}
+
 
 function get_customer_message_details_link($message_id, $do_not_set_lang=FALSE)
 {

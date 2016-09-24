@@ -23,6 +23,15 @@
 								<label>{delete_text} </label>
 								<input name="delete-class-<?php echo $class['class_id']?>" type="checkbox" class="graphical" />
 							</div>
+							<div class="two columns">
+								<label>&nbsp;</label>
+								<a 
+								href="<?php echo get_admin_class_details_link($class['class_id']); ?>"
+								class="button button-primary sub-primary full-width"
+								>
+									{view_text}
+								</a>
+							</div>
 						</div>
 
 					<?php } ?>

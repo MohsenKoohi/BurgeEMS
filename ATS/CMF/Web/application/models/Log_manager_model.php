@@ -99,6 +99,7 @@ class Log_manager_model extends CI_Model
 		,"CLASS_DELETE"				=>2032
 		,"CLASS_RENAME"				=>2033
 		,"CLASS_RESORT"				=>2034
+		,'CLASS_TEACHER_RESET'		=>2035
 
 
 	);

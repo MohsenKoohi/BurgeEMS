@@ -3,7 +3,7 @@ class Customer_manager_model extends CI_Model
 {
 	private $customer_table_name="customer";
 	private $customer_event_table_name="customer_event";
-	private $customer_types=array("regular","agent");
+	private $customer_types=array("student","teacher");
 
 	private $event_types=array("has_news","verification","has_message");
 
@@ -17,6 +17,11 @@ class Customer_manager_model extends CI_Model
 		,"customer_address"
 		,"customer_phone" 
 		,"customer_mobile"
+		,"customer_active"
+		,"customer_class_id"
+		,"customer_image_name"
+		,"customer_birthday"
+		,"customer_subject"
 	);
 
 	private $customer_props_can_be_read=array(
@@ -30,6 +35,11 @@ class Customer_manager_model extends CI_Model
 		,"customer_address"
 		,"customer_phone" 
 		,"customer_mobile"
+		,"customer_active"
+		,"customer_class_id"
+		,"customer_image_name"
+		,"customer_birthday"
+		,"customer_subject"
 	);
 
 	private $customer_log_dir;
@@ -80,6 +90,11 @@ class Customer_manager_model extends CI_Model
 				,`customer_address` varchar(1000) DEFAULT NULL
 				,`customer_phone` varchar(32) DEFAULT NULL 
 				,`customer_mobile` varchar(32) DEFAULT NULL 
+				,`customer_active` bit(1) DEFAULT 1
+				,`customer_class_id` int DEFAULT 0
+				,`customer_image_name` char(15) DEFAULT NULL
+				,`customer_birthday` char(10)	DEFAULT NULL
+				,`customer_subject` varchar(64) DEFAULT NULL
 				,PRIMARY KEY (customer_id)	
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8"
 		);
@@ -459,7 +474,10 @@ class Customer_manager_model extends CI_Model
 			$desc["active_user_id"]=$CI->user->get_id();
 			$desc["active_user_code"]=$CI->user->get_code();
 			$desc["active_user_name"]=$CI->user->get_name();
-		}		
+		}
+
+		$this->load->model("time_manager_model");
+		$desc['academic_time']=$this->time_manager_model->get_current_academic_time_name();
 		
 		$log_path=$this->get_customer_log_path($customer_id,$type_index);
 
