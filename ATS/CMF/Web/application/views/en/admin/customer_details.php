@@ -11,18 +11,26 @@
 		</h1>
 
 		<div class="row general-buttons">
-			<div class="anti-float two columns button button-primary half-col-margin" onclick="document.location='{send_message_address}';">
+			<div class="anti-float two columns button button-primary" onclick="document.location='{send_message_address}';">
 				{send_message_text}
 			</div>
 		</div>
 		<div class="row general-buttons">
-			<div class="anti-float two columns button sub-primary button-type1 half-col-margin" onclick="printAddress()">
+			<div class="anti-float two columns button sub-primary button-type1 " onclick="printAddress()">
 				{print_address_text}
 			</div>
 		</div>
 		<div class="row general-buttons">	
 			<div class="anti-float two columns button sub-primary button-type2" onclick="customerLogin()">
 				{login_text}
+			</div>
+		</div>
+
+		<div class="row general-buttons">
+			<div class="anti-float two columns button button-primary "
+			 onclick="if(confirm('{are_you_sure_to_create_new_password_text}')) window.open('{new_pass_link}','_blank');"
+			 >
+				{print_password_text}
 			</div>
 		</div>
 

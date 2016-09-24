@@ -56,6 +56,7 @@ function &get_links($just_common=FALSE)
 			,'customer_contact_us'								=> HOME_URL_LANG."/contact_us"
 
 			,'admin_customer'						=> ADMIN_SURL_LANG."/customer"
+			,'admin_customer_password'			=> ADMIN_SURL_LANG."/customer/password"
 			,'admin_customer_search'			=> ADMIN_SURL_LANG."/customer/search"
 			,'admin_customer_details_format'	=> ADMIN_SURL_LANG."/customer/details/customer_id/task_id"
 

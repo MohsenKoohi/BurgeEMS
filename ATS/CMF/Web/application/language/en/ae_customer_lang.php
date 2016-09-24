@@ -28,3 +28,16 @@ $lang['code']="Code";
 $lang['province']="Province";
 $lang['city']="City";
 $lang['address']="Address";
+
+$lang['class']="Class";
+$lang['subject']="Subject";
+$lang['birthday']="Birthday";
+$lang['active']="Active";
+$lang['yes']="Yes";
+$lang['no']="No";
+$lang['print_password']="Print Password";
+$lang['are_you_sure_to_create_new_password']="Are you sure to print new passwords?";
+$lang['name']="Name";
+$lang['username']="Username";
+$lang['password']="Password";
+$lang['url']="URL";

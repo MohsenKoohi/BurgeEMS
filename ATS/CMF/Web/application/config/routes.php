@@ -84,6 +84,7 @@ $route["retry"]="retry";
 $route["watermark"]="CE_Watermark";
 
 $route[ADMIN_URL_FOLDER."/customer"]							= "AE_Customer";
+$route[ADMIN_URL_FOLDER."/customer/password"]				= "AE_Customer/password";
 $route[ADMIN_URL_FOLDER."/customer/search/(.*)"]			= "AE_Customer/search/$1";
 $route[ADMIN_URL_FOLDER."/customer/details/(\d+)"]			= "AE_Customer/customer_details/$1";
 $route[ADMIN_URL_FOLDER."/customer/details/(\d+)/(\d+)"] = "AE_Customer/customer_details/$1/$2";

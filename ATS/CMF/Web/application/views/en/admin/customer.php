@@ -178,6 +178,7 @@
 								echo 'initialFilters["'.$key.'"]="'.$val.'";';
 						?>
 						var rawPageUrl="{raw_page_url}";
+						var passwordPageUrl="{password_page_url}";
 
 						$(function()
 						{
@@ -234,8 +235,24 @@
 						{
 							document.location=getCustomerSearchUrl(initialFilters)+"&page="+pageNumber;
 						}
+
+						function getCustomerPasswordUrl(filters)
+						{
+							var ret=passwordPageUrl+"?";
+							for(i in filters)
+								ret+="&"+i+"="+encodeURIComponent(filters[i].trim().replace(/\s+/g," "));
+							return ret;
+						}
 					</script>
 				</div>		
+				<br><br>
+				<div class="row general-buttons">
+					<div class="anti-float two columns button button-type2 half-col-margin"
+					 onclick="if(confirm('{are_you_sure_to_create_new_password_text}')) window.open(getCustomerPasswordUrl(getSearchConditions()),'_blank');"
+					 >
+						{print_password_text}
+					</div>
+				</div>
 				<br><br>
 				<?php foreach($customers_info as $cs) {?>
 					<div class="row even-odd-bg" >

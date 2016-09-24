@@ -52,6 +52,7 @@ class AE_Customer extends Burge_CMF_Controller {
 		
 		$this->set_data_customers();
 		$this->data['classes']=$this->class_manager_model->get_all_classes();
+		$this->data['password_page_url']=get_link("admin_customer_password");
 		$this->data['raw_page_url']=get_link("admin_customer");
 		$this->data['provinces']=$this->customer_manager_model->get_provinces($this->selected_lang);
 		$this->data['cities']=$this->customer_manager_model->get_cities($this->selected_lang);
@@ -65,6 +66,60 @@ class AE_Customer extends Burge_CMF_Controller {
 		$this->send_admin_output("customer");
 
 		return;	 
+	}
+
+	public function password()
+	{
+		$this->load->model("constant_manager_model");
+		if(!$this->constant_manager_model->get("allow_customer_new_password"))
+		{
+			echo "No Access";
+			return;
+		}
+
+		$filter=array();
+		$pfnames=array("id","name","type","email","code","province","city","address","phone_mobile","class_id");
+		foreach($pfnames as $pfname)
+			if($this->input->get($pfname))
+				$filter[$pfname]=$this->input->get($pfname);	
+
+		if(!$filter)
+			return;
+
+		$filter['active']=1;
+
+		$customers=$this->customer_manager_model->get_customers($filter);
+		if(sizeof($customers)>1)
+			if(!$this->constant_manager_model->get("allow_customer_bulk_new_password"))
+			{
+				echo "No Access";
+				return;
+			}
+
+		foreach($customers as $index=>&$customer)
+		{
+			$pass=NULL;
+			if($customer['customer_code'])
+			{
+				$pass=$this->customer_manager_model->set_new_password_by_id($customer['customer_id']);
+				if($pass)
+					$customer['customer_pass']=$pass;
+			}
+
+			if(!$pass)
+				unset($customers[$index]);
+		}
+
+		$this->lang->load('ae_customer',$this->selected_lang);
+		foreach($this->lang->language as $index => $val)
+			$this->data[$index."_text"]=$val;
+
+		$this->data['url']=get_link("customer_login");
+		$this->data['customers']=$customers;
+		$this->load->library('parser');
+		$this->parser->parse($this->get_admin_view_file("customer_pass"),$this->data);
+		
+		return;
 	}
 
 	private function set_data_customers()
@@ -212,6 +267,7 @@ class AE_Customer extends Burge_CMF_Controller {
 		if(NULL == $this->data['customer_info'])
 			$this->data['message']=$this->lang->line("customer_not_found");
 		
+		$this->data['new_pass_link']=get_link("admin_customer_password")."?id=".$customer_id;
 		$this->data['raw_page_url']=get_admin_customer_details_link($customer_id,$task_id);
 		$this->data['lang_pages']=get_lang_pages(get_admin_customer_details_link($customer_id,$task_id,NULL,TRUE));
 

@@ -93,3 +93,11 @@ $lang['registeration_email_content']='Your registeration completed successfully.
 			password: <span style="font-family:arial;">$pass</span><br>
 			Please reply to this email, if you have any problem.<br>
 			Using <a style="color:#0870E3" href="$link">this link</a>, you can enter your account.<br>';
+$lang['class']="Class";
+$lang['subject']="Subject";
+$lang['birthday']="Birthday";
+$lang['active']="Active";
+$lang['image']="Image";
+
+$lang['print_password']="Print Password";
+$lang['are_you_sure_to_create_new_password']="Are you sure?";

@@ -101,3 +101,6 @@ $lang['subject']="سمت";
 $lang['birthday']="تاریخ تولد";
 $lang['active']="فعال";
 $lang['image']="تصویر";
+
+$lang['print_password']="چاپ رمز";
+$lang['are_you_sure_to_create_new_password']="رمز جدید ایجاد شوند؟";

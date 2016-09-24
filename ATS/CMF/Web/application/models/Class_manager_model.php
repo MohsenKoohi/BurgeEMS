@@ -36,7 +36,10 @@ class Class_manager_model extends CI_Model
 
 		$this->module_manager_model->add_module("class","class_manager");
 		$this->module_manager_model->add_module_names_from_lang_file("class");
-		
+
+		$this->load->model("constant_manager_model");
+		$this->constant_manager_model->set("allow_delete_classes",0);
+				
 		return;
 	}
 
@@ -100,6 +103,10 @@ class Class_manager_model extends CI_Model
 
 	public function delete($classes)
 	{
+		$this->load->model("constant_manager_model");
+		if(!$this->constant_manager_model->get("allow_delete_classes"))
+			return FALSE;
+
 		$this->db
 			->where_in("class_id", $classes)
 			->delete($this->class_table_name);
@@ -109,6 +116,8 @@ class Class_manager_model extends CI_Model
 			->delete($this->class_teacher_table_name);
 
 		$this->log_manager_model->info("CLASS_DELETE",array("class_ids"=>implode(",",$classes)));	
+
+		$this->constant_manager_model->set("allow_delete_classes",0);
 
 		return;
 	}
