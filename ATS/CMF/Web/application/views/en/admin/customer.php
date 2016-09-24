@@ -54,13 +54,23 @@
 								?>
 							</select>
 						</div>
-						<div class="three columns half-col-margin">
-							<label>{email_text}</label>
-							<input type="text" name="email" class="full-width" />
+						<div class="three columns half-col-margin class-div">
+							<label>{class_text}</label>
+							<select name="class_id" class="full-width">
+								<option value="">&nbsp;</option>
+								<?php
+									foreach ($classes as $class)
+										echo "<option value='".$class['class_id']."'>".$class['class_name']."</option>";
+								?>
+							</select>
 						</div>
 						<div class="three columns">
 							<label>{code_text}</label>
 							<input type="text" name="code" class="full-width" />
+						</div>
+						<div class="three columns half-col-margin">
+							<label>{email_text}</label>
+							<input type="text" name="email" class="full-width" />
 						</div>
 						<div class="three columns half-col-margin">
 							<label>{province_text}</label>
@@ -72,13 +82,13 @@
 								?>
 							</select>
 						</div>
-						<div class="three columns half-col-margin">
+						<div class="three columns">
 							<label>{city_text}</label>
 							<select name="city" class="full-width">
 							</select>
 						</div>
 
-						<div class="three columns ">
+						<div class="three columns half-col-margin">
 							<label>{address_text}</label>
 							<input type="text" name="address" class="full-width" />
 						</div>
@@ -87,6 +97,16 @@
 							<label>{phone_text}/{mobile_text}</label>
 							<input type="text" name="phone_mobile" class="full-width" />
 						</div>	
+
+						<div class="three columns">
+							<label>{active_text}</label>
+							<select name="active" class="full-width">
+								<option>&nbsp;</option>
+								<option value="1">{yes_text}</option>
+								<option value="0">{no_text}</option>
+							</select>
+						</div>
+
 
 					</div>
 					<div clas="row">

@@ -69,16 +69,16 @@ class AE_Customer extends Burge_CMF_Controller {
 
 	private function set_data_customers()
 	{
-		$items_per_page=10;
+		$items_per_page=30;
 		$page=1;
 		if($this->input->get("page"))
 			$page=(int)$this->input->get("page");
 
 		$filter=array();
 
-		$pfnames=array("name","type","email","code","province","city","address","phone_mobile");
+		$pfnames=array("name","type","email","code","province","city","address","phone_mobile","active","class_id");
 		foreach($pfnames as $pfname)
-			if($this->input->get($pfname))
+			if($this->input->get($pfname)!==NULL)
 				$filter[$pfname]=$this->input->get($pfname);	
 
 		$total=$this->customer_manager_model->get_total_customers($filter);

@@ -173,6 +173,16 @@ class Customer_manager_model extends CI_Model
 			$this->db->where("customer_type",$filter['type']);
 		}
 
+		if(isset($filter['active']))
+		{
+			$this->db->where("customer_active",$filter['active']);
+		}
+
+		if(isset($filter['class_id']))
+		{
+			$this->db->where("customer_class_id",$filter['class_id']);
+		}
+
 		if(isset($filter['email']))
 		{
 			$filter['email']=persian_normalize($filter['email']);
