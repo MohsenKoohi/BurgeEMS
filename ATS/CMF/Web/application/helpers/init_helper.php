@@ -261,6 +261,16 @@ function get_post_gallery_image_url($img)
 	return POST_GALLERY_URL."/".$img;
 }
 
+function get_customer_image_path($customer_id,$hash)
+{
+	return CUSTOMER_IMAGES_DIR."/".$customer_id."_".$hash.".jpg";
+}
+
+function get_customer_image_url($customer_id,$hash)
+{
+	return CUSTOMER_IMAGES_URL."/".$customer_id."_".$hash.".jpg";
+}
+
 
 //we have created an initialization for data array sent to parser
 //so if we wanted to add an index, we can do it without changing all controller. 

@@ -1,6 +1,14 @@
 <div class="main">
 	<div class="container">
-		<h1>{customer_details_text} <?php if($customer_info) echo $comma_text." ".$customer_info['customer_name']; ?></h1>
+		<h1>{customer_details_text} <?php if($customer_info) echo $comma_text." ".$customer_info['customer_name']; ?>
+			<?php if($customer_info && $customer_info['customer_image_hash']){?>
+				<div class="anti-float">
+					<img class="customer-img-big"
+						src="<?php echo get_customer_image_url($customer_id,$customer_info['customer_image_hash']);?>"
+					/>
+				</div>
+			<?php } ?>
+		</h1>
 
 		<div class="row general-buttons">
 			<div class="anti-float two columns button button-primary half-col-margin" onclick="document.location='{send_message_address}';">
@@ -559,7 +567,7 @@
 				<div class="container">
 					<h2>{properties_text}</h2>	
 						<?php if($customer_info) { ?>
-							<?php echo form_open(get_admin_customer_details_link($customer_id,$task_id,"props"),array()); ?>
+							<?php echo form_open_multipart(get_admin_customer_details_link($customer_id,$task_id,"props"),array()); ?>
 								<input type="hidden" name="post_type" value="customer_properties" />	
 								<span></span>
 								<div class="row even-odd-bg dont-magnify" >
@@ -651,6 +659,10 @@
 										<label>{mobile_text}</label>
 										<input value="<?php echo $customer_info['customer_mobile'];?>" 
 											type="text" name="customer_mobile" class="full-width eng ltr" />
+									</div>
+									<div class="three columns">
+										<label>{image_text}</label>
+										<input type="file" name="customer_image" />
 									</div>
 									<div class="three columns">
 										<label>{active_text}</label>

@@ -22,6 +22,7 @@ class Customer_manager_model extends CI_Model
 		,"customer_image_name"
 		,"customer_birthday"
 		,"customer_subject"
+		,"customer_image_hash"
 	);
 
 	private $customer_props_can_be_read=array(
@@ -40,6 +41,7 @@ class Customer_manager_model extends CI_Model
 		,"customer_image_name"
 		,"customer_birthday"
 		,"customer_subject"
+		,"customer_image_hash"
 	);
 
 	private $customer_log_dir;
@@ -95,6 +97,7 @@ class Customer_manager_model extends CI_Model
 				,`customer_image_name` char(15) DEFAULT NULL
 				,`customer_birthday` char(10)	DEFAULT NULL
 				,`customer_subject` varchar(64) DEFAULT NULL
+				,`customer_image_hash` char(5) DEFAULT NULL
 				,PRIMARY KEY (customer_id)	
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8"
 		);

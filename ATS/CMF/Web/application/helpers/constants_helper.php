@@ -93,3 +93,6 @@ define ('CATEGORY_CACHE_DIR', HOME_DIR."/application/cache/category");
 
 //settings for BurgeATS
 define ('CUSTOMER_SESSION_EXPIRATION',60*60*3);
+
+define ('CUSTOMER_IMAGES_DIR', IMAGES_DIR."/customer");
+define ('CUSTOMER_IMAGES_URL', IMAGES_URL."/customer");

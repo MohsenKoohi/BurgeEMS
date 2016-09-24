@@ -342,6 +342,23 @@ class AE_Customer extends Burge_CMF_Controller {
 			,"customer_active"	=>($this->input->post("customer_active")==="on")
 		);
 
+		if(isset($_FILES['customer_image']) && $_FILES['customer_image']['name'])
+		{
+			$file_name=$_FILES['customer_image']['name'];
+			if(strtolower(pathinfo($file_name, PATHINFO_EXTENSION))=="jpg")
+			{
+				$info=$this->customer_manager_model->get_customer_info($customer_id);
+				@unlink(get_customer_image_path($customer_id,$info['customer_image_hash']));
+
+				$temp_path=$_FILES['customer_image']['tmp_name'];
+				$hash=get_random_word(5,TRUE);
+				$new_path=get_customer_image_path($customer_id,$hash);
+				@move_uploaded_file($temp_path, $new_path);
+
+				$args['customer_image_hash']=$hash;
+			}
+		}
+
 		$desc=$this->input->post("desc");
 
 		$result=$this->customer_manager_model->set_customer_properties($customer_id,$args,$desc);

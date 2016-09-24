@@ -227,6 +227,15 @@
 							<label>{type_text}</label>
 							<span><?php echo ${"type_".$cs['customer_type']."_text"};?></span>
 						</div>
+						<div class="three columns">
+							&nbsp;
+							<?php if($cs['customer_image_hash']){ ?>
+								<img 
+									class="customer-img"
+									src="<?php echo get_customer_image_url($cs['customer_id'],$cs['customer_image_hash']);?>"
+								/>
+							<?php } ?>
+						</div>
 						<div class="two columns">
 							<label>{customer_page_text} </label>
 							<a target="_blank" 

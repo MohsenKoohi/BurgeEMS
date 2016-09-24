@@ -100,3 +100,4 @@ $lang['class']="کلاس";
 $lang['subject']="سمت";
 $lang['birthday']="تاریخ تولد";
 $lang['active']="فعال";
+$lang['image']="تصویر";
