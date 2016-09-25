@@ -12,7 +12,7 @@
 		<?php echo form_open(get_link("customer_login"),array("id"=>"login-form")); ?>
 			<div class="twelve columns mrg-btn-20">
 				<label>{username_text}</label>
-				<input class="lang-en full-width" type="text" name="email" />
+				<input class="lang-en full-width" type="text" name="username" />
 			</div>
 			<div class="twelve columns mrg-btn-20">
 				<label>{password_text}</label>

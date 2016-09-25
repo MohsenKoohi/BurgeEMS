@@ -928,9 +928,9 @@
 
 			function customerLogin()
 			{
-				if(!$("#props input[name='customer_email']").val())
+				if(!$("#props input[name='customer_code']").val())
 				{
-					alert("{customer_email_has_not_been_specified_text}");
+					alert("{customer_code_has_not_been_specified_text}");
 					return;
 				}
 

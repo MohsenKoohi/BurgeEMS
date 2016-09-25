@@ -41,3 +41,5 @@ $lang['name']="Name";
 $lang['username']="Username";
 $lang['password']="Password";
 $lang['url']="URL";
+
+$lang['code_email_must_be_unique']="Code/Email fields must be unique.";

@@ -104,3 +104,5 @@ $lang['image']="تصویر";
 
 $lang['print_password']="چاپ رمز";
 $lang['are_you_sure_to_create_new_password']="رمز جدید ایجاد شوند؟";
+$lang['customer_code_is_repetitive']="شناسه تکراری است.";
+$lang['customer_code_has_not_been_specified_or_inactive']="شناسه مشخص نشده است و یا غیرفعال است.";

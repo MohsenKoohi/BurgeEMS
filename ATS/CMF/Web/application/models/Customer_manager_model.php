@@ -341,6 +341,9 @@ class Customer_manager_model extends CI_Model
 
 	public function add_customer($props_array,$desc="",$login=FALSE)
 	{	
+		//in BurgeEMS, there is no registeration in customer env.
+		$login=FALSE;
+
 		$desc=persian_normalize_word($desc);
 		
 		if(!isset($props_array['customer_type']) || !in_array($props_array['customer_type'], $this->customer_types))
@@ -361,10 +364,24 @@ class Customer_manager_model extends CI_Model
 			if($count)
 				return FALSE;
 
+			if(0)
 			if(!isset($props['customer_name']) || !$props['customer_name'])
 				$props['customer_name']=$props['customer_email'];
 		}
-		
+
+		if(isset($props['customer_code']) && $props['customer_code'])
+		{
+			$this->db->select("count(customer_id) as count");
+			$this->db->from($this->customer_table_name);
+			$this->db->where("customer_id !=",$customer_id);
+			$this->db->where("customer_code",$props['customer_code']);
+			$result=$this->db->get();
+			$row=$result->row_array();
+			$count=$row['count'];
+			if($count)
+				return FALSE;
+		}
+				
 		$this->db->insert($this->customer_table_name,$props);
 		$id=$this->db->insert_id();
 
@@ -374,7 +391,9 @@ class Customer_manager_model extends CI_Model
 		$props['customer_id']=$id;
 		$this->log_manager_model->info("CUSTOMER_ADD",$props);
 
-		//we should send an email to the customer
+		//in BurgeEMS, we don't create passwords automatically
+		if(0)
+		//in ATS, we should send an email to the customer
 		if(isset($props['customer_email']) && $props['customer_email'])
 		{
 			$pass=$this->set_new_password($props['customer_email']);
@@ -402,6 +421,7 @@ class Customer_manager_model extends CI_Model
 	//returns -1 if customer_name is NULL
 	//returns -2 if customer_email is used by antoher id
 	//returns -3 if new customer_email is NULL 
+	//returns -4 if customer_code is used by another id
 	public function set_customer_properties($customer_id, $props_array, $desc)
 	{
 		$props=select_allowed_elements($props_array,$this->customer_props_can_be_written);
@@ -440,6 +460,19 @@ class Customer_manager_model extends CI_Model
 					$should_send_registeration_mail=TRUE;
 		}
 
+		if(isset($props['customer_code']) && $props['customer_code'])
+		{
+			$this->db->select("count(customer_code) as count");
+			$this->db->from($this->customer_table_name);
+			$this->db->where("customer_id !=",$customer_id);
+			$this->db->where("customer_code",$props['customer_code']);
+			$result=$this->db->get();
+			$row=$result->row_array();
+			$count=$row['count'];
+			if($count)
+				return -4;
+		}
+
 		$this->db->where("customer_id",(int)$customer_id);
 		$this->db->update($this->customer_table_name,$props);
 
@@ -450,6 +483,8 @@ class Customer_manager_model extends CI_Model
 
 		$this->add_customer_log($customer_id,'CUSTOMER_INFO_CHANGE',$props);
 
+		//in BurgeEMS, we don't send password automatically
+		if(0)
 		if($should_send_registeration_mail)
 		{
 			$pass=$this->set_new_password($props['customer_email']);
@@ -686,18 +721,25 @@ class Customer_manager_model extends CI_Model
 		return;
 	}
 
-	public function login($email,$pass)
+	public function login($code,$pass)
 	{
 		$ret=FALSE;
 
-		$result=$this->db->get_where($this->customer_table_name,array("LOWER(customer_email)"=>strtolower($email)));
+		$result=$this->db->get_where(
+			$this->customer_table_name,
+			array(
+				"LOWER(customer_code)"=>strtolower($code)
+				,"customer_active"=>1
+			)
+		);
+
 		if($result->num_rows() == 1)
 		{
 			$row=$result->row_array();		
 			
 			if($row['customer_pass'] === $this->getPass($pass, $row['customer_salt']))
 			{
-				$this->set_customer_logged_in($row['customer_id'],$email);
+				$this->set_customer_logged_in($row['customer_id'],$code);
 				$customer_id=$row['customer_id'];
 				
 				$ret=TRUE;
@@ -705,7 +747,7 @@ class Customer_manager_model extends CI_Model
 		}
 
 		$props=array(
-			"claimed_email"=>$email
+			"claimed_code"=>$code
 			,"result"=>(int)$ret
 		);
 
@@ -731,16 +773,22 @@ class Customer_manager_model extends CI_Model
 		
 		$ret=FALSE;
 		
-		$result=$this->db->get_where($this->customer_table_name,array("customer_id"=>$customer_id));
+		$result=$this->db->get_where(
+			$this->customer_table_name,
+			array(
+				"customer_id"			=> $customer_id
+				,"customer_active"	=> 1
+			)
+		);
 		
 		if($result->num_rows() == 1)
 		{
 			$row=$result->row_array();
-			$customer_email=$row['customer_email'];
+			$customer_code=$row['customer_code'];
 
-			if($customer_email)
+			if($customer_code)
 			{
-				$this->set_customer_logged_in($customer_id,$customer_email);
+				$this->set_customer_logged_in($customer_id,$customer_code);
 				$ret=TRUE;
 			}
 		}
@@ -751,8 +799,8 @@ class Customer_manager_model extends CI_Model
 			,"type"=>"user_logged_in_as_customer"
 		);
 
-		if(isset($customer_email))
-			$props['customer_email']=$customer_id;
+		if(isset($customer_code))
+			$props['customer_code']=$customer_id;
 		
 		$this->add_customer_log($customer_id,'CUSTOMER_LOGIN',$props);
 
@@ -763,6 +811,8 @@ class Customer_manager_model extends CI_Model
 
 	public function login_openid($email,$openid_server)
 	{
+		return FALSE;
+
 		$ret=FALSE;
 		
 		$result=$this->db->get_where($this->customer_table_name,array("customer_email"=>$email));
@@ -810,17 +860,19 @@ class Customer_manager_model extends CI_Model
 		return $this->session->userdata(SESSION_VARS_PREFIX."customer_id");
 	}
 
-	public function get_logged_customer_email()
+	public function get_logged_customer_code()
 	{
 		if(!$this->has_customer_logged_in())
 			return NULL;
 
-		return $this->session->userdata(SESSION_VARS_PREFIX."customer_email");
+		return $this->session->userdata(SESSION_VARS_PREFIX."customer_code");
 	}
 
 	//returns a new pass or FALSE
 	public function set_new_password($email)
 	{
+		return FALSE;
+
 		$ret=FALSE;
 
 		//$pass=random_string("numeric",7);
@@ -889,11 +941,11 @@ class Customer_manager_model extends CI_Model
 			return FALSE;
 	}
 
-	private function set_customer_logged_in($customer_id,$customer_email)
+	private function set_customer_logged_in($customer_id,$customer_code)
 	{
 		$this->session->set_userdata(SESSION_VARS_PREFIX."customer_logged_in","true");
 		$this->session->set_userdata(SESSION_VARS_PREFIX."customer_id",$customer_id);
-		$this->session->set_userdata(SESSION_VARS_PREFIX."customer_email",$customer_email);
+		$this->session->set_userdata(SESSION_VARS_PREFIX."customer_code",$customer_code);
 		$this->session->set_userdata(SESSION_VARS_PREFIX."customer_last_visit",time());
 
 		return;
@@ -902,18 +954,18 @@ class Customer_manager_model extends CI_Model
 	public function set_customer_logged_out()
 	{
 		$customer_id=$this->session->userdata(SESSION_VARS_PREFIX."customer_id");
-		$customer_email=$this->session->userdata(SESSION_VARS_PREFIX."customer_email");
+		$customer_email=$this->session->userdata(SESSION_VARS_PREFIX."customer_code");
 
 		$this->session->unset_userdata(SESSION_VARS_PREFIX."customer_logged_in");
 		$this->session->unset_userdata(SESSION_VARS_PREFIX."customer_id");
-		$this->session->unset_userdata(SESSION_VARS_PREFIX."customer_email");
+		$this->session->unset_userdata(SESSION_VARS_PREFIX."customer_code");
 		$this->session->unset_userdata(SESSION_VARS_PREFIX."customer_last_visit");
 
 		if($customer_id)
 		{
 			$props=array(
 				'customer_id'=>$customer_id
-				,'customer_email'=>$customer_email
+				,'customer_code'=>$customer_code
 			);
 
 			$this->add_customer_log($customer_id,'CUSTOMER_LOGOUT',$props);	
@@ -946,7 +998,7 @@ class Customer_manager_model extends CI_Model
 
 	public function send_registeration_mail($email,$pass)
 	{
-		//we don't send registeration email
+		//In EMS, we don't send registeration email
 		return ;
 
 		$this->lang->load('email_lang',$this->selected_lang);		

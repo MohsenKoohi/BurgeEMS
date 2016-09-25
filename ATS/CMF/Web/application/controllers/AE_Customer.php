@@ -208,6 +208,8 @@ class AE_Customer extends Burge_CMF_Controller {
 
 			if($res)
 				set_message($this->lang->line("added_successfully"));
+			else
+				set_message($this->lang->line("code_email_must_be_unique"));
 		}
 
 		return redirect(get_link("admin_customer"));
@@ -292,7 +294,7 @@ class AE_Customer extends Burge_CMF_Controller {
 		if($this->customer_manager_model->user_login_as_customer($customer_id))
 			return redirect(get_link("customer_dashboard"));
 
-		set_message($this->lang->line("customer_email_has_not_been_specified"));
+		set_message($this->lang->line("customer_code_has_not_been_specified_or_inactive"));
 
 		redirect(get_admin_customer_details_link($customer_id));
 	}
@@ -435,6 +437,10 @@ class AE_Customer extends Burge_CMF_Controller {
 
 			case -3:
 				set_message($this->lang->line("customer_email_cant_be_deleted"));
+				break;
+
+			case -4:
+				set_message($this->lang->line("customer_code_is_repetitive"));
 				break;
 		}
 

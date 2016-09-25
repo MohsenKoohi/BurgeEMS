@@ -26,14 +26,14 @@ class CE_Login extends Burge_CMF_Controller {
 		{
 			$this->lang->load('error',$this->selected_lang);
 
-			if($this->input->post("email") && $this->input->post("pass"))
+			if($this->input->post("username") && $this->input->post("pass"))
 			{
 				if(verify_captcha($this->input->post("captcha")))
 				{
 					$pass=$this->input->post("pass");
-					$email=$this->input->post("email");
+					$username=$this->input->post("username");
 					
-					if($this->customer_manager_model->login($email,$pass))
+					if($this->customer_manager_model->login($username,$pass))
 					{
 						$this->session->unset_userdata("backurl");
 						return redirect($backurl);

@@ -42,3 +42,5 @@ $lang['name']="نام";
 $lang['username']="نام کاربری";
 $lang['password']="رمز";
 $lang['url']="آدرس";
+
+$lang['code_email_must_be_unique']="شناسه / پست الکترونیک تکراری است.";
