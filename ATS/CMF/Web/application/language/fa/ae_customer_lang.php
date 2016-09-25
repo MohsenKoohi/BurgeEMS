@@ -44,3 +44,7 @@ $lang['password']="رمز";
 $lang['url']="آدرس";
 
 $lang['code_email_must_be_unique']="شناسه / پست الکترونیک تکراری است.";
+
+$lang['sort']="ثبت ترتیب";
+$lang['are_you_sure_to_submit_new_sorting']="ترتیب جدید ثبت شود؟";
+$lang['new_sorting_saved_successfully']="ترتیب جدید با موفقیت ثبت شد.";

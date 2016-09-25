@@ -43,3 +43,7 @@ $lang['password']="Password";
 $lang['url']="URL";
 
 $lang['code_email_must_be_unique']="Code/Email fields must be unique.";
+
+$lang['sort']="Sort";
+$lang['are_you_sure_to_submit_new_sorting']="Are you sure to save this sorting?";
+$lang['new_sorting_saved_successfully']="The new sorting saved successfully.";

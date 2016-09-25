@@ -81,6 +81,7 @@ class Log_manager_model extends CI_Model
 		,"CUSTOMER_PASS_CHANGE"				=>1007
 		,"CUSTOMER_SET_EVENT"				=>1008
 		,"CUSTOMER_UNSET_EVENT"				=>1009
+		,"CUSTOMER_RESORT"					=>1010
 
 		,"TASK_ADD"					=>1101
 		,"TASK_INFO_CHANGE"		=>1102

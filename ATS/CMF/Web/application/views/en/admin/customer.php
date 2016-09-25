@@ -247,43 +247,89 @@
 				</div>		
 				<br><br>
 				<div class="row general-buttons">
-					<div class="anti-float two columns button button-type2 half-col-margin"
+					<div class="anti-float two columns button button-type2"
 					 onclick="if(confirm('{are_you_sure_to_create_new_password_text}')) window.open(getCustomerPasswordUrl(getSearchConditions()),'_blank');"
 					 >
 						{print_password_text}
 					</div>
 				</div>
-				<br><br>
-				<?php foreach($customers_info as $cs) {?>
-					<div class="row even-odd-bg" >
-						<div class="three columns">
-							<label>{name_text}</label>
-							<span><?php echo $cs['customer_name'];?></span>
-						</div>
-						<div class="three columns">
-							<label>{type_text}</label>
-							<span><?php echo ${"type_".$cs['customer_type']."_text"};?></span>
-						</div>
-						<div class="three columns">
-							&nbsp;
-							<?php if($cs['customer_image_hash']){ ?>
-								<img 
-									class="customer-img"
-									src="<?php echo get_customer_image_url($cs['customer_id'],$cs['customer_image_hash']);?>"
-								/>
-							<?php } ?>
-						</div>
-						<div class="two columns">
-							<label>{customer_page_text} </label>
-							<a target="_blank" 
-							href="<?php echo get_admin_customer_details_link($cs['customer_id']); ?>"
-							class="button button-primary sub-primary full-width"
-							>
-								{view_text}
-							</a>
-						</div>
+				<div class="row general-buttons">
+					<div class="anti-float two columns button button-type1" onclick="resortPersons();">
+						{sort_text}
 					</div>
-				<?php } ?>
+				</div>
+				<br><br>
+
+				<link rel="stylesheet" type="text/css" href="{styles_url}/jquery-ui.min.css" />  
+				<script src="{scripts_url}/jquery-ui.min.js"></script>
+
+				<div id="customers-list">
+					<?php foreach($customers_info as $cs) {?>
+						<div class="row even-odd-bg" data-id="<?php echo $cs['customer_id'];?>" style="cursor:pointer">
+							<div class="three columns">
+								<label>{name_text}</label>
+								<span><?php echo $cs['customer_name'];?></span>
+							</div>
+							<div class="three columns">
+								<label>{type_text}</label>
+								<span><?php echo ${"type_".$cs['customer_type']."_text"};?></span>
+							</div>
+							<div class="three columns">
+								&nbsp;
+								<?php if($cs['customer_image_hash']){ ?>
+									<img 
+										class="customer-img"
+										src="<?php echo get_customer_image_url($cs['customer_id'],$cs['customer_image_hash']);?>"
+									/>
+								<?php } ?>
+							</div>
+							<div class="two columns">
+								<label>{customer_page_text} </label>
+								<a target="_blank" 
+								href="<?php echo get_admin_customer_details_link($cs['customer_id']); ?>"
+								class="button button-primary sub-primary full-width"
+								>
+									{view_text}
+								</a>
+							</div>
+						</div>
+					<?php } ?>
+				</div>
+
+				<?php 
+					echo form_open($raw_page_url,
+								array(
+									"style"=>'display:none'
+									,"id"=>"hidden_form"
+								)
+							);
+				?>
+					<input type="hidden" name="post_type" value="sort_customers"/> 
+					<input type="hidden" name="customers-ids"/>
+				</form>
+				<script type="text/javascript">
+					$(window).load(function()
+					{
+						$( "#customers-list" ).sortable();
+					})
+
+					function resortPersons()
+					{
+						if(!confirm('{are_you_sure_to_submit_new_sorting_text}'))
+							return;
+
+						var ids=[];
+						$("#customers-list .row").each(function(index,el)
+						{
+							ids.push($(el).data("id"));
+						});
+
+						$("#hidden_form input[name=customers-ids]").val(ids.join(','));
+						$("#hidden_form").prop("action",getCustomerSearchUrl(getSearchConditions()));
+						$("#hidden_form").submit();
+					}
+					
+				</script>
 			</div>
 
 			<div class="tab" id="add" style="">

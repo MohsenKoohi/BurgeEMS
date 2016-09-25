@@ -40,15 +40,18 @@ class AE_Customer extends Burge_CMF_Controller {
 	{
 		$this->lang->load('ae_customer',$this->selected_lang);
 		
+		$this->data['message']=get_message();
+		
 		if($this->input->post())
 		{
 			$this->lang->load('error',$this->selected_lang);
 
 			if("add_customer" === $this->input->post("post_type"))
 				return $this->add_customer();
-		}
 
-		$this->data['message']=get_message();
+			if("sort_customers" === $this->input->post("post_type"))
+				$this->sort();
+		}
 		
 		$this->set_data_customers();
 		$this->data['classes']=$this->class_manager_model->get_all_classes();
@@ -67,6 +70,19 @@ class AE_Customer extends Burge_CMF_Controller {
 
 		return;	 
 	}
+
+	private function sort()
+	{
+		$ids=$this->input->post("customers-ids");
+
+		if($ids)
+			$this->customer_manager_model->sort($ids);
+
+		$this->data['message']=$this->lang->line("new_sorting_saved_successfully");
+
+		return;
+	}
+
 
 	public function password()
 	{
@@ -157,7 +173,7 @@ class AE_Customer extends Burge_CMF_Controller {
 			$this->data['customers_start']=$start+1;
 			$this->data['customers_end']=$end+1;		
 	
-			$filter['order_by']="customer_id DESC";
+			$filter['order_by']="customer_order ASC";
 
 			$this->data['customers_info']=$this->customer_manager_model->get_customers($filter);
 

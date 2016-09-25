@@ -407,6 +407,24 @@ class Customer_manager_model extends CI_Model
 		return TRUE;
 	}
 
+	public function sort($ids)
+	{
+		$update_array=array();
+		$i=1;
+		foreach(explode(",",$ids) as $id)
+			$update_array[]=array(
+				"customer_id"		=> $id
+				,"customer_order"	=> $i++
+			);
+
+		$this->db->update_batch($this->customer_table_name,$update_array, "customer_id");
+		
+		$this->log_manager_model->info("CUSTOMER_RESORT",array("class_ids"=>$ids));	
+
+		return;
+	}
+
+
 	public function get_customer_id_with_customer_email($customer_email)
 	{
 		$this->db->select("customer_id");
