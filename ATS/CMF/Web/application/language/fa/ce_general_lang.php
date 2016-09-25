@@ -24,4 +24,10 @@ $lang['total_results']="تعداد کل";
 $lang['to']="تا";
 $lang['not_found']="پیدا نشد";
 $lang['language']="زبان";
+
+//added for BurgeEMS
+$lang['academic_affairs']="امور آموزشی";
+$lang['curriculum']="برنامه درسی";
+$lang['teachers']="معلمان";
+$lang['students']="دانش‌آموزان";
 $lang['']="";

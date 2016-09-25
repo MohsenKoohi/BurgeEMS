@@ -13,7 +13,7 @@
 			<ul class="tabs">
 				<li><a href="#students">{students_text}</a></li>
 				<li><a href="#teachers">{teachers_text}</a></li>
-				<li><a href="#cirriculum">{cirriculum_text}</a></li>
+				<li><a href="#curriculum">{curriculum_text}</a></li>
 			</ul>
 			<script type="text/javascript">
 				$(function(){

@@ -121,6 +121,8 @@ $route[ADMIN_URL_FOLDER."/class"]						= "AE_Class/index";
 $route[ADMIN_URL_FOLDER."/class/(\d+)"]				= "AE_Class/details/$1";
 $route["students/(\d+)/?"]									= "CE_Class/students/$1";
 $route["students/(\d+)/([^\/]*)/?"]						= "CE_Class/students/$1/$2";
+$route["teachers"]											= "CE_Class/teachers";
+$route["curriculum"]											= "CE_Class/curriculum";
 
 $route['(((:any)/)*:any)']="CE_Home/redirect";
 

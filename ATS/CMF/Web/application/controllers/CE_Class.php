@@ -14,6 +14,14 @@ class CE_Class extends Burge_CMF_Controller {
 	public function students($class_id,$class_name="")
 	{
 		$class_id=(int)$class_id;
+		if(!$class_id)
+		{
+
+			foreach($this->class_manager_model->get_all_classes() as $class)
+				break;
+
+			return redirect(get_customer_class_students_link($class['class_id']));
+		}
 
 		$info=$this->class_manager_model->get_class($class_id);
 		if(!$info)
@@ -39,6 +47,23 @@ class CE_Class extends Burge_CMF_Controller {
 		$this->data['header_canonical_url']=$page_link;
 
 		$this->send_customer_output("students");
+	}
+
+	public function teachers()
+	{
+		$this->data['teachers']=$this->class_manager_model->get_teachers(0);
+		
+		$this->data['message']=get_message();
+
+		$this->data['lang_pages']=get_lang_pages(get_link("customer_class_teachers",TRUE));
+
+		$this->data['header_title']=$this->lang->line("teachers").$this->lang->line("header_separator").$this->data['header_title'];
+		$this->data['header_meta_description']=$this->lang->line("teachers");
+		$this->data['header_meta_keywords'].=",".$this->lang->line("teachers");
+
+		$this->data['header_canonical_url']=get_link("customer_class_teachers");
+
+		$this->send_customer_output("teachers");
 	}
 
 	

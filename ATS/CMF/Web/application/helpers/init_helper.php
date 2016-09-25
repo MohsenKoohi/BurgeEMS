@@ -91,6 +91,8 @@ function &get_links($just_common=FALSE)
 			,'admin_class'								=> ADMIN_SURL_LANG."/class"
 			,'admin_class_details_format'			=> ADMIN_SURL_LANG."/class/class_id"
 			,'customer_class_students_format'	=> HOME_URL_LANG."/students/class_id/class_name"
+			,'customer_class_teachers'				=> HOME_URL_LANG."/teachers"
+			,'customer_class_curriculum'			=> HOME_URL_LANG."/curriculum"
 		));
 	}
 

@@ -24,6 +24,11 @@ $lang['total_results']="Total";
 $lang['to']="to";
 $lang['not_found']="Not found";
 $lang['language']="Language";
-$lang['']="";
+
+//added for BurgeEMS
+$lang['academic_affairs']="Academic Affairs";
+$lang['curriculum']="Cirriculum";
+$lang['teachers']="Teachers";
+$lang['students']="Students";
 $lang['']="";
 $lang['']="";
