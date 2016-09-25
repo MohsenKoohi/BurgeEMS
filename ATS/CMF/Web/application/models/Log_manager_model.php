@@ -101,6 +101,7 @@ class Log_manager_model extends CI_Model
 		,"CLASS_RESORT"				=>2034
 		,"CLASS_TEACHER_RESET"		=>2035
 		,"CLASS_STUDENT_RESORT"		=>2036
+		,"CLASS_TEACHERS_SET"		=>2037
 
 
 	);

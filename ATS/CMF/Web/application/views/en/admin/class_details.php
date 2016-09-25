@@ -50,7 +50,6 @@
 			<script src="{scripts_url}/jquery-ui.min.js"></script>
 
 			<div class="tab" id="students" style="">
-				
 				<h2>{students_text}</h2>
 				<?php echo form_open($raw_page_url,array("onsubmit"=>"return submitStudentsSorting();")); ?>
 					<input type="hidden" name="post_type" value="students_resort"/>
@@ -101,16 +100,83 @@
 
 						return true;
 					}
-
 				</script>
 			</div>
 
 			<div class="tab" id="teachers" style="">
-				<div class="container">
-					<h2>{tasks_text}</h2>
-					<div class="row">
+				<h2>{teachers_text}</h2>
+				<?php echo form_open($raw_page_url."#teachers",array("onsubmit"=>"return submitTeachers();")); ?>
+					<input type="hidden" name="post_type" value="set_teachers"/>
+					<input type="hidden" name="teachers-ids" value=""/>
+					<div id="teachers-list">
+						<?php foreach($teachers as $tc) {?>
+							<div class="row even-odd-bg"  data-id="<?php echo $tc['customer_id'];?>" style="cursor:grab;">
+								<div class="four columns">
+									<a href="<?php echo get_admin_customer_details_link($tc['customer_id']); ?>"
+										target="_blank"
+									>
+										<?php echo $tc['customer_name'];?>
+									</a>
+								</div>
+
+								<div class="two columns">
+									&nbsp;
+								</div>
+
+								<div class="four columns">
+									<input type="checkbox" class="graphical" 
+										value="<?php echo $tc['customer_id']; ?>"
+										<?php if($tc['ct_teacher_id']) echo 'checked';?>
+									/>
+								</div>
+							</div>
+						<?php } ?>
 					</div>
-				</div>
+					<br>
+					<div class="row">
+						<div class="four columns">&nbsp;</div>
+						<input type="submit" class="button  button-primary  four columns" value="{submit_text}"/>
+					</div>
+				</form>
+			
+				<script type="text/javascript">
+					$(window).load(function()
+					{
+						$( "#students-list" ).sortable();
+					})
+
+					function submitStudentsSorting()
+					{
+						if(!confirm("{are_you_sure_to_submit_text}"))
+							return false;
+						
+						var ids=[];
+						$("#students-list .row").each(function(index,el)
+						{
+							ids.push($(el).data("id"));
+						});
+
+						$("input[name=students-ids]").val(ids.join(','));
+
+						return true;
+					}
+
+					function submitTeachers()
+					{
+						if(!confirm("{are_you_sure_to_submit_text}"))
+							return false;
+						
+						var ids=[];
+						$("#teachers-list input[type=checkbox]:checked").each(function(index,el)
+						{
+							ids.push($(el).val());
+						});
+
+						$("input[name=teachers-ids]").val(ids.join(','));
+
+						return true;
+					}
+				</script>
 			</div>
 
 			<div class="tab" id="cirriculum" style="">

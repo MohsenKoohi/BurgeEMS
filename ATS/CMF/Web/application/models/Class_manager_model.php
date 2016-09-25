@@ -86,6 +86,26 @@ class Class_manager_model extends CI_Model
 		return $result->result_array();
 	}
 
+	public function set_class_teachers($class_id,$tids)
+	{
+		$this->db
+			->where("ct_class_id",$class_id)
+			->delete($this->class_teacher_table_name);
+
+		if($tids)
+		{
+			$ins=array();
+			foreach(explode(",",$tids) as $tid)
+				$ins[]=array("ct_class_id"=>$class_id,"ct_teacher_id"=>$tid);
+
+			$this->db->insert_batch($this->class_teacher_table_name,$ins);
+		}
+
+		$this->log_manager_model->info("CLASS_TEACHERS_SET",array("teachers_ids"=>$tids));	
+
+		return;
+	}
+
 	public function get_students($class_id)
 	{
 		$ret=array();
@@ -157,7 +177,7 @@ class Class_manager_model extends CI_Model
 		return;
 	}
 
-	public function delete($class_id)
+	public function delete_class($class_id)
 	{
 		$this->load->model("constant_manager_model");
 		if(!$this->constant_manager_model->get("allow_delete_classes"))
@@ -166,6 +186,12 @@ class Class_manager_model extends CI_Model
 		$this->db
 			->where("class_id", $class_id)
 			->delete($this->class_table_name);
+
+
+		$this->db
+			->set("customer_active",0)
+			->where("customer_class_id", $class_id)
+			->update("customer");
 
 		$this->db
 			->where("ct_class_id", $class_id)

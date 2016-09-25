@@ -69,6 +69,9 @@ class AE_Class extends Burge_CMF_Controller {
 		if($this->input->post("post_type")==="students_resort")
 			return $this->students_resort($class_id);
 
+		if($this->input->post("post_type")==="set_teachers")
+			return $this->set_teachers($class_id);		
+
 		$info=$this->class_manager_model->get_class($class_id);
 		if(!$info)
 		{
@@ -95,6 +98,17 @@ class AE_Class extends Burge_CMF_Controller {
 
 		if($ids)
 			$this->class_manager_model->resort_students($ids);
+
+		set_message($this->lang->line("modifications_have_been_done_successfully"));
+
+		return redirect(get_admin_class_details_link($class_id));
+	}
+
+	private function set_teachers($class_id)
+	{
+		$ids=$this->input->post("teachers-ids");
+
+		$this->class_manager_model->set_class_teachers($class_id,$ids);
 
 		set_message($this->lang->line("modifications_have_been_done_successfully"));
 
