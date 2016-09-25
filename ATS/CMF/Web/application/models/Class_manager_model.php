@@ -111,7 +111,7 @@ class Class_manager_model extends CI_Model
 		$ret=array();
 
 		$result=$this->db
-			->select("customer_id,customer_name")
+			->select("customer_id,customer_name,customer_image_hash")
 			->from("customer")
 			->where("customer_type","student")
 			->where("customer_class_id",(int)$class_id)

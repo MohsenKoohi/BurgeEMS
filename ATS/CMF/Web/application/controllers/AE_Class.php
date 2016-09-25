@@ -66,6 +66,13 @@ class AE_Class extends Burge_CMF_Controller {
 	{
 		$class_id=(int)$class_id;
 
+		$info=$this->class_manager_model->get_class($class_id);
+		if(!$info)
+		{
+			set_message($this->lang->line("class_not_found"));
+			return redirect(get_link("admin_class"));		
+		}
+
 		if($this->input->post("post_type")==="students_resort")
 			return $this->students_resort($class_id);
 
@@ -75,12 +82,6 @@ class AE_Class extends Burge_CMF_Controller {
 		if($this->input->post("post_type")==="delete_class")
 			return $this->delete_class($class_id);
 
-		$info=$this->class_manager_model->get_class($class_id);
-		if(!$info)
-		{
-			set_message($this->lang->line("class_not_found"));
-			return redirect(get_link("admin_class"));		
-		}
 
 		$this->data['info']=$info;
 		$this->data['teachers']=$this->class_manager_model->get_teachers($class_id);

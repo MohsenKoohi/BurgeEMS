@@ -21,7 +21,7 @@ $lang['are_you_sure_to_delete']="کلاس حذف شود؟";
 $lang['it_is_not_possible_to_delete']="امکان حذف وجود ندارد.";
 $lang['class_deleted_successfully']="کلاس مورد نظر با موفقیت حذف شد.";
 
-$lang['']="";
+$lang['cirriculum']="برنامه درسی";
 $lang['']="";
 $lang['']="";
 $lang['']="";

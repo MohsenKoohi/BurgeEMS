@@ -882,3 +882,13 @@ body.post-page #cboxCurrent {
   height: 40px;
   vertical-align: middle;
   cursor: pointer; }
+
+.class-students .row {
+  height: 100px; }
+  .class-students .row img {
+    vertical-align: middle;
+    max-width: 150px;
+    max-height: 70px; }
+  .class-students .row div:last-child {
+    padding-top: 10px;
+    font-size: 1.2em; }

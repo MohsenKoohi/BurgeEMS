@@ -1,0 +1,20 @@
+.class-students
+{
+	.row
+	{
+		height:100px;
+
+		img
+		{
+			vertical-align: middle;
+			max-width: 150px;
+			max-height: 70px;
+		}
+
+		div:last-child
+		{
+			padding-top:10px;
+			font-size: 1.2em;
+		}
+	}
+}
