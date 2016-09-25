@@ -20,6 +20,9 @@ $lang['are_you_sure_to_delete']="Are you sure to delete this class?";
 $lang['it_is_not_possible_to_delete']="It's not possible to delete this class.";
 $lang['class_deleted_successfully']="The class deleted successfully.";
 
+$lang['cirriculum']="Cirrculum";
+$lang['details']="Details";
+$lang['submit_new_sorting']="Submit New Sorting";
 $lang['']="";
 $lang['']="";
 $lang['']="";

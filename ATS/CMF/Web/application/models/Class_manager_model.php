@@ -3,6 +3,7 @@ class Class_manager_model extends CI_Model
 {
 	private $class_table_name="class";
 	private $class_teacher_table_name="class_teacher";
+	private $all_classes=NULL;
 
 	public function __construct()
 	{
@@ -124,13 +125,18 @@ class Class_manager_model extends CI_Model
 
 	public function get_all_classes()
 	{
+		if($this->all_classes)
+			return $this->all_classes;
+
 		$result=$this->db
 			->from($this->class_table_name)
 			->select("*")
 			->order_by("class_order ASC")
 			->get();
 
-		return $result->result_array();
+		$this->all_classes=$result->result_array();
+		
+		return $this->all_classes;
 	}
 
 	public function add($name)

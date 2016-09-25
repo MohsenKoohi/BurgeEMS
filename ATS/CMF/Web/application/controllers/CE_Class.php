@@ -26,7 +26,8 @@ class CE_Class extends Burge_CMF_Controller {
 
 		$this->data['class_name']=$info['class_name'];
 		$this->data['students']=$this->class_manager_model->get_students($class_id);
-		
+		$this->data['classes']=$this->class_manager_model->get_all_classes();
+		$this->data['class_id']=$class_id;
 		$this->data['message']=get_message();
 
 		$this->data['lang_pages']=get_lang_pages(get_customer_class_students_link($class_id,"",TRUE));

@@ -888,7 +888,12 @@ body.post-page #cboxCurrent {
   .class-students .row img {
     vertical-align: middle;
     max-width: 150px;
-    max-height: 70px; }
+    max-height: 75px;
+    border-radius: 10px; }
   .class-students .row div:last-child {
     padding-top: 10px;
     font-size: 1.2em; }
+
+.main-select {
+  font-size: 1.2em;
+  height: 50px; }

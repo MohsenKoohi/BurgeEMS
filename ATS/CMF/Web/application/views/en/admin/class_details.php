@@ -56,11 +56,23 @@
 					<div id="students-list">
 						<?php foreach($students as $st) {?>
 							<div class="row even-odd-bg"  data-id="<?php echo $st['customer_id'];?>" style="cursor:grab;">
-								<div class="nine columns">
-									<?php echo $st['customer_name'];?>
+								<div class="two columns">
+									&nbsp;
+									<?php if($st['customer_image_hash']){ ?>
+										<img 
+											class="customer-img"
+											src="<?php echo get_customer_image_url($st['customer_id'],$st['customer_image_hash']);?>"
+										/>
+									<?php } ?>
+								</div>
+
+								<div class="six columns">
+									<label>{name_text}</label>
+									<span><?php echo $st['customer_name'];?></span>
 								</div>
 
 								<div class="two columns">
+									<label>{details_text}</label>
 									<a href="<?php echo get_admin_customer_details_link($st['customer_id']); ?>"
 										class="button button-primary sub-primary full-width" target="_blank"
 									>
@@ -74,7 +86,7 @@
 					<br>
 					<div class="row">
 						<div class="four columns">&nbsp;</div>
-						<input type="submit" class="button  button-primary  four columns" value="{submit_text}"/>
+						<input type="submit" class="button  button-primary  four columns" value="{submit_new_sorting_text}"/>
 					</div>
 				</form>
 			

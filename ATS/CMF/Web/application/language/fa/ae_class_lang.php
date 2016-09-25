@@ -22,8 +22,8 @@ $lang['it_is_not_possible_to_delete']="امکان حذف وجود ندارد.";
 $lang['class_deleted_successfully']="کلاس مورد نظر با موفقیت حذف شد.";
 
 $lang['cirriculum']="برنامه درسی";
-$lang['']="";
-$lang['']="";
+$lang['details']="جزئیات";
+$lang['submit_new_sorting']="ثبت ترتیب جدید";
 $lang['']="";
 $lang['']="";
 $lang['']="";

@@ -1,3 +1,3 @@
 <?php 
 
-$lang['students_of']="Students of  ";
+$lang['students']="Students";
