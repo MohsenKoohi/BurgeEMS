@@ -63,6 +63,45 @@ class Class_manager_model extends CI_Model
 		return $ret;		
 	}
 
+	public function get_class($class_id)
+	{
+		$result=$this->db->get_where($this->class_table_name,array("class_id"=>(int)$class_id));
+				
+		return $result->row_array();
+	}
+
+	public function get_teachers($class_id)
+	{
+		$ret=array();
+
+		$result=$this->db
+			->select("customer_id,customer_name,customer_subject,ct_teacher_id")
+			->from("customer")
+			->join($this->class_teacher_table_name,"customer_id = ct_teacher_id AND ct_class_id = ".(int)$class_id,"LEFT")			
+			->where("customer_type","teacher")
+			->where("customer_active",1)
+			->order_by("customer_order ASC")
+			->get();
+		
+		return $result->result_array();
+	}
+
+	public function get_students($class_id)
+	{
+		$ret=array();
+
+		$result=$this->db
+			->select("customer_id,customer_name")
+			->from("customer")
+			->where("customer_type","student")
+			->where("customer_class_id",(int)$class_id)
+			->where("customer_active",1)
+			->order_by("customer_order ASC")
+			->get();
+		
+		return $result->result_array();
+	}
+
 	public function get_all_classes()
 	{
 		$result=$this->db
@@ -84,7 +123,7 @@ class Class_manager_model extends CI_Model
 		return;
 	}
 
-	public function resort($ids)
+	public function resort_classes($ids)
 	{
 		$update_array=array();
 		$i=1;
@@ -101,21 +140,38 @@ class Class_manager_model extends CI_Model
 		return;
 	}
 
-	public function delete($classes)
+	public function resort_students($ids)
+	{
+		$update_array=array();
+		$i=1;
+		foreach(explode(",",$ids) as $id)
+			$update_array[]=array(
+				"customer_id"		=> (int)$id
+				,"customer_order"	=> $i++
+			);
+
+		$this->db->update_batch("customer",$update_array, "customer_id");
+		
+		$this->log_manager_model->info("CLASS_STUDENT_RESORT",array("class_ids"=>$ids));	
+
+		return;
+	}
+
+	public function delete($class_id)
 	{
 		$this->load->model("constant_manager_model");
 		if(!$this->constant_manager_model->get("allow_delete_classes"))
 			return FALSE;
 
 		$this->db
-			->where_in("class_id", $classes)
+			->where("class_id", $class_id)
 			->delete($this->class_table_name);
 
 		$this->db
-			->where_in("ct_class_id", $classes)
+			->where("ct_class_id", $class_id)
 			->delete($this->class_teacher_table_name);
 
-		$this->log_manager_model->info("CLASS_DELETE",array("class_ids"=>implode(",",$classes)));	
+		$this->log_manager_model->info("CLASS_DELETE",array("class_id"=>$class_id));	
 
 		$this->constant_manager_model->set("allow_delete_classes",0);
 

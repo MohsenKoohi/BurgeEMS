@@ -98,6 +98,7 @@ class Customer_manager_model extends CI_Model
 				,`customer_birthday` char(10)	DEFAULT NULL
 				,`customer_subject` varchar(64) DEFAULT NULL
 				,`customer_image_hash` char(5) DEFAULT NULL
+				,`customer_order` int default 1
 				,PRIMARY KEY (customer_id)	
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8"
 		);

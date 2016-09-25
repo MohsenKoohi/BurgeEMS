@@ -44,14 +44,7 @@ class AE_Class extends Burge_CMF_Controller {
 			$this->class_manager_model->set_props($new_props);
 
 		if($ids)
-			$this->class_manager_model->resort($ids);
-
-		$to_be_deleted=array();
-		foreach($ids_exp as $id)
-			if($this->input->post("delete-class-".$id) === "on")
-				$to_be_deleted[]=$id;
-		if($to_be_deleted)
-			$this->class_manager_model->delete($to_be_deleted);
+			$this->class_manager_model->resort_classes($ids);
 
 		set_message($this->lang->line("modifications_have_been_done_successfully"));
 
@@ -67,5 +60,44 @@ class AE_Class extends Burge_CMF_Controller {
 		set_message($this->lang->line("new_class_added_successfully"));
 
 		return redirect(get_link("admin_class"));
+	}
+
+	public function details($class_id)
+	{
+		$class_id=(int)$class_id;
+
+		if($this->input->post("post_type")==="students_resort")
+			return $this->students_resort($class_id);
+
+		$info=$this->class_manager_model->get_class($class_id);
+		if(!$info)
+		{
+			set_message($this->lang->line("class_not_found"));
+			return redirect(get_link("admin_class"));		
+		}
+
+		$this->data['info']=$info;
+		$this->data['teachers']=$this->class_manager_model->get_teachers($class_id);
+		$this->data['students']=$this->class_manager_model->get_students($class_id);
+
+		$this->data['message']=get_message();
+
+		$this->data['raw_page_url']=get_admin_class_details_link($class_id);
+		$this->data['lang_pages']=get_lang_pages(get_admin_class_details_link($class_id,TRUE));
+		$this->data['header_title']=$info['class_name'];
+
+		$this->send_admin_output("class_details");
+	}
+
+	private function students_resort($class_id)
+	{
+		$ids=$this->input->post("students-ids");
+
+		if($ids)
+			$this->class_manager_model->resort_students($ids);
+
+		set_message($this->lang->line("modifications_have_been_done_successfully"));
+
+		return redirect(get_admin_class_details_link($class_id));
 	}
 }

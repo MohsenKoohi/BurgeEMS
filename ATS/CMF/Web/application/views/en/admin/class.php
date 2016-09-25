@@ -12,22 +12,18 @@
 				<div id="class-list">
 					<?php foreach($classes as $class) {?>
 						<div class="row even-odd-bg"  data-id="<?php echo $class['class_id'];?>" style="cursor:grab;">
-							<div class="four columns">
+							<div class="nine columns">
 								<label>{name_text}</label>
 								<input 
 									type='text' value='<?php echo $class['class_name'];?>' 
 									name="class-<?php echo $class['class_id'];?>"
 								/>
 							</div>
-							<div class="four columns">
-								<label>{delete_text} </label>
-								<input name="delete-class-<?php echo $class['class_id']?>" type="checkbox" class="graphical" />
-							</div>
+
 							<div class="two columns">
 								<label>&nbsp;</label>
-								<a 
-								href="<?php echo get_admin_class_details_link($class['class_id']); ?>"
-								class="button button-primary sub-primary full-width"
+								<a href="<?php echo get_admin_class_details_link($class['class_id']); ?>"
+									class="button button-primary sub-primary full-width" target="_blank"
 								>
 									{view_text}
 								</a>
