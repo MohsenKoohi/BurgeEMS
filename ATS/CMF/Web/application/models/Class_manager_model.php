@@ -201,7 +201,7 @@ class Class_manager_model extends CI_Model
 
 		$this->constant_manager_model->set("allow_delete_classes",0);
 
-		return;
+		return TRUE;
 	}
 
 	public function start_new_time($prev_time,$new_time)

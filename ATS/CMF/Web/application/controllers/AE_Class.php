@@ -72,6 +72,9 @@ class AE_Class extends Burge_CMF_Controller {
 		if($this->input->post("post_type")==="set_teachers")
 			return $this->set_teachers($class_id);		
 
+		if($this->input->post("post_type")==="delete_class")
+			return $this->delete_class($class_id);
+
 		$info=$this->class_manager_model->get_class($class_id);
 		if(!$info)
 		{
@@ -90,6 +93,18 @@ class AE_Class extends Burge_CMF_Controller {
 		$this->data['header_title']=$info['class_name'];
 
 		$this->send_admin_output("class_details");
+	}
+
+	private function delete_class($class_id)
+	{	
+		if($this->class_manager_model->delete_class($class_id))
+		{
+			set_message($this->lang->line("class_deleted_successfully"));
+			return redirect(get_link("admin_class"));	
+		}
+
+		set_message($this->lang->line("it_is_not_possible_to_delete"));
+		return redirect(get_admin_class_details_link($class_id));
 	}
 
 	private function students_resort($class_id)

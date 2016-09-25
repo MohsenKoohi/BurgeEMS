@@ -3,12 +3,11 @@
 		<h1><?php echo $info['class_name'];?></h1>
 
 		<div class="row general-buttons">
-			<div class="anti-float two columns button button-primary "
-			 onclick="if(confirm('{are_you_sure_to_create_new_password_text}')) window.open('{new_pass_link}','_blank');"
-			 >
-				{print_password_text}
+			<div class="anti-float two columns button button-type2 " onclick="deleteClass();">
+				{delete_class_text}
 			</div>
 		</div>
+		<br><br>
 
 		<div class="tab-container">
 			<ul class="tabs">
@@ -200,15 +199,12 @@
 			<input type="hidden" name="post_type"> 
 		</form>
 		<script type="text/javascript">
-			function customerLogin()
+			function deleteClass()
 			{
-				if(!$("#props input[name='customer_code']").val())
-				{
-					alert("{customer_code_has_not_been_specified_text}");
+				if(!confirm('{are_you_sure_to_delete_text}'))
 					return;
-				}
 
-				$("#hidden_form input[name='post_type']").val("customer_login");
+				$("#hidden_form input[name='post_type']").val("delete_class");
 				$("#hidden_form").submit();
 			}
 			
