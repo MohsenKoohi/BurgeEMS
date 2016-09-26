@@ -215,6 +215,11 @@ class Class_manager_model extends CI_Model
 			->where("ct_class_id", $class_id)
 			->delete($this->class_teacher_table_name);
 
+		$this->db
+			->from($this->class_curriculum_table_name)
+			->where("cc_class_id",$class_id)
+			->delete();
+
 		$this->log_manager_model->info("CLASS_DELETE",array("class_id"=>$class_id));	
 
 		$this->constant_manager_model->set("allow_delete_classes",0);

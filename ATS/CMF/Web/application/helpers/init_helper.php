@@ -92,7 +92,7 @@ function &get_links($just_common=FALSE)
 			,'admin_class_details_format'			=> ADMIN_SURL_LANG."/class/class_id"
 			,'customer_class_students_format'	=> HOME_URL_LANG."/students/class_id/class_name"
 			,'customer_class_teachers'				=> HOME_URL_LANG."/teachers"
-			,'customer_class_curriculum'			=> HOME_URL_LANG."/curriculum"
+			,'customer_class_curriculum_format'	=> HOME_URL_LANG."/curriculum/class_id/class_name"
 		));
 	}
 
@@ -107,6 +107,18 @@ function get_admin_class_details_link($class_id, $do_not_set_lang=FALSE)
 {
 	$format_link=get_link("admin_class_details_format",$do_not_set_lang);
 	return str_replace("class_id", $class_id, $format_link);
+}
+
+function get_customer_class_curriculum_link($class_id,$class_name="", $do_not_set_lang=FALSE)
+{
+	$format_link=get_link("customer_class_curriculum_format",$do_not_set_lang);
+
+	$search=array("class_id","class_name");
+	$replace=array($class_id,linkenize($class_name));
+
+	$ret=str_replace($search,$replace,$format_link);	
+
+	return $ret;
 }
 
 function get_customer_class_students_link($class_id,$class_name="", $do_not_set_lang=FALSE)

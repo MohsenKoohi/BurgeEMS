@@ -122,7 +122,8 @@ $route[ADMIN_URL_FOLDER."/class/(\d+)"]				= "AE_Class/details/$1";
 $route["students/(\d+)/?"]									= "CE_Class/students/$1";
 $route["students/(\d+)/([^\/]*)/?"]						= "CE_Class/students/$1/$2";
 $route["teachers"]											= "CE_Class/teachers";
-$route["curriculum"]											= "CE_Class/curriculum";
+$route["curriculum/(\d+)/?"]								= "CE_Class/curriculum/$1";
+$route["curriculum/(\d+)/([^\/]*)/?"]					= "CE_Class/curriculum/$1/$2";
 
 $route['(((:any)/)*:any)']="CE_Home/redirect";
 
