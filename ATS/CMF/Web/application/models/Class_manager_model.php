@@ -3,6 +3,7 @@ class Class_manager_model extends CI_Model
 {
 	private $class_table_name="class";
 	private $class_teacher_table_name="class_teacher";
+	private $class_curriculum_table_name="class_curriculum";
 	private $all_classes=NULL;
 
 	public function __construct()
@@ -30,6 +31,17 @@ class Class_manager_model extends CI_Model
 				`ct_class_id` INT  
 				,`ct_teacher_id` INT
 				,PRIMARY KEY (ct_class_id, ct_teacher_id)	
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8"
+		);
+
+		$class_curriculum_table=$this->db->dbprefix($this->class_curriculum_table_name); 
+		$this->db->query(
+			"CREATE TABLE IF NOT EXISTS $class_curriculum_table (
+				`cc_class_id` INT  
+				,`cc_day_id` INT
+				,`cc_hour_id` INT
+				,`cc_course` VARCHAR(128)
+				,PRIMARY KEY (cc_class_id, cc_day_id, cc_hour_id)	
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8"
 		);
 
@@ -228,7 +240,7 @@ class Class_manager_model extends CI_Model
 		return;
 	}
 
-	public function set_props($new_props)
+	public function set_class_props($new_props)
 	{
 		$this->db->update_batch($this->class_table_name,$new_props,"class_id");
 
@@ -237,6 +249,100 @@ class Class_manager_model extends CI_Model
 			$log["new_name_".$np['class_id']]=$np['class_name'];
 
 		$this->log_manager_model->info("CLASS_RENAME",$log);	
+
+		return;
+	}
+
+	public function get_curriculum_hours()
+	{
+		return $this->db
+			->from($this->class_curriculum_table_name)
+			->where("cc_class_id",0)
+			->where("cc_day_id",0)
+			->order_by("cc_hour_id")
+			->get()
+			->result_array();
+	}
+
+	public function get_class_curriculum($class_id)
+	{
+		$chours=sizeof($this->get_curriculum_hours());
+
+		$ret=array();
+		for($day=0;$day<7;$day++)
+		{
+			$ret[$day]=array();
+			for($hour=0;$hour<$chours;$hour++)
+				$ret[$day][$hour]="";
+		}
+
+		$result=$this->db
+			->from($this->class_curriculum_table_name)
+			->where("cc_class_id",$class_id)
+			->order_by("cc_day_id ASC, cc_hour_id ASC")
+			->get()
+			->result_array();
+
+		foreach($result as $res)
+			$ret[$res['cc_day_id']][$res['cc_hour_id']]=$res['cc_course'];
+
+		return $ret;
+	}
+
+	public function set_class_curriculum($class_id,$courses)
+	{
+		$this->db
+			->from($this->class_curriculum_table_name)
+			->where("cc_class_id",$class_id)
+			->delete();
+
+		$insert_array=array();
+		$log=array();
+		foreach($courses as $day_index=>$day)
+		{
+			foreach($day as $hour_index=>$course)
+				$insert_array[]=array(
+					"cc_class_id"=>$class_id
+					,"cc_day_id"=>$day_index
+					,"cc_hour_id"=>$hour_index
+					,"cc_course"=>$course
+				);
+
+			$log["day_".$day_index]=implode(",", $day);
+		}
+
+		$this->db->insert_batch($this->class_curriculum_table_name,$insert_array);
+
+		$this->log_manager_model->info("CLASS_CURRICULUM_SET",$log);
+
+		return;
+	}
+
+	public function set_curriculum_hours($hours)
+	{
+		$this->db
+			->from($this->class_curriculum_table_name)
+			->where("cc_class_id",0)
+			->where("cc_day_id",0)
+			->delete();
+
+		if($hours)
+		{
+
+			$insert=array();
+			$i=0;
+			foreach($hours as $hour)
+				$insert[]=array(
+					"cc_class_id"=>0
+					,"cc_day_id"=>0
+					,"cc_hour_id"=>$i++
+					,"cc_course"=>$hour
+			);
+
+			$this->db->insert_batch($this->class_curriculum_table_name , $insert);
+		}
+
+		$this->log_manager_model->info("CLASS_CURRICULUM_HOURS_SET",array("hours"=>implode(",", $hours)));
 
 		return;
 	}

@@ -19,7 +19,11 @@ class AE_Class extends Burge_CMF_Controller {
 		if($this->input->post("post_type")==="class_changes")
 			return $this->class_changes();
 
+		if($this->input->post("post_type")==="set_curriculum_hours")
+			return $this->set_curriculum_hours();
+
 		$this->data['classes']=$this->class_manager_model->get_all_classes();
+		$this->data['curriculum_hours']=$this->class_manager_model->get_curriculum_hours();
 
 		$this->data['message']=get_message();
 
@@ -32,6 +36,25 @@ class AE_Class extends Burge_CMF_Controller {
 		return;	 
 	}
 
+	private function set_curriculum_hours()
+	{
+		$max_index=$this->input->post("max_index");
+		$hours=array();
+		for($i=0;$i<$max_index;$i++)
+		{
+			$hour=trim($this->input->post("hour-".$i));
+			if($hour)
+				$hours[]=persian_normalize_word($hour);
+		}
+
+		$this->class_manager_model->set_curriculum_hours($hours);
+
+		set_message($this->lang->line("modifications_have_been_done_successfully"));
+
+
+		return redirect(get_link("admin_class")."#curriculum");
+	}
+
 	private function class_changes()
 	{
 		$ids=$this->input->post("class-ids");
@@ -41,7 +64,7 @@ class AE_Class extends Burge_CMF_Controller {
 		foreach($ids_exp as $id)
 			$new_props[]=array("class_id"=>$id,"class_name"=>$this->input->post("class-".$id));
 		if($new_props)
-			$this->class_manager_model->set_props($new_props);
+			$this->class_manager_model->set_class_props($new_props);
 
 		if($ids)
 			$this->class_manager_model->resort_classes($ids);
@@ -82,10 +105,14 @@ class AE_Class extends Burge_CMF_Controller {
 		if($this->input->post("post_type")==="delete_class")
 			return $this->delete_class($class_id);
 
+		if($this->input->post("post_type")==="set_curriculum")
+			return $this->set_class_curriculum($class_id);
 
 		$this->data['info']=$info;
 		$this->data['teachers']=$this->class_manager_model->get_teachers($class_id);
 		$this->data['students']=$this->class_manager_model->get_students($class_id);
+		$this->data['curriculum_hours']=$this->class_manager_model->get_curriculum_hours();
+		$this->data['curriculum']=$this->class_manager_model->get_class_curriculum($class_id);
 
 		$this->data['message']=get_message();
 
@@ -94,6 +121,15 @@ class AE_Class extends Burge_CMF_Controller {
 		$this->data['header_title']=$info['class_name'];
 
 		$this->send_admin_output("class_details");
+	}
+
+	private function set_class_curriculum($class_id)
+	{
+		$this->class_manager_model->set_class_curriculum($class_id,$this->input->post("course"));
+
+		set_message($this->lang->line("modifications_have_been_done_successfully"));
+
+		return redirect(get_admin_class_details_link($class_id)."#curriculum");
 	}
 
 	private function delete_class($class_id)

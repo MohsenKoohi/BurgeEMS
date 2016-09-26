@@ -887,3 +887,16 @@ body.ltr .category-div li {
   max-width: 75px;
   max-height: 100px;
   border-radius: 10px; }
+
+#curriculum table tr {
+  height: 40px; }
+#curriculum table input {
+  width: 100%; }
+#curriculum table tr:first-child td, #curriculum table td:first-child {
+  background: #aaa;
+  padding: 5px;
+  text-align: center;
+  color: white;
+  font-size: 1.2em; }
+#curriculum table tr:first-child td:first-child {
+  background: none; }

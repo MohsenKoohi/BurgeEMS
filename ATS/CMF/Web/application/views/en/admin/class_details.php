@@ -116,7 +116,7 @@
 
 			<div class="tab" id="teachers" style="">
 				<h2>{teachers_text}</h2>
-				<?php echo form_open($raw_page_url."#teachers",array("onsubmit"=>"return submitTeachers();")); ?>
+				<?php echo form_open($raw_page_url,array("onsubmit"=>"return submitTeachers();")); ?>
 					<input type="hidden" name="post_type" value="set_teachers"/>
 					<input type="hidden" name="teachers-ids" value=""/>
 					<div id="teachers-list">
@@ -190,10 +190,46 @@
 				</script>
 			</div>
 
-			<div class="tab" id="cirriculum" style="">
+			<div class="tab" id="curriculum" style="">
 				<div class="container">
-					<h2>{events_text}</h2>
-					
+					<h2>{curriculum_text}</h2>
+					<div class="row">
+						<style type="text/css">
+							#curriculum table td
+							{
+								width:<?php echo 100.0/(1+sizeof($curriculum_hours));?>%;
+							}
+						</style>
+						<?php echo form_open($raw_page_url,array("onsubmit"=>"return confirm('{are_you_sure_to_submit_text}');")); ?>
+							<input type="hidden" name="post_type" value="set_curriculum"/>
+							<table>
+								<tr>
+									<td></td>
+									<?php foreach($curriculum_hours as $hour) { ?>
+										<td><?php echo $hour['cc_course'];?></td>
+									<?php } ?>
+								</tr>
+								<?php foreach($curriculum as $day_index => $day) { ?>
+									<tr>
+										<td><?php echo ${"day_".($day_index+1)."_name_text"};?></td>
+										<?php foreach($day as $hour_index => $course) { ?>
+											<td>
+												<input type='text' class='' value='<?php echo $course;?>'
+													name="course[<?php echo $day_index;?>][<?php echo $hour_index;?>]" 
+												/>
+											</td>
+										<?php } ?>
+									</tr>
+								<?php } ?>
+							</table>
+
+							<br>
+							<div class="row">
+								<div class="four columns">&nbsp;</div>
+								<input type="submit" class="button  button-primary  four columns" value="{submit_text}"/>
+							</div>
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -201,12 +237,12 @@
 		<br>
 		<?php 
 			echo form_open($raw_page_url,
-						array(
-							"style"=>'display:none'
-							,"id"=>"hidden_form"
-							,"target"=>"_blank"
-						)
-					);
+				array(
+					"style"=>'display:none'
+					,"id"=>"hidden_form"
+					,"target"=>"_blank"
+				)
+			);
 		?>
 			<input type="hidden" name="post_type"> 
 		</form>
