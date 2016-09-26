@@ -930,7 +930,7 @@
 			{
 				if(!$("#props input[name='customer_code']").val())
 				{
-					alert("{customer_code_has_not_been_specified_text}");
+					alert("{customer_code_has_not_been_specified_or_inactive_text}");
 					return;
 				}
 

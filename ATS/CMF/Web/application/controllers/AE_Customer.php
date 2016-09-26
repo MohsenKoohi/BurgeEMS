@@ -310,7 +310,7 @@ class AE_Customer extends Burge_CMF_Controller {
 		if($this->customer_manager_model->user_login_as_customer($customer_id))
 			return redirect(get_link("customer_dashboard"));
 
-		set_message($this->lang->line("customer_code_has_not_been_specified_or_inactive"));
+		set_message($this->lang->line("customer_code_has_not_been_specified_or_inactive_or_no_access"));
 
 		redirect(get_admin_customer_details_link($customer_id));
 	}

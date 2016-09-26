@@ -129,6 +129,7 @@ class Customer_manager_model extends CI_Model
 		$this->load->model("constant_manager_model");
 		//these important keys should be set to 0 by functions called periodially
 		//may be in the daily result function
+		$this->constant_manager_model->set("allow_user_login_to_customer_account",0);
 		$this->constant_manager_model->set("allow_customer_new_password",0);
 		$this->constant_manager_model->set("allow_customer_bulk_new_password",0);
 		
@@ -789,6 +790,9 @@ class Customer_manager_model extends CI_Model
 		//who may access customers accounts directly
 
 		//return FALSE;
+		$this->load->model("constant_manager_model");
+		if(!$this->constant_manager_model->get("allow_user_login_to_customer_account"))
+			return FALSE;
 		
 		$ret=FALSE;
 		
