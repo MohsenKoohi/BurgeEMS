@@ -125,6 +125,11 @@ $route["teachers"]											= "CE_Class/teachers";
 $route["curriculum/(\d+)/?"]								= "CE_Class/curriculum/$1";
 $route["curriculum/(\d+)/([^\/]*)/?"]					= "CE_Class/curriculum/$1/$2";
 
+$route[ADMIN_URL_FOLDER."/reward"]						= "AE_Reward";
+$route["reward"]												= "CE_Reward";
+$route["reward/issued"]										= "CE_Reward/issued";
+
+
 $route['(((:any)/)*:any)']="CE_Home/redirect";
 
 /* End of file routes.php */

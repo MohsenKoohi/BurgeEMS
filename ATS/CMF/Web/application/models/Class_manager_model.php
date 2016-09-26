@@ -85,8 +85,6 @@ class Class_manager_model extends CI_Model
 
 	public function get_teachers($class_id)
 	{
-		$ret=array();
-
 		$result=$this->db
 			->select("customer_id,customer_name,customer_subject,ct_teacher_id")
 			->from("customer")
@@ -94,6 +92,18 @@ class Class_manager_model extends CI_Model
 			->where("customer_type","teacher")
 			->where("customer_active",1)
 			->order_by("customer_order ASC")
+			->get();
+		
+		return $result->result_array();
+	}
+
+	public function get_teacher_classes($teacher_id)
+	{
+		$result=$this->db
+			->select("*")
+			->from($this->class_table_name)
+			->join($this->class_teacher_table_name,"class_id = ct_class_id AND ct_teacher_id = ".(int)$teacher_id,"INNER")			
+			->order_by("class_order ASC")
 			->get();
 		
 		return $result->result_array();

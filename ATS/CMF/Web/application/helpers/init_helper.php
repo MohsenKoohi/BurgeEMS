@@ -93,6 +93,9 @@ function &get_links($just_common=FALSE)
 			,'customer_class_students_format'	=> HOME_URL_LANG."/students/class_id/class_name"
 			,'customer_class_teachers'				=> HOME_URL_LANG."/teachers"
 			,'customer_class_curriculum_format'	=> HOME_URL_LANG."/curriculum/class_id/class_name"
+
+			,'admin_reward'							=> ADMIN_SURL_LANG."/reward"
+			,'customer_reward'						=> HOME_URL_LANG."/reward"
 		));
 	}
 

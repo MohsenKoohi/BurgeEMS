@@ -164,6 +164,6 @@ class AE_Class extends Burge_CMF_Controller {
 
 		set_message($this->lang->line("modifications_have_been_done_successfully"));
 
-		return redirect(get_admin_class_details_link($class_id));
+		return redirect(get_admin_class_details_link($class_id)."#teachers");
 	}
 }

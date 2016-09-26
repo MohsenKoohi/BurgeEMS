@@ -23,3 +23,4 @@ $lang['message_access']="سطح دسترسی پیام‌ها";
 
 $lang['time']="زمان‌ها";
 $lang['class']="کلاس‌ها";
+$lang['reward']="امتیاز‌ها";
