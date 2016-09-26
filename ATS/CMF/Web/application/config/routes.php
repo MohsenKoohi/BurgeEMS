@@ -127,7 +127,8 @@ $route["curriculum/(\d+)/([^\/]*)/?"]					= "CE_Class/curriculum/$1/$2";
 
 $route[ADMIN_URL_FOLDER."/reward"]						= "AE_Reward";
 $route["reward"]												= "CE_Reward";
-$route["reward/issued"]										= "CE_Reward/issued";
+$route["reward/(\d+)"]										= "CE_Reward/index/$1";
+$route["reward/issued/(\d+)"]								= "CE_Reward/issued/$1";
 
 
 $route['(((:any)/)*:any)']="CE_Home/redirect";

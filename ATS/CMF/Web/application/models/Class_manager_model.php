@@ -106,7 +106,11 @@ class Class_manager_model extends CI_Model
 			->order_by("class_order ASC")
 			->get();
 		
-		return $result->result_array();
+		$ret=array();
+		foreach($result->result_array() as $row)
+			$ret[]=$row['ct_class_id'];
+
+		return $ret;
 	}
 
 	public function set_class_teachers($class_id,$tids)
@@ -159,6 +163,16 @@ class Class_manager_model extends CI_Model
 		$this->all_classes=$result->result_array();
 		
 		return $this->all_classes;
+	}
+
+	public function get_classes_names()
+	{
+		$ret=array();
+
+		foreach($this->get_all_classes() as $class)
+			$ret[$class['class_id']]=$class['class_name'];
+
+		return $ret;
 	}
 
 	public function add($name)
