@@ -977,7 +977,7 @@ class Customer_manager_model extends CI_Model
 	public function set_customer_logged_out()
 	{
 		$customer_id=$this->session->userdata(SESSION_VARS_PREFIX."customer_id");
-		$customer_email=$this->session->userdata(SESSION_VARS_PREFIX."customer_code");
+		$customer_code=$this->session->userdata(SESSION_VARS_PREFIX."customer_code");
 
 		$this->session->unset_userdata(SESSION_VARS_PREFIX."customer_logged_in");
 		$this->session->unset_userdata(SESSION_VARS_PREFIX."customer_id");

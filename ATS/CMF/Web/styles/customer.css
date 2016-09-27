@@ -942,3 +942,16 @@ body.post-page #cboxCurrent {
 
 .container.reward input {
   font-size: 1.2em; }
+.container.reward .reward-value, .container.reward .initial-reward-value {
+  width: 100px; }
+.container.reward .student-name {
+  font-size: 1.3em;
+  padding: 20px 0;
+  text-align: center;
+  font-weight: bold; }
+.container.reward .subject {
+  font-size: 1.2em;
+  text-align: center; }
+.container.reward .button-type2 {
+  padding: 5px;
+  font-size: 1.2em; }

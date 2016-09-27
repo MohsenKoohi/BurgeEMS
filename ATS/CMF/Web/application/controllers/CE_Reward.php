@@ -21,7 +21,11 @@ class CE_Reward extends Burge_CMF_Controller {
 
 	public function index($class_id=0)
 	{	
-		$this->customer_info=$this->customer_manager_model->get_logged_customer_info();
+		if(!$this->customer_manager_model->has_customer_logged_in())
+			redirect(get_link("customer_login"));
+
+		$this->customer_info=$this->customer_manager_model->get_logged_customer_info();			
+
 		if("teacher"===$this->customer_info['customer_type'])
 			$this->teacher($class_id);
 		else
@@ -35,7 +39,7 @@ class CE_Reward extends Burge_CMF_Controller {
 
 		if(!$classes)
 		{
-			redirect(get_link("dashboard"));
+			redirect(get_link("customer_dashboard"));
 			return;
 		}
 
@@ -51,6 +55,7 @@ class CE_Reward extends Burge_CMF_Controller {
 		$this->data['teacher_classes']=$classes;
 		$this->data['classes_names']=$this->class_manager_model->get_classes_names();
 		$this->data['students']=$this->class_manager_model->get_students($class_id);
+		$this->data['rand']=get_random_word(5);
 		
 		$this->data['message']=get_message();
 		$this->data['class_id']=$class_id;
