@@ -16,6 +16,20 @@
 			</div>
 		</div>
 		<br><br>
+		<?php foreach($rewards_list as $reward) { ?>
+			<a target="_blank"
+				href="<?php echo get_customer_reward_teacher_list_class_link($class_id,$reward['reward_id']);?>">
+				<div class="row even-odd-bg">
+					<div class="six columns">
+						<?php echo $reward['reward_subject'];?>
+					</div>
+					<div class="three columns">
+						<span class="date"><?php echo $reward['reward_date'];?></span>
+					</div>
+
+				</div>
+			</a>
+		<?php } ?>
 		
 	</div>
 </div>

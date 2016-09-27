@@ -114,7 +114,33 @@ class Reward_manager_model extends CI_Model
 
 	public function get_rewards_list($teacher_id,$class_id)
 	{
-		//$this->db->select("reward_date,reward_");
+		return $this->db
+			->from($this->reward_table_name)
+			->where("reward_teacher_id",$teacher_id)
+			->where("reward_class_id",$class_id)
+			->order_by("reward_date ASC")
+			->get()
+			->result_array();
+	}
+
+	public function get_reward_info($reward_id)
+	{
+		return $this->db
+			->from($this->reward_table_name)
+			->where("reward_id",$reward_id)
+			->get()
+			->row_array();
+	}
+
+	public function get_reward_values($reward_id)
+	{
+		return $this->db
+			->select("v.* , customer_name")
+			->from($this->reward_value_table_name." v")
+			->join("customer ","rv_student_id = customer_id AND customer_type = 'student'")
+			->where("rv_reward_id",$reward_id)
+			->get()
+			->result_array();
 	}
 
 }

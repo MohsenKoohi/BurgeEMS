@@ -106,7 +106,7 @@ function &get_links($just_common=FALSE)
 	return $LINKS;
 }
 
-function get_customer_reward_teacher_list_class_link($class_id,$reward_id='', $do_not_set_lang=FALSE)
+function get_customer_reward_teacher_list_class_link($class_id,$reward_id=0, $do_not_set_lang=FALSE)
 {
 	$format_link=get_link("customer_reward_teacher_list_class_format",$do_not_set_lang);
 	return str_replace(array("class_id","reward_id"), array($class_id,$reward_id), $format_link);

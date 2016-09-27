@@ -961,3 +961,22 @@ ul.dash-ul li {
 .container.reward .button-type2 {
   padding: 5px;
   font-size: 1.2em; }
+
+.date {
+  display: inline-block;
+  direction: ltr; }
+
+.reward-students-list .norm-hid {
+  display: none; }
+@media (max-width: 600px) {
+  .reward-students-list .norm-hid {
+    display: inline-block; }
+  .reward-students-list .name {
+    text-align: center; } }
+.reward-students-list .value {
+  float: left;
+  direction: ltr;
+  font-size: 1.2em;
+  box-shadow: 2px 2px 5px 4px white;
+  border-radius: 4px;
+  padding: 5px 10px; }
