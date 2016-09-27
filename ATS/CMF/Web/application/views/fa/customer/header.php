@@ -110,7 +110,7 @@
       <div class="side-menu-container">
         <div class="side-menu">
           <div class="mobile">
-            <img src="{images_url}/logo-text.png"/>
+            <img src="{images_url}/logo-text-fa.png"/>
             <div class="click">
               <div></div>
               <div></div>

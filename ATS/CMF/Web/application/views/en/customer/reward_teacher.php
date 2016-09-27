@@ -43,8 +43,10 @@
 					/>
 				</div>
 				<div class="two columns">
-					<input type="submit" class="full-width button button-primary button-type2"
-					 onclick="setRewards();return false;" value="{submit_text}"/>
+					<div  class="full-width button button-primary button-type2"
+					 onclick="setRewards();">
+					 {submit_text}
+					</div>
 				</div>
 			</div>
 
@@ -58,14 +60,14 @@
 						<input type="text" class='ltr reward-value' 
 							id="input-<?php echo $i;?>"
 							data-number="<?php echo $i++?>"
-							name="reward-{rand}-<?php echo $st['customer_id'] ?>"/>
+							name="reward-{rand}[<?php echo $st['customer_id'] ?>]"/>
 					</div>
 					<div class="four columns">
 						<label>{more_description_text}</label>
 						<input type="text" class='full-width' 
 							id="input-<?php echo $i;?>"
 							data-number="<?php echo $i++?>"
-							name="md-{rand}-<?php echo $st['customer_id'] ?>"/>
+							name="md-{rand}[<?php echo $st['customer_id'] ?>]"/>
 					</div>
 				</div>
 			<?php } ?>
@@ -84,7 +86,9 @@
 			{
 				if(event.keyCode==13)
 				{
-					console.log(1);
+					if($(event.target).prop("name")=="initial-value-{rand}")
+						setRewards();
+
 					var num=$(event.target).data("number");
 					var next=1+parseInt(num);
 					if(next==<?php echo $i;?>)

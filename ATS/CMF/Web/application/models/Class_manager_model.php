@@ -128,7 +128,7 @@ class Class_manager_model extends CI_Model
 			$this->db->insert_batch($this->class_teacher_table_name,$ins);
 		}
 
-		$this->log_manager_model->info("CLASS_TEACHERS_SET",array("teachers_ids"=>$tids));	
+		$this->log_manager_model->info("CLASS_TEACHERS_SET",array("teachers_ids"=>$tids));
 
 		return;
 	}

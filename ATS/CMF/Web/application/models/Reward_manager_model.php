@@ -56,4 +56,39 @@ class Reward_manager_model extends CI_Model
 		return $ret;		
 	}
 
+	public function add_rewards($teacher_id,$rewards)
+	{
+		$date=get_current_time();
+
+		$ins=array();
+		$log=array();
+
+		foreach($rewards as $reward)
+		{
+			$ins[]=array(
+				"reward_student_id"=>$reward['student_id']
+				,"reward_teacher_id"=>$teacher_id
+				,"reward_date"=>$date
+				,"reward_value"=>intval($reward['value'])
+				,"reward_description"=>$reward['description']
+			);
+
+			$log['student_'.$reward['student_id'].'_reward']=$reward['value'];
+			$log['student_'.$reward['student_id'].'_description']=$reward['description'];
+		}
+
+		if(!$ins)
+			return;
+
+		$this->db->insert_batch($this->reward_table_name,$ins);
+
+		$this->log_manager_model->info("REWARD_ADD",$log);	
+
+		$this->load->model("customer_manager_model");
+		$log['teacher_id']=$teacher_id;
+		$this->customer_manager_model->add_customer_log($teacher_id,'REWARD_ADD',$log);	
+
+		return;
+	}
+
 }

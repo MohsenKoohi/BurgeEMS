@@ -52,6 +52,9 @@ class CE_Reward extends Burge_CMF_Controller {
 			return;
 		}
 
+		if($this->input->post("post_type")==="add_rewards")
+			return $this->add_rewards($class_id,$teacher_id);
+
 		$this->data['teacher_classes']=$classes;
 		$this->data['classes_names']=$this->class_manager_model->get_classes_names();
 		$this->data['students']=$this->class_manager_model->get_students($class_id);
@@ -66,5 +69,40 @@ class CE_Reward extends Burge_CMF_Controller {
 		$this->data['header_title']=$this->lang->line("rewards").$this->lang->line("header_separator").$this->data['header_title'];
 
 		$this->send_customer_output("reward_teacher");	
+	}
+
+	private function add_rewards($class_id,$teacher_id)
+	{
+		$students=$this->class_manager_model->get_students($class_id);
+		$rand=$this->input->post("rand");
+		$subject=$this->input->post("subject-".$rand);
+		$rewards=$this->input->post("reward-".$rand);
+		$mds=$this->input->post("md-".$rand);
+
+		$rewards_array=array();
+
+		foreach($students as $st)
+		{
+			$sid=$st['customer_id'];
+			if(isset($rewards[$sid]) && $rewards[$sid])
+			{
+				$reward=$rewards[$sid];
+				$desc=$subject;
+				if(isset($mds[$sid]))
+					$desc.=" ".$mds[$sid];
+
+				$rewards_array[]=array(
+					"student_id"=>$sid
+					,"description"=>$desc
+					,"value"=>intval($reward)
+				);
+			}
+		}
+
+		$this->reward_manager_model->add_rewards($teacher_id,$rewards_array);
+
+		set_message($this->lang->line("rewards_added_successfully"));
+
+		return redirect(get_customer_reward_teacher_class_link($class_id));
 	}
 }
