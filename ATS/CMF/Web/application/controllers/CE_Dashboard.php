@@ -28,8 +28,24 @@ class CE_Dashboard extends Burge_CMF_Controller {
 		$this->data['header_meta_description']="";
 		$this->data['header_meta_keywords']="";
 		$this->data['header_meta_robots']="noindex";
-		
-		$this->send_customer_output("dashboard");
+
+		if("student" === $info['customer_type'])
+			return $this->student_dashboard();
+
+		if("teacher" === $info['customer_type'])
+			return $this->teacher_dashboard();
+	}
+
+	private function student_dashboard()
+	{
+		$this->send_customer_output("dashboard_student");
+
+		return;
+	}
+
+	private function teacher_dashboard()
+	{
+		$this->send_customer_output("dashboard_teacher");
 
 		return;
 	}

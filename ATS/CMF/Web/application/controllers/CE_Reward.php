@@ -19,22 +19,17 @@ class CE_Reward extends Burge_CMF_Controller {
 
 	}
 
-	public function index($class_id=0)
-	{	
-		if(!$this->customer_manager_model->has_customer_logged_in())
-			redirect(get_link("customer_login"));
-
-		$this->customer_info=$this->customer_manager_model->get_logged_customer_info();			
-
-		if("teacher"===$this->customer_info['customer_type'])
-			$this->teacher($class_id);
-		else
-			$this->student();
-	}
-
-	private function teacher($class_id)
+	public function teacher_submit($class_id=0)
 	{
-		$teacher_id=$this->customer_info['customer_id'];
+		if(!$this->customer_manager_model->has_customer_logged_in())
+			return redirect(get_link("customer_login"));
+
+		$customer_info=$this->customer_manager_model->get_logged_customer_info();			
+
+		if("teacher" !== $customer_info['customer_type'])
+			return redirect(get_link("customer_dashboard"));
+
+		$teacher_id=$customer_info['customer_id'];
 		$classes=$this->class_manager_model->get_teacher_classes($teacher_id);
 
 		if(!$classes)
@@ -48,12 +43,12 @@ class CE_Reward extends Burge_CMF_Controller {
 
 		if(!in_array($class_id,$classes))
 		{
-			redirect(get_customer_reward_teacher_class_link(''));
+			redirect(get_customer_reward_teacher_submit_class_link(0));
 			return;
 		}
 
 		if($this->input->post("post_type")==="add_rewards")
-			return $this->add_rewards($class_id,$teacher_id);
+			return $this->add_rewards($teacher_id,$class_id);
 
 		$this->data['teacher_classes']=$classes;
 		$this->data['classes_names']=$this->class_manager_model->get_classes_names();
@@ -63,15 +58,15 @@ class CE_Reward extends Burge_CMF_Controller {
 		$this->data['message']=get_message();
 		$this->data['class_id']=$class_id;
 
-		$this->data['page_link']=get_customer_reward_teacher_class_link($class_id);
-		$this->data['lang_pages']=get_lang_pages(get_customer_reward_teacher_class_link($class_id,TRUE));
+		$this->data['page_link']=get_customer_reward_teacher_submit_class_link($class_id);
+		$this->data['lang_pages']=get_lang_pages(get_customer_reward_teacher_submit_class_link($class_id,TRUE));
 
 		$this->data['header_title']=$this->lang->line("rewards").$this->lang->line("header_separator").$this->data['header_title'];
 
-		$this->send_customer_output("reward_teacher");	
+		$this->send_customer_output("reward_teacher_submit");	
 	}
 
-	private function add_rewards($class_id,$teacher_id)
+	private function add_rewards($teacher_id,$class_id)
 	{
 		$students=$this->class_manager_model->get_students($class_id);
 		$rand=$this->input->post("rand");
@@ -87,9 +82,9 @@ class CE_Reward extends Burge_CMF_Controller {
 			if(isset($rewards[$sid]) && $rewards[$sid])
 			{
 				$reward=$rewards[$sid];
-				$desc=$subject;
+				$desc="";
 				if(isset($mds[$sid]))
-					$desc.=" ".$mds[$sid];
+					$desc=$mds[$sid];
 
 				$rewards_array[]=array(
 					"student_id"=>$sid
@@ -99,10 +94,61 @@ class CE_Reward extends Burge_CMF_Controller {
 			}
 		}
 
-		$this->reward_manager_model->add_rewards($teacher_id,$rewards_array);
+		$reward_id=$this->reward_manager_model->add_rewards($teacher_id,$class_id,$subject,$rewards_array);
 
 		set_message($this->lang->line("rewards_added_successfully"));
 
-		return redirect(get_customer_reward_teacher_class_link($class_id));
+		return redirect(get_customer_reward_teacher_list_class_link($class_id,$reward_id));
+	}
+
+	public function teacher_list($class_id=0,$reward_id=0)
+	{
+		if(!$this->customer_manager_model->has_customer_logged_in())
+			return redirect(get_link("customer_login"));
+
+		$customer_info=$this->customer_manager_model->get_logged_customer_info();			
+
+		if("teacher" !== $customer_info['customer_type'])
+			return redirect(get_link("customer_dashboard"));
+
+		$teacher_id=$customer_info['customer_id'];
+		$classes=$this->class_manager_model->get_teacher_classes($teacher_id);
+
+		if(!$classes)
+		{
+			redirect(get_link("customer_dashboard"));
+			return;
+		}
+
+		if(!$class_id)
+			$class_id=$classes[0];
+
+		if(!in_array($class_id,$classes))
+		{
+			redirect(get_customer_reward_teacher_list_class_link(0));
+			return;
+		}
+
+		$this->data['teacher_classes']=$classes;
+
+		if(!$reward_id)
+			return $this->teacher_list_class($teacher_id,$class_id);
+	}
+
+
+	private function teacher_list_class($teacher_id,$class_id)
+	{
+		$this->data['classes_names']=$this->class_manager_model->get_classes_names();
+
+		$this->data['message']=get_message();
+		$this->data['class_id']=$class_id;
+		$this->data['rewards_list']=$this->reward_manager_model->get_rewards_list($teacher_id,$class_id);
+
+		$this->data['page_link']=get_customer_reward_teacher_list_class_link($class_id);
+		$this->data['lang_pages']=get_lang_pages(get_customer_reward_teacher_list_class_link($class_id,TRUE));
+
+		$this->data['header_title']=$this->lang->line("rewards").$this->lang->line("header_separator").$this->data['header_title'];
+
+		$this->send_customer_output("reward_teacher_list");	
 	}
 }

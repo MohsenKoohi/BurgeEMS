@@ -937,8 +937,13 @@ body.post-page #cboxCurrent {
     color: #555;
     margin: 0 -40px 0 40px; } }
 .container.dashboard a {
-  font-size: 1.2em;
-  line-height: 1.5em; }
+  font-size: 1.5em;
+  line-height: 2em; }
+
+ul.dash-ul li {
+  padding: 0 20px; }
+  ul.dash-ul li li {
+    padding: 0 40px; }
 
 .container.reward input {
   font-size: 1.2em; }

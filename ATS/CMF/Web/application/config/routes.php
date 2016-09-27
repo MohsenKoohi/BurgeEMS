@@ -126,9 +126,10 @@ $route["curriculum/(\d+)/?"]								= "CE_Class/curriculum/$1";
 $route["curriculum/(\d+)/([^\/]*)/?"]					= "CE_Class/curriculum/$1/$2";
 
 $route[ADMIN_URL_FOLDER."/reward"]						= "AE_Reward";
-$route["reward"]												= "CE_Reward";
-$route["reward/(\d+)"]										= "CE_Reward/index/$1";
-$route["reward/issued/(\d+)"]								= "CE_Reward/issued/$1";
+$route["reward/submit/(\d+)"]								= "CE_Reward/teacher_submit/$1";
+$route["reward/list/(\d+)"]								= "CE_Reward/teacher_list/$1";
+$route["reward/list/(\d+)/(\d+)"]						= "CE_Reward/teacher_list/$1/$2";
+	
 
 
 $route['(((:any)/)*:any)']="CE_Home/redirect";

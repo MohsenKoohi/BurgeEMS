@@ -7,7 +7,7 @@
 					<?php foreach($teacher_classes as $cl) { ?>
 						<option 
 							<?php if($cl==$class_id) echo 'selected';?>
-							value="<?php echo get_customer_reward_teacher_class_link($cl);?>"
+							value="<?php echo get_customer_reward_teacher_submit_class_link($cl);?>"
 						>
 							<?php echo $classes_names[$cl];?>
 						</option>
