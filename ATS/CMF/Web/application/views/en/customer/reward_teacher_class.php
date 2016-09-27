@@ -23,7 +23,7 @@
 					<div class="six columns">
 						<?php echo $reward['reward_subject'];?>
 					</div>
-					<div class="three columns">
+					<div class="six columns">
 						<span class="date"><?php echo $reward['reward_date'];?></span>
 					</div>
 

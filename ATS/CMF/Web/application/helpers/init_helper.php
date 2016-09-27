@@ -95,6 +95,7 @@ function &get_links($just_common=FALSE)
 			,'customer_class_curriculum_format'	=> HOME_URL_LANG."/curriculum/class_id/class_name"
 
 			,'admin_reward'											=> ADMIN_SURL_LANG."/reward"
+			,'admin_reward_details_format'						=> ADMIN_SURL_LANG."/reward/reward_id"
 			,'customer_reward_teacher_submit_class_format'	=> HOME_URL_LANG."/reward/submit/class_id"
 			,'customer_reward_teacher_list_class_format'		=> HOME_URL_LANG."/reward/list/class_id/reward_id"
 		));
@@ -104,6 +105,12 @@ function &get_links($just_common=FALSE)
 		return $LINKS_COMMON;
 	
 	return $LINKS;
+}
+
+function get_admin_reward_details_link($reward_id, $do_not_set_lang=FALSE)
+{
+	$format_link=get_link("admin_reward_details_format",$do_not_set_lang);
+	return str_replace("reward_id", $reward_id, $format_link);
 }
 
 function get_customer_reward_teacher_list_class_link($class_id,$reward_id=0, $do_not_set_lang=FALSE)

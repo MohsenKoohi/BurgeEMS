@@ -1,6 +1,7 @@
 <div class="main">
 	<div class="container reward-students-list">
-		<h1>{reward_subject}</h1>			
+		<h1>{rewards_text}</h1>
+		<h2>{reward_subject}</h2>			
 		<div class="anti-float">
 			<span class="date">{reward_date}</span>
 		</div>

@@ -357,7 +357,6 @@ class Class_manager_model extends CI_Model
 
 		if($hours)
 		{
-
 			$insert=array();
 			$i=0;
 			foreach($hours as $hour)

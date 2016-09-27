@@ -21,6 +21,7 @@ class Reward_manager_model extends CI_Model
 				,`reward_teacher_id` INT NOT NULL
 				,`reward_date` CHAR(19) 
 				,`reward_subject` VARCHAR(255) 
+				,`reward_is_prize` BIT(1) DEFAULT 0
 				,PRIMARY KEY (reward_id)	
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8"
 		);
@@ -66,7 +67,7 @@ class Reward_manager_model extends CI_Model
 		return $ret;		
 	}
 
-	public function add_rewards($teacher_id,$class_id,$subject,$rewards)
+	public function add_rewards($teacher_id,$class_id,$subject,$rewards,$is_prize)
 	{
 		$date=get_current_time();
 		$log=array();
@@ -76,6 +77,7 @@ class Reward_manager_model extends CI_Model
 			,"reward_class_id"=>$class_id
 			,"reward_date"=>$date
 			,"reward_subject"=>$subject
+			,"reward_is_prize"=>$is_prize
 			));
 
 		$reward_id=$this->db->insert_id();
