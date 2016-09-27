@@ -42,9 +42,6 @@ class Reward_manager_model extends CI_Model
 		$this->module_manager_model->add_module("reward","reward_manager");
 		$this->module_manager_model->add_module_names_from_lang_file("reward");		
 
-		$this->load->model("constant_manager_model");
-		$this->constant_manager_model->set("prize_teachers_ids","");				
-
 		return;
 	}
 

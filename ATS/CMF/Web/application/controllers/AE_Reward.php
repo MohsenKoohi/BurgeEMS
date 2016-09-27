@@ -36,42 +36,26 @@ class AE_Reward extends Burge_CMF_Controller {
 		return;	 
 	}
 
-	public function details($class_id)
+	public function details($reward_id)
 	{
-		$class_id=(int)$class_id;
+		$reward_id=(int)$reward_id;
 
-		$info=$this->class_manager_model->get_class($class_id);
+		$info=$this->reward_manager_model->get_reward_info($reward_id);
 		if(!$info)
 		{
-			set_message($this->lang->line("class_not_found"));
-			return redirect(get_link("admin_class"));		
+			set_message($this->lang->line("reward_not_found"));
+			return redirect(get_link("admin_reward"));		
 		}
 
-		if($this->input->post("post_type")==="students_resort")
-			return $this->students_resort($class_id);
-
-		if($this->input->post("post_type")==="set_teachers")
-			return $this->set_teachers($class_id);		
-
-		if($this->input->post("post_type")==="delete_class")
-			return $this->delete_class($class_id);
-
-		if($this->input->post("post_type")==="set_curriculum")
-			return $this->set_class_curriculum($class_id);
-
 		$this->data['info']=$info;
-		$this->data['teachers']=$this->class_manager_model->get_teachers($class_id);
-		$this->data['students']=$this->class_manager_model->get_students($class_id);
-		$this->data['curriculum_hours']=$this->class_manager_model->get_curriculum_hours();
-		$this->data['curriculum']=$this->class_manager_model->get_class_curriculum($class_id);
+		$this->data['students_rewards']=$this->reward_manager_model->get_reward_values($reward_id);
 
 		$this->data['message']=get_message();
 
-		$this->data['raw_page_url']=get_admin_class_details_link($class_id);
-		$this->data['lang_pages']=get_lang_pages(get_admin_class_details_link($class_id,TRUE));
-		$this->data['header_title']=$info['class_name'];
+		$this->data['lang_pages']=get_lang_pages(get_admin_reward_details_link($reward_id,TRUE));
+		$this->data['header_title']=$info['reward_subject'];
 
-		$this->send_admin_output("class_details");
+		$this->send_admin_output("reward_details");
 	}
 
 	private function set_prize_access()

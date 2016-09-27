@@ -497,7 +497,8 @@ body.ltr .side-menu-ul a:hover {
     font-size: 1.1em;
     padding: 0; }
   .even-odd-bg label {
-    font-size: .9em; }
+    font-size: .8em;
+    color: #333; }
   .even-odd-bg span {
     font-size: 1.1em; }
   .even-odd-bg a:not(.button) {
