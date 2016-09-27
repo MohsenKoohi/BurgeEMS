@@ -106,7 +106,8 @@ class Log_manager_model extends CI_Model
 		,"CLASS_CURRICULUM_HOURS_SET"	=>2038
 		,"CLASS_CURRICULUM_SET"			=>2039
 
-		,"REWARD_ADD"			=> 2071
+		,"REWARD_ADD"						=> 2071
+		,"REWARD_SET_PRIZE_ACCESS"		=> 2072
 
 
 	);

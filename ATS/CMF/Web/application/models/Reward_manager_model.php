@@ -42,6 +42,9 @@ class Reward_manager_model extends CI_Model
 		$this->module_manager_model->add_module("reward","reward_manager");
 		$this->module_manager_model->add_module_names_from_lang_file("reward");		
 
+		$this->load->model("constant_manager_model");
+		$this->constant_manager_model->set("prize_teachers_ids","");				
+
 		return;
 	}
 
@@ -112,6 +115,35 @@ class Reward_manager_model extends CI_Model
 		$this->customer_manager_model->add_customer_log($teacher_id,'REWARD_ADD',$log);	
 
 		return $reward_id;
+	}
+
+	public function get_prize_teachers()
+	{
+		$this->load->model("class_manager_model");
+		
+		return $this->class_manager_model->get_teachers(-1);
+	}
+
+	public function set_prize_teachers($tids)
+	{
+		$this->load->model("class_manager_model");
+		
+		$this->class_manager_model->set_class_teachers(-1,$tids);
+
+		$this->log_manager_model->info("REWARD_SET_PRIZE_ACCESS",array("class_id"=>-1,"teacher_ids"=>$tids));	
+
+	}
+
+	public function get_all_rewards()
+	{
+		return $this->db
+			->select("r.*,class_name,customer_name as teacher_name")
+			->from($this->reward_table_name." r")
+			->join("class","reward_class_id = class_id","LEFT")
+			->join("customer","reward_teacher_id = customer_id","LEFT")
+			->order_by("reward_date ASC")
+			->get()
+			->result_array();
 	}
 
 	public function get_rewards_list($teacher_id,$class_id)
