@@ -210,7 +210,12 @@
 	{
 		background-image:url(../images/reward/9.jpg);
 	}
+}
 
-
-
+.row.even-odd-bg
+{
+	.checkbox-holder label i
+	{
+		box-shadow: none;
+	}
 }

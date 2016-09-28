@@ -554,7 +554,7 @@ class Customer_manager_model extends CI_Model
 		}
 
 		$this->load->model("time_manager_model");
-		$desc['academic_time']=$this->time_manager_model->get_current_academic_time_name();
+		$desc['academic_year']=$this->time_manager_model->get_current_academic_time_name();
 		
 		$log_path=$this->get_customer_log_path($customer_id,$type_index);
 

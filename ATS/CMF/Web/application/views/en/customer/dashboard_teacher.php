@@ -6,6 +6,9 @@
 				<ul class="dash-ul">
 					<li><a href="<?php echo get_customer_reward_teacher_submit_class_link(0);?>">{submit_rewards_text}</a></li>
 					<li><a href="<?php echo get_customer_reward_teacher_list_class_link(0);?>">{rewards_list_text}</a></li>
+					<?php if($prize_teacher) { ?>
+						<li><a href="<?php echo get_customer_reward_teacher_prize_class_link(0);?>">{submit_prize_text}</a></li>
+					<?php } ?>
 				</ul>
 			</li>
 			<li><a href="<?php echo get_link('customer_message');?>">{messages_text}</li>

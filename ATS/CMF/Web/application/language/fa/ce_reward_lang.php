@@ -16,4 +16,8 @@ $lang['name']="نام";
 $lang['description']="توضیح";
 $lang['reward']="امتیاز";
 $lang['total']="جمع امتیازها";
-$lang['']="";
+
+$lang['submit_prize']="ثبت جایزه";
+$lang['receiving_prize']="دریافت جایزه";
+$lang['total_rewards']="جمع امتیازها";
+$lang['use_all']="استفاده از همه امتیازها";

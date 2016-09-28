@@ -92,6 +92,7 @@ class Reward_manager_model extends CI_Model
 		$log['reward_subject']=$subject;
 		$log['reward_id']=$reward_id;
 		$log['reward_date']=$date;
+		$log['reward_is_prize']=$is_prize;
 
 		$ins=array();
 		foreach($rewards as $reward)
@@ -136,6 +137,35 @@ class Reward_manager_model extends CI_Model
 
 		$this->log_manager_model->info("REWARD_SET_PRIZE_ACCESS",array("class_id"=>-1,"teacher_ids"=>$tids));	
 
+	}
+
+	public function is_prize_teacher($tid)
+	{
+		$teachers=$this->get_prize_teachers();
+		foreach($teachers as $teacher)
+			if($tid == $teacher['ct_teacher_id'])
+				return TRUE;
+
+		return FALSE;
+	}
+
+	public function get_class_students_with_total_rewards($class_id)
+	{
+		$sub_query=$this->db
+			->select("SUM(rv_value)")
+			->from($this->reward_value_table_name)
+			->where("rv_student_id = customer_id")
+			->group_by("rv_student_id")
+			->get_compiled_select();
+
+		return $this->db
+			->select("customer_id,customer_name,customer_image_hash,($sub_query) as total_rewards")
+			->from("customer")
+			->where("customer_class_id",$class_id)
+			->where("customer_active",1)
+			->order_by("customer_order ASC")
+			->get()
+			->result_array();
 	}
 
 	public function get_all_rewards()

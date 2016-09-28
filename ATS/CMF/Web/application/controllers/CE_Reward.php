@@ -19,7 +19,7 @@ class CE_Reward extends Burge_CMF_Controller {
 
 	}
 
-	public function teacher_submit($class_id=0)
+	public function teacher_submit($class_id)
 	{
 		if(!$this->customer_manager_model->has_customer_logged_in())
 			return redirect(get_link("customer_login"));
@@ -66,6 +66,57 @@ class CE_Reward extends Burge_CMF_Controller {
 		$this->send_customer_output("reward_teacher_submit");	
 	}
 
+	public function teacher_prize($class_id)
+	{
+		if(!$this->customer_manager_model->has_customer_logged_in())
+			return redirect(get_link("customer_login"));
+
+		$customer_info=$this->customer_manager_model->get_logged_customer_info();			
+
+		if("teacher" !== $customer_info['customer_type'])
+			return redirect(get_link("customer_dashboard"));
+
+		$teacher_id=$customer_info['customer_id'];
+
+		if(!$this->reward_manager_model->is_prize_teacher($teacher_id))
+			return redirect(get_link("customer_dashboard"));
+		
+		$classes=$this->class_manager_model->get_teacher_classes($teacher_id);
+
+		if(!$classes)
+		{
+			redirect(get_link("customer_dashboard"));
+			return;
+		}
+
+		if(!$class_id)
+			$class_id=$classes[0];
+
+		if(!in_array($class_id,$classes))
+		{
+			redirect(get_customer_reward_teacher_prize_class_link(0));
+			return;
+		}
+
+		if($this->input->post("post_type")==="add_rewards")
+			return $this->add_rewards($teacher_id,$class_id,1);
+
+		$this->data['teacher_classes']=$classes;
+		$this->data['classes_names']=$this->class_manager_model->get_classes_names();
+		$this->data['students']=$this->reward_manager_model->get_class_students_with_total_rewards($class_id);
+		$this->data['rand']=get_random_word(5);
+		
+		$this->data['message']=get_message();
+		$this->data['class_id']=$class_id;
+
+		$this->data['page_link']=get_customer_reward_teacher_prize_class_link($class_id);
+		$this->data['lang_pages']=get_lang_pages(get_customer_reward_teacher_prize_class_link($class_id,TRUE));
+
+		$this->data['header_title']=$this->lang->line("submit_prize").$this->lang->line("header_separator").$this->data['header_title'];
+
+		$this->send_customer_output("reward_teacher_prize");	
+	}
+
 	private function add_rewards($teacher_id,$class_id,$is_prize)
 	{
 		$students=$this->class_manager_model->get_students($class_id);
@@ -84,6 +135,9 @@ class CE_Reward extends Burge_CMF_Controller {
 				$reward=intval(persian_normalize_word($rewards[$sid]));
 				if(!$reward)
 					continue;
+
+				if($is_prize && ($reward > 0))
+					$reward=-$reward;
 
 				$desc="";
 				if(isset($mds[$sid]))

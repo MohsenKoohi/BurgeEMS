@@ -1054,3 +1054,6 @@ ul.dash-ul li {
     background-image: url(../images/reward/8.jpg); }
   .student-rewards-list .reward.total {
     background-image: url(../images/reward/9.jpg); }
+
+.row.even-odd-bg .checkbox-holder label i {
+  box-shadow: none; }

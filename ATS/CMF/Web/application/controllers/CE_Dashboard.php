@@ -30,21 +30,24 @@ class CE_Dashboard extends Burge_CMF_Controller {
 		$this->data['header_meta_robots']="noindex";
 
 		if("student" === $info['customer_type'])
-			return $this->student_dashboard();
+			return $this->student_dashboard($info);
 
 		if("teacher" === $info['customer_type'])
-			return $this->teacher_dashboard();
+			return $this->teacher_dashboard($info);
 	}
 
-	private function student_dashboard()
+	private function student_dashboard($customer_info)
 	{
 		$this->send_customer_output("dashboard_student");
 
 		return;
 	}
 
-	private function teacher_dashboard()
+	private function teacher_dashboard($customer_info)
 	{
+		$this->load->model("reward_manager_model");
+		$this->data['prize_teacher']=$this->reward_manager_model->is_prize_teacher($customer_info['customer_id']);
+
 		$this->send_customer_output("dashboard_teacher");
 
 		return;
