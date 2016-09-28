@@ -981,3 +981,50 @@ ul.dash-ul li {
   box-shadow: 2px 2px 5px 4px white;
   border-radius: 4px;
   padding: 5px 10px; }
+
+.student-rewards-list {
+  padding: 5px; }
+  .student-rewards-list .reward {
+    border: 1px solid #eee;
+    padding: 20px;
+    margin: 5px;
+    width: calc(33% - 10px); }
+    .student-rewards-list .reward .date {
+      font-size: .8em;
+      background-color: rgba(255, 255, 255, 0.7);
+      border-radius: 5px;
+      padding: 5px 10px; }
+    .student-rewards-list .reward .value-text {
+      margin: 40px 10px 20px 10px;
+      text-align: center; }
+      .student-rewards-list .reward .value-text .value {
+        display: inline-block;
+        direction: ltr;
+        font-size: 2em;
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 5px;
+        padding: 5px 10px; }
+      .student-rewards-list .reward .value-text .text {
+        margin: 30px 20px 0 10px;
+        font-size: .5em; }
+    .student-rewards-list .reward .desc {
+      font-size: .9em;
+      background-color: rgba(255, 255, 255, 0.7);
+      border-radius: 5px;
+      padding: 5px 10px; }
+  .student-rewards-list .reward:nth-child(8n + 1) {
+    background-image: url(../images/reward/1.jpg); }
+  .student-rewards-list .reward:nth-child(8n + 2) {
+    background-image: url(../images/reward/2.jpg); }
+  .student-rewards-list .reward:nth-child(8n + 3) {
+    background-image: url(../images/reward/3.jpg); }
+  .student-rewards-list .reward:nth-child(8n + 4) {
+    background-image: url(../images/reward/4.jpg); }
+  .student-rewards-list .reward:nth-child(8n + 5) {
+    background-image: url(../images/reward/5.jpg); }
+  .student-rewards-list .reward:nth-child(8n + 6) {
+    background-image: url(../images/reward/6.jpg); }
+  .student-rewards-list .reward:nth-child(8n + 7) {
+    background-image: url(../images/reward/7.jpg); }
+  .student-rewards-list .reward:nth-child(8n + 8) {
+    background-image: url(../images/reward/8.jpg); }

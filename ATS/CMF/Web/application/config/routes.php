@@ -130,8 +130,7 @@ $route[ADMIN_URL_FOLDER."/reward/(\d+)"]				= "AE_Reward/details/$1";
 $route["reward/submit/(\d+)"]								= "CE_Reward/teacher_submit/$1";
 $route["reward/list/(\d+)"]								= "CE_Reward/teacher_list/$1";
 $route["reward/list/(\d+)/(\d+)"]						= "CE_Reward/teacher_list/$1/$2";
-	
-
+$route["reward"]												= "CE_Reward/student_list";
 
 $route['(((:any)/)*:any)']="CE_Home/redirect";
 

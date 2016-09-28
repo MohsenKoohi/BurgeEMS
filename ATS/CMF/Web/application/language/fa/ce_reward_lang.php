@@ -14,6 +14,6 @@ $lang['rewards_list']="لیست امتیازها";
 $lang['value']="تعداد امتیاز ";
 $lang['name']="نام";
 $lang['description']="توضیح";
-$lang['']="";
+$lang['reward']="امتیاز";
 $lang['']="";
 $lang['']="";

@@ -98,6 +98,7 @@ function &get_links($just_common=FALSE)
 			,'admin_reward_details_format'						=> ADMIN_SURL_LANG."/reward/reward_id"
 			,'customer_reward_teacher_submit_class_format'	=> HOME_URL_LANG."/reward/submit/class_id"
 			,'customer_reward_teacher_list_class_format'		=> HOME_URL_LANG."/reward/list/class_id/reward_id"
+			,"customer_reward_student"								=> HOME_URL_LANG."/reward"
 		));
 	}
 

@@ -51,20 +51,16 @@ class Reward_manager_model extends CI_Model
 		return;
 	}
 
-	public function get_dashboard_info()
+	public function get_student_rewards($student_id)
 	{
-		return;
-		$CI=& get_instance();
-		$lang=$CI->language->get();
-		$CI->lang->load('ae_customer',$lang);		
-		
-		$data['total_text']=$this->lang->line("total");
-		$data['customers_count']=$this->get_total_customers();
-		
-		$CI->load->library('parser');
-		$ret=$CI->parser->parse($CI->get_admin_view_file("customer_dashboard"),$data,TRUE);
-		
-		return $ret;		
+		return $this->db
+			->select("rv_description,rv_value,reward_id,reward_subject,reward_date,reward_is_prize")
+			->from($this->reward_value_table_name)
+			->join($this->reward_table_name,"rv_reward_id = reward_id ","LEFT")
+			->where("rv_student_id",$student_id)
+			->order_by("reward_date ASC")
+			->get()
+			->result_array();
 	}
 
 	public function add_rewards($teacher_id,$class_id,$subject,$rewards,$is_prize)

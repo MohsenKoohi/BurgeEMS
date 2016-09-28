@@ -71,5 +71,93 @@
 		border-radius: 4px;
 		padding:5px 10px;
 	}
+}
+
+.student-rewards-list
+{
+	padding:5px;
+
+	.reward
+	{
+		border:1px solid #eee;
+		padding:20px;
+		//border-radius: 10px;
+		margin:5px;
+		width:calc(33% - 10px);
+		
+		.date
+		{
+			font-size:.8em;
+			background-color: rgba(255,255,255,.7);
+			border-radius: 5px;
+			padding:5px 10px;
+		}
+
+		.value-text
+		{
+			margin:40px 10px 20px 10px;
+			text-align: center;
+			//border:1px solid red;
+			
+			.value
+			{
+				display:inline-block;
+				direction: ltr;
+				font-size: 2em;
+				background-color: rgba(255,255,255,.9);
+				border-radius: 5px;
+				padding:5px 10px;
+			}
+
+			.text
+			{
+				margin:30px 20px 0 10px;
+				font-size: .5em;
+
+			}
+		}
+
+		.desc
+		{
+			font-size: .9em;
+			background-color: rgba(255,255,255,.7);
+			border-radius: 5px;
+			padding:5px 10px;
+		}
+	}
+
+	.reward:nth-child(8n + 1)
+	{
+		background-image:url(../images/reward/1.jpg);
+	}
+	.reward:nth-child(8n + 2)
+	{
+		background-image:url(../images/reward/2.jpg);
+	}
+	.reward:nth-child(8n + 3)
+	{
+		background-image:url(../images/reward/3.jpg);
+	}
+	.reward:nth-child(8n + 4)
+	{
+		background-image:url(../images/reward/4.jpg);
+	}
+	.reward:nth-child(8n + 5)
+	{
+		background-image:url(../images/reward/5.jpg);
+	}
+	.reward:nth-child(8n + 6)
+	{
+		background-image:url(../images/reward/6.jpg);
+	}
+	.reward:nth-child(8n + 7)
+	{
+		background-image:url(../images/reward/7.jpg);
+	}
+	.reward:nth-child(8n + 8)
+	{
+		background-image:url(../images/reward/8.jpg);
+	}
+
 
 }
