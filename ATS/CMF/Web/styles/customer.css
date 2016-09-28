@@ -985,10 +985,13 @@ ul.dash-ul li {
 .student-rewards-list {
   padding: 5px; }
   .student-rewards-list .reward {
+    background-size: cover;
+    background-position: center center;
     border: 1px solid #eee;
     padding: 20px;
     margin: 5px;
-    width: calc(33% - 10px); }
+    width: calc(33% - 10px);
+    height: 190px; }
     .student-rewards-list .reward .date {
       font-size: .8em;
       background-color: rgba(255, 255, 255, 0.7);
@@ -1003,7 +1006,8 @@ ul.dash-ul li {
         font-size: 2em;
         background-color: rgba(255, 255, 255, 0.9);
         border-radius: 5px;
-        padding: 5px 10px; }
+        padding: 5px 10px;
+        min-width: 100px; }
       .student-rewards-list .reward .value-text .text {
         margin: 30px 20px 0 10px;
         font-size: .5em; }
@@ -1011,7 +1015,27 @@ ul.dash-ul li {
       font-size: .9em;
       background-color: rgba(255, 255, 255, 0.7);
       border-radius: 5px;
-      padding: 5px 10px; }
+      padding: 5px 10px;
+      width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis; }
+  @media (max-width: 1000px) {
+    .student-rewards-list .reward {
+      width: calc(50% - 10px); }
+      .student-rewards-list .reward .value-text {
+        font-size: .8em; }
+        .student-rewards-list .reward .value-text .text {
+          margin: 20px 10px 0 0; }
+    .student-rewards-list .reward.inactive {
+      width: 25%; } }
+  @media (max-width: 600px) {
+    .student-rewards-list .reward {
+      width: 100%; } }
+  .student-rewards-list .reward.inactive {
+    border: 0;
+    padding: 0;
+    height: 0; }
   .student-rewards-list .reward:nth-child(8n + 1) {
     background-image: url(../images/reward/1.jpg); }
   .student-rewards-list .reward:nth-child(8n + 2) {
@@ -1028,3 +1052,5 @@ ul.dash-ul li {
     background-image: url(../images/reward/7.jpg); }
   .student-rewards-list .reward:nth-child(8n + 8) {
     background-image: url(../images/reward/8.jpg); }
+  .student-rewards-list .reward.total {
+    background-image: url(../images/reward/9.jpg); }

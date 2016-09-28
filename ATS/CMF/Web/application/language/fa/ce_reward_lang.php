@@ -15,5 +15,5 @@ $lang['value']="تعداد امتیاز ";
 $lang['name']="نام";
 $lang['description']="توضیح";
 $lang['reward']="امتیاز";
-$lang['']="";
+$lang['total']="جمع امتیازها";
 $lang['']="";

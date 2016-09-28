@@ -114,7 +114,7 @@ class CE_Reward extends Burge_CMF_Controller {
 			return redirect(get_link("customer_dashboard"));
 		
 		$this->data['rewards']=$this->reward_manager_model->get_student_rewards($info['customer_id']);
-		
+		$this->data['total_rewards']=$this->reward_manager_model->get_student_total_rewards($info['customer_id']);
 		$this->data['message']=get_message();
 		$this->data['page_link']=get_link("customer_reward_student");
 		$this->data['lang_pages']=get_lang_pages(get_link("customer_reward_student",TRUE));

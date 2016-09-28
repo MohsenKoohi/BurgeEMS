@@ -79,11 +79,14 @@
 
 	.reward
 	{
+		background-size:cover;
+		background-position: center center;
 		border:1px solid #eee;
 		padding:20px;
 		//border-radius: 10px;
 		margin:5px;
 		width:calc(33% - 10px);
+		height:190px;
 		
 		.date
 		{
@@ -107,6 +110,7 @@
 				background-color: rgba(255,255,255,.9);
 				border-radius: 5px;
 				padding:5px 10px;
+				min-width:100px;
 			}
 
 			.text
@@ -123,7 +127,50 @@
 			background-color: rgba(255,255,255,.7);
 			border-radius: 5px;
 			padding:5px 10px;
+			width:100%;
+			overflow: hidden;
+			white-space: nowrap; 
+			text-overflow: ellipsis;
 		}
+	}
+
+	@media (max-width: 1000px) 
+	{
+		.reward
+		{
+			width:calc(50% - 10px);
+
+			.value-text
+			{
+				font-size:.8em;
+
+				.text
+				{
+					margin:20px 10px 0 0 ;
+				}
+			}
+		}
+
+		.reward.inactive
+		{
+			width:25%;
+		}
+	}
+
+	@media (max-width: 600px) 
+	{
+		.reward
+		{
+			width:100%;
+		}
+	}
+
+
+	.reward.inactive
+	{
+		border:0;
+		padding:0;
+		height:0;
 	}
 
 	.reward:nth-child(8n + 1)
@@ -158,6 +205,12 @@
 	{
 		background-image:url(../images/reward/8.jpg);
 	}
+
+	.reward.total
+	{
+		background-image:url(../images/reward/9.jpg);
+	}
+
 
 
 }

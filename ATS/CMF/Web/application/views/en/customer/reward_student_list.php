@@ -13,12 +13,37 @@
 							<span class="text anti-float">{reward_text}</span>
 						</span>
 					</div>
-					<div class="desc same-float">
+					<div class="desc same-float" >
 						<?php echo $r['reward_subject']." ".$r['rv_description'];?>
 					</div>
 				</div>
 		<?php } ?>
 		</div>
+
+		<div class="row">
+			<div class='four columns reward inactive'>
+			</div>
+			<div class="four columns reward total">
+				<div class="value-text">
+					<span class="value">
+						<?php echo $total_rewards;?>
+						<span class="text anti-float">{reward_text}</span>
+					</span>
+				</div>
+				<div class="desc same-float">
+					{total_text}
+				</div>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			$(".reward .desc").each(function(index,el)
+				{
+					var el=$(el);
+					el.prop("title",el.html());
+				}
+			);
+		</script>
 
 		
 	</div>

@@ -51,6 +51,17 @@ class Reward_manager_model extends CI_Model
 		return;
 	}
 
+	public function get_student_total_rewards($student_id)
+	{
+		return $this->db
+			->select("SUM(rv_value) as sum")
+			->from($this->reward_value_table_name)
+			->where("rv_student_id",$student_id)
+			->group_by("rv_student_id")
+			->get()
+			->row_array()['sum'];
+	}
+
 	public function get_student_rewards($student_id)
 	{
 		return $this->db
