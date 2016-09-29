@@ -114,7 +114,16 @@ class CE_Reward extends Burge_CMF_Controller {
 
 		$this->data['header_title']=$this->lang->line("submit_prize").$this->lang->line("header_separator").$this->data['header_title'];
 
-		$this->send_customer_output("reward_teacher_prize");	
+		if($this->input->get("print")===NULL)
+			$this->send_customer_output("reward_teacher_prize");
+		else
+		{
+			foreach($this->lang->language as $index => $val)
+			$this->data[$index."_text"]=$val;
+
+			$this->load->library('parser');
+			$this->parser->parse($this->get_customer_view_file("reward_teacher_prize_print"),$this->data);
+		}
 	}
 
 	private function add_rewards($teacher_id,$class_id,$is_prize)

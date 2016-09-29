@@ -1,6 +1,12 @@
 <div class="main">
 	<div class="container reward">
-		<h1>{submit_prize_text}</h1>			
+		<h1>{submit_prize_text}</h1>
+		<div class="row general-buttons">
+			<div class="anti-float two columns button button-primary" onclick="window.open('{page_link}?print','_blank');">
+				{print_text}
+			</div>
+		</div>
+
 		<div class="row">
 			<div class="four columns">
 				<select class="main-select full-width" onchange="document.location=$(this).val()" >

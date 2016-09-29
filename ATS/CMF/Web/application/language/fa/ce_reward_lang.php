@@ -21,3 +21,5 @@ $lang['submit_prize']="ثبت جایزه";
 $lang['receiving_prize']="دریافت جایزه";
 $lang['total_rewards']="جمع امتیازها";
 $lang['use_all']="استفاده از همه امتیازها";
+$lang['print']="چاپ";
+$lang['used']="مصرف شده";

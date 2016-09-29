@@ -21,3 +21,5 @@ $lang['submit_prize']="Submit Prize";
 $lang['receiving_prize']="Prize";
 $lang['total_rewards']="Total";
 $lang['use_all']="Use all rewards";
+$lang['print']="Print";
+$lang['used']="Used";
