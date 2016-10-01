@@ -2,22 +2,33 @@
 {
 	.row
 	{
-		height:100px;
-
 		img
 		{
+			float:right;
 			vertical-align: middle;
-			max-width: 100px;
+			width:50px;
 			max-height: 75px;
 			border-radius: 10px;
+			margin:0 5px;
 		}
 
-		div:last-child
+		span
 		{
-			padding-top:10px;
-			font-size: 1.2em;
+			//display: inline-block;
+			padding:5px 20px;
+		}
+
+	}
+
+	@media (max-width: 600px)
+	{
+		.row div
+		{
+			text-align: center;
+			font-size:.9em;
 		}
 	}
+
 }
 
 .main-select
@@ -33,7 +44,11 @@
 		div
 		{
 			padding-top:10px;
-			font-size: 1.2em;
+			
+			label
+			{
+				font-size:.8em;
+			}
 		}
 	}
 }

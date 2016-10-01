@@ -892,24 +892,28 @@ body.ltr .category-div li {
   max-height: 100px;
   border-radius: 10px; }
 
-.class-students .row {
-  height: 100px; }
-  .class-students .row img {
-    vertical-align: middle;
-    max-width: 100px;
-    max-height: 75px;
-    border-radius: 10px; }
-  .class-students .row div:last-child {
-    padding-top: 10px;
-    font-size: 1.2em; }
+.class-students .row img {
+  float: right;
+  vertical-align: middle;
+  width: 50px;
+  max-height: 75px;
+  border-radius: 10px;
+  margin: 0 5px; }
+.class-students .row span {
+  padding: 5px 20px; }
+@media (max-width: 600px) {
+  .class-students .row div {
+    text-align: center;
+    font-size: .9em; } }
 
 .main-select {
   font-size: 1.2em;
   height: 50px; }
 
 .class-teachers .row div {
-  padding-top: 10px;
-  font-size: 1.2em; }
+  padding-top: 10px; }
+  .class-teachers .row div label {
+    font-size: .8em; }
 
 #curriculum table, .class-curriculum table {
   width: 100%; }
