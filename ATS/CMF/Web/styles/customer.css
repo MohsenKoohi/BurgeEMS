@@ -497,7 +497,6 @@ body.ltr .side-menu-ul a:hover {
     font-size: 1.1em;
     padding: 0; }
   .even-odd-bg label {
-    font-size: .8em;
     color: #333; }
   .even-odd-bg span {
     font-size: 1.1em; }
@@ -529,6 +528,9 @@ body.rtl .even-odd-bg > div {
 
 .row.even-odd-bg:nth-child(2n+2) .counter {
   color: #C63672; }
+
+body.customer-env .row.even-odd-bg {
+  font-size: 1.2em; }
 
 .checkbox-holder {
   vertical-align: middle;
@@ -697,6 +699,7 @@ div.results-count {
       list-style: none;
       display: inline; }
     .tab-container .tabs a {
+      font-weight: bold;
       font-size: 1.2em;
       padding: 10px 20px;
       display: inline-block;

@@ -19,6 +19,7 @@
 		<style type="text/css">
 			.class-curriculum table td
 			{
+				font-size:1.2em;
 				width:<?php echo 100.0/(1+sizeof($curriculum_hours));?>%;
 			}
 
