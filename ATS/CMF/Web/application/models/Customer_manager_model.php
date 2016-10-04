@@ -23,6 +23,7 @@ class Customer_manager_model extends CI_Model
 		,"customer_birthday"
 		,"customer_subject"
 		,"customer_image_hash"
+		,"customer_order"
 	);
 
 	private $customer_props_can_be_read=array(
@@ -156,6 +157,29 @@ class Customer_manager_model extends CI_Model
 		$row=$query->row_array();
 
 		return $row['count'];
+	}
+
+	public function delete_not_found_images()
+	{
+		$rows=$this->db
+			->select("*")
+			->from($this->customer_table_name)
+			->get()
+			->result_array();
+
+		$ids=array();
+		foreach($rows as $row)
+			if($row['customer_image_hash'])
+				if(!file_exists(get_customer_image_path($row['customer_id'],$row['customer_image_hash'])))
+					$ids[]=$row['customer_id'];
+
+		if($ids)
+			$this->db
+				->set("customer_image_hash",NULL)
+				->where_in("customer_id",$ids)
+				->update($this->customer_table_name);
+
+		return;
 	}
 
 	public function get_customers($filter)
@@ -407,7 +431,7 @@ class Customer_manager_model extends CI_Model
 				$this->login($props['customer_email'],$pass);
 		}
 
-		return TRUE;
+		return $id;
 	}
 
 	public function sort($ids)
