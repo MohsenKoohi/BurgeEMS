@@ -103,6 +103,7 @@ class AE_Customer extends Burge_CMF_Controller {
 			return;
 
 		$filter['active']=1;
+		$filter['order_by']="customer_order ASC";
 
 		$customers=$this->customer_manager_model->get_customers($filter);
 		if(sizeof($customers)>1)
