@@ -205,8 +205,9 @@ class Reward_manager_model extends CI_Model
 		return $this->db
 			->select("v.* , customer_name")
 			->from($this->reward_value_table_name." v")
-			->join("customer ","rv_student_id = customer_id AND customer_type = 'student'")
+			->join("customer ","rv_student_id = customer_id AND customer_type = 'student'","LEFT")
 			->where("rv_reward_id",$reward_id)
+			->order_by("customer_order ASC")
 			->get()
 			->result_array();
 	}

@@ -136,7 +136,6 @@ class Customer_manager_model extends CI_Model
 		$this->constant_manager_model->set("allow_customer_new_password",0);
 		$this->constant_manager_model->set("allow_customer_bulk_new_password",0);
 		
-
 		return;
 	}
 
