@@ -46,7 +46,7 @@ class CE_Class extends Burge_CMF_Controller {
 
 		$this->data['header_canonical_url']=$page_link;
 
-		$this->send_customer_output("students");
+		$this->send_customer_output("class_students");
 	}
 
 	public function curriculum($class_id,$class_name="")
@@ -85,7 +85,7 @@ class CE_Class extends Burge_CMF_Controller {
 
 		$this->data['header_canonical_url']=$page_link;
 
-		$this->send_customer_output("curriculum");
+		$this->send_customer_output("class_curriculum");
 	}
 
 	public function teachers()
@@ -102,7 +102,7 @@ class CE_Class extends Burge_CMF_Controller {
 
 		$this->data['header_canonical_url']=get_link("customer_class_teachers");
 
-		$this->send_customer_output("teachers");
+		$this->send_customer_output("class_teachers");
 	}
 
 	

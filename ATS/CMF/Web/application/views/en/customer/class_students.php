@@ -1,5 +1,5 @@
 <div class="main">
-	<div class="container class-students">
+	<div class="container classstudents">
 		<h1>{students_text}</h1>			
 		<div class="row">
 			<div class="four columns">

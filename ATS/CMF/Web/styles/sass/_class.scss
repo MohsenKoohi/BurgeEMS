@@ -1,4 +1,4 @@
-.class-students
+.classstudents
 {
 	.row
 	{
@@ -37,7 +37,7 @@
 	height:50px
 }
 
-.class-teachers
+.classteachers
 {
 	.row
 	{
@@ -53,7 +53,7 @@
 	}
 }
 
-#curriculum,.class-curriculum
+#curriculum,.classcurriculum
 {
 	table 
 	{
@@ -75,6 +75,7 @@
 			padding:10px;
 			text-align: center;
 			color:white;
+			font-weight: bold;
 			font-size: 1.2em;
 		}
 
@@ -85,7 +86,7 @@
 	}
 }
 
-.class-curriculum
+.classcurriculum
 {
 	tr
 	{
@@ -111,7 +112,7 @@
 
 @media (max-width: 600px)
 {
-	.class-curriculum table
+	.classcurriculum table
 	{
 		tr:first-child
 		{

@@ -1,4 +1,4 @@
-<div class="main class-teachers">
+<div class="main classteachers">
 	<div class="container">
 		<h1>{teachers_text}</h1>			
 		<?php foreach($teachers as $tc) { ?>

@@ -1,5 +1,5 @@
 <div class="main">
-	<div class="container class-curriculum">
+	<div class="container classcurriculum">
 		<h1>{curriculum_text}</h1>			
 		<div class="row">
 			<div class="four columns">

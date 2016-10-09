@@ -892,17 +892,17 @@ body.ltr .category-div li {
   max-height: 100px;
   border-radius: 10px; }
 
-.class-students .row img {
+.classstudents .row img {
   float: right;
   vertical-align: middle;
   width: 50px;
   max-height: 75px;
   border-radius: 10px;
   margin: 0 5px; }
-.class-students .row span {
+.classstudents .row span {
   padding: 5px 20px; }
 @media (max-width: 600px) {
-  .class-students .row div {
+  .classstudents .row div {
     text-align: center;
     font-size: .9em; } }
 
@@ -910,42 +910,43 @@ body.ltr .category-div li {
   font-size: 1.2em;
   height: 50px; }
 
-.class-teachers .row div {
+.classteachers .row div {
   padding-top: 10px; }
-  .class-teachers .row div label {
+  .classteachers .row div label {
     font-size: .8em; }
 
-#curriculum table, .class-curriculum table {
+#curriculum table, .classcurriculum table {
   width: 100%; }
-  #curriculum table tr, .class-curriculum table tr {
+  #curriculum table tr, .classcurriculum table tr {
     height: 40px; }
-  #curriculum table input, .class-curriculum table input {
+  #curriculum table input, .classcurriculum table input {
     width: 100%; }
-  #curriculum table tr:first-child td, #curriculum table td:first-child, .class-curriculum table tr:first-child td, .class-curriculum table td:first-child {
+  #curriculum table tr:first-child td, #curriculum table td:first-child, .classcurriculum table tr:first-child td, .classcurriculum table td:first-child {
     background: #555;
     padding: 10px;
     text-align: center;
     color: white;
+    font-weight: bold;
     font-size: 1.2em; }
-  #curriculum table tr:first-child td:first-child, .class-curriculum table tr:first-child td:first-child {
+  #curriculum table tr:first-child td:first-child, .classcurriculum table tr:first-child td:first-child {
     background: none; }
 
-.class-curriculum td {
+.classcurriculum td {
   padding: 10px;
   text-align: center;
   border: 1px solid #bbb; }
-.class-curriculum tr:first-child td:first-child {
+.classcurriculum tr:first-child td:first-child {
   border: none; }
-.class-curriculum .day-hour {
+.classcurriculum .day-hour {
   display: none; }
 
 @media (max-width: 600px) {
-  .class-curriculum table tr:first-child {
+  .classcurriculum table tr:first-child {
     display: none; }
-  .class-curriculum table td {
+  .classcurriculum table td {
     display: block;
     width: 100%; }
-  .class-curriculum table .day-hour {
+  .classcurriculum table .day-hour {
     display: inline-block;
     color: #555;
     margin: 0 -40px 0 40px; } }
