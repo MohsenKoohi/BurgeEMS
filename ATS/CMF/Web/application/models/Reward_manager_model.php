@@ -3,7 +3,8 @@ class Reward_manager_model extends CI_Model
 {
 	private $reward_table_name="reward";
 	private $reward_value_table_name="reward_value";
-	
+	private $reward_edit_time=84400; //24*60*60 one day
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -193,7 +194,11 @@ class Reward_manager_model extends CI_Model
 
 	public function get_reward_info($reward_id)
 	{
+		$date=DATE_FUNCTION;
+		$date=$date("Y/m/d H:i:s",time()-$this->reward_edit_time);
+
 		return $this->db
+			->select("* , (reward_date > '$date') as reward_editable")
 			->from($this->reward_table_name)
 			->where("reward_id",$reward_id)
 			->get()
@@ -210,6 +215,49 @@ class Reward_manager_model extends CI_Model
 			->order_by("customer_order ASC")
 			->get()
 			->result_array();
+	}
+
+	public function edit_rewards($reward_id,$subject,$rewards,$teacher_id)
+	{
+		$log=array();
+
+		$this->db
+			->set("reward_subject",$subject)
+			->where("reward_id",$reward_id)
+			->update($this->reward_table_name);
+
+		$log['new_subject']=$subject;
+
+		$this->db
+			->where("rv_reward_id",$reward_id)
+			->delete($this->reward_value_table_name);
+
+		$ins=array();
+		foreach($rewards as $reward)
+		{
+			$ins[]=array(
+				"rv_reward_id"=>$reward_id
+				,"rv_student_id"=>$reward['student_id']
+				,"rv_value"=>intval($reward['value'])
+				,"rv_description"=>$reward['description']
+			);
+
+			$log['student_'.$reward['student_id'].'_reward']=$reward['value'];
+			$log['student_'.$reward['student_id'].'_description']=$reward['description'];
+		}
+
+		if(!$ins)
+			return;
+
+		$this->db->insert_batch($this->reward_value_table_name,$ins);
+
+		$this->log_manager_model->info("REWARD_EDIT",$log);	
+
+		$this->load->model("customer_manager_model");
+		$log['teacher_id']=$teacher_id;
+		$this->customer_manager_model->add_customer_log($teacher_id,'REWARD_EDIT',$log);	
+
+		return $reward_id;
 	}
 
 }

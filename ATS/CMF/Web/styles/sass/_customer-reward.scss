@@ -1,10 +1,9 @@
 .container.reward
 {
-	input
+	label
 	{
-		font-size: 1.2em;
+		font-size: .8em;
 	}
-
 	.reward-value,.initial-reward-value
 	{
 		width:100px
@@ -12,15 +11,10 @@
 
 	.student-name
 	{
-		font-size: 1.3em;
 		padding:20px 0;
 		font-weight: bold;
 	}
 
-	.subject
-	{
-		font-size: 1.2em;
-	}
 
 	@media (max-width: 600px) 
 	{

@@ -63,7 +63,9 @@ class Customer_manager_model extends CI_Model
 		,"MESSAGE_ADD"							=>1132
 		,"MESSAGE_THREAD_ADD"				=>1133
 
-		,"REWARD_ADD"			=> 2071
+		,"REWARD_ADD"						=> 2071
+		,"REWARD_SET_PRIZE_ACCESS"		=> 2072
+		,"REWARD_EDIT"						=> 2073
 	);
 	
 	public function __construct()

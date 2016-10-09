@@ -108,8 +108,7 @@ class Log_manager_model extends CI_Model
 
 		,"REWARD_ADD"						=> 2071
 		,"REWARD_SET_PRIZE_ACCESS"		=> 2072
-
-
+		,"REWARD_EDIT"						=> 2073
 	);
 
 	public function __construct()
