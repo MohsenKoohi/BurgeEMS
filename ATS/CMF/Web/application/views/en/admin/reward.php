@@ -42,7 +42,7 @@
 				<div id="class-list">
 					<?php foreach($rewards as $reward) {?>
 						<div class="row even-odd-bg">
-							<div class="two columns">
+							<div class="one columns">
 								<?php echo $reward['reward_id'];?>
 							</div>
 							<div class="two columns">
@@ -51,7 +51,7 @@
 							<div class="two columns">
 								<?php echo $reward['reward_date'];?>
 							</div>
-							<div class="two columns">
+							<div class="three columns">
 								<?php echo $reward['reward_subject'];?>
 							</div>
 							<div class="two columns">
