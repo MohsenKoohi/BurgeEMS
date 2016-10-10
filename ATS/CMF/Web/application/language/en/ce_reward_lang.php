@@ -28,3 +28,4 @@ $lang['edit_reward']="Rewards Edit";
 $lang['are_you_sure_to_submit_changes']="Are you sure to submit changes?";
 $lang['reward_date']="Reward date";
 $lang['rewards_editted_successfully']="Modifications save successfully.";
+$lang['edit']="Edit";

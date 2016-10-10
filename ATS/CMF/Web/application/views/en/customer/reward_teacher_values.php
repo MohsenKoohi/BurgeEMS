@@ -2,6 +2,14 @@
 	<div class="container reward-students-list">
 		<h1>{rewards_text}</h1>
 		<h2>{reward_subject}</h2>			
+		<?php if($reward_editable) { ?>
+			<div class="row general-buttons" style="margin-bottom:50px;">
+				<div class="anti-float two columns button button-type2" onclick="document.location='{edit_link}';">
+					{edit_text}
+				</div>
+			</div>
+		<?php } ?>
+
 		<div class="anti-float">
 			<span class="date">{reward_date}</span>
 		</div>

@@ -249,16 +249,15 @@ class CE_Reward extends Burge_CMF_Controller {
 		)
 			return redirect(get_link("customer_dashboard"));
 
-		if($reward_info['reward_editable'])
-			return $this->edit_rewards($reward_info);
-
 		$this->data['reward_subject']=$reward_info['reward_subject'];
 		$this->data['reward_date']=$reward_info['reward_date'];
+		$this->data['reward_editable']=$reward_info['reward_editable'];
 
 		$this->data['students_rewards']=$this->reward_manager_model->get_reward_values($reward_id);
 
 		$this->data['message']=get_message();
 		$this->data['page_link']=get_customer_reward_teacher_list_class_link($class_id,$reward_id);
+		$this->data['edit_link']=get_customer_reward_teacher_edit_link($reward_id);
 		$this->data['lang_pages']=get_lang_pages(get_customer_reward_teacher_list_class_link($class_id,$reward_id,TRUE));
 
 		$this->data['header_title']=
@@ -269,8 +268,25 @@ class CE_Reward extends Burge_CMF_Controller {
 		$this->send_customer_output("reward_teacher_values");	
 	}
 
-	private function edit_rewards($reward_info)
+	public function teacher_edit($reward_id)
 	{
+		$reward_id=(int)$reward_id;
+		if(!$reward_id || !$this->customer_manager_model->has_customer_logged_in())
+			return redirect(get_link("customer_login"));
+
+		$customer_info=$this->customer_manager_model->get_logged_customer_info();			
+		if("teacher" !== $customer_info['customer_type'])
+			return redirect(get_link("customer_dashboard"));
+
+		$teacher_id=$customer_info['customer_id'];
+		$reward_info=$this->reward_manager_model->get_reward_info($reward_id);
+		if(
+				!$reward_info 
+				|| !$reward_info['reward_editable'] 
+				|| ($reward_info['reward_teacher_id'] != $teacher_id)
+			)
+			return redirect(get_link("customer_dashboard"));
+
 		if($this->input->post("post_type")==="edit_rewards")
 			return $this->modify_rewards($reward_info);
 
@@ -286,8 +302,8 @@ class CE_Reward extends Burge_CMF_Controller {
 		$this->data['students']=$this->class_manager_model->get_students($class_id);
 
 		$this->data['message']=get_message();
-		$this->data['page_link']=get_customer_reward_teacher_list_class_link($class_id,$reward_id);
-		$this->data['lang_pages']=get_lang_pages(get_customer_reward_teacher_list_class_link($class_id,$reward_id,TRUE));
+		$this->data['page_link']=get_customer_reward_teacher_edit_link($reward_id);
+		$this->data['lang_pages']=get_lang_pages(get_customer_reward_teacher_edit_link($reward_id,TRUE));
 
 		$this->data['header_title']=
 			$reward_info['reward_subject'].$this->lang->line("header_separator")

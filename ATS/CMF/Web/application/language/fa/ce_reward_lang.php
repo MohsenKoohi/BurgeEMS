@@ -28,3 +28,4 @@ $lang['edit_reward']="ویرایش امتیاز";
 $lang['are_you_sure_to_submit_changes']="تغییرات ثبت شود؟";
 $lang['reward_date']="تاریخ ثبت";
 $lang['rewards_editted_successfully']="تغییرات با موفقیت ثبت شد.";
+$lang['edit']="ویرایش";
