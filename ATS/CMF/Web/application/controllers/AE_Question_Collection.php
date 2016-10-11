@@ -17,8 +17,8 @@ class AE_Question_Collection extends Burge_CMF_Controller {
 
 	public function index()
 	{
-		if($this->input->post("post_type")==="set_prize_access")
-			return $this->set_prize_access();
+		if($this->input->post("post_type")==="add_question")
+			return $this->add_question();
 
 		//$this->data['rewards']=$this->reward_manager_model->get_all_rewards();
 		
@@ -36,36 +36,49 @@ class AE_Question_Collection extends Burge_CMF_Controller {
 		return;	 
 	}
 
-	public function details($reward_id)
+	private function add_question()
 	{
-		$reward_id=(int)$reward_id;
+		$grade_id=$this->input->post("grade");
+		$course_id=$this->input->post("course");
+		$subject=$this->input->post("subject");
+		$files=array();
 
-		$info=$this->reward_manager_model->get_reward_info($reward_id);
-		if(!$info)
+		$file_count=$this->input->post("file_count");
+		for($i=0;$i<$file_count;$i++)
 		{
-			set_message($this->lang->line("reward_not_found"));
-			return redirect(get_link("admin_reward"));		
+			$file_name=$_FILES['files']['name'][$i];
+			$file_tmp_name=$_FILES['files']['tmp_name'][$i];
+			$extension=pathinfo($file_name, PATHINFO_EXTENSION);
+			$subject=$this->input->post('subjects')[$i];
+			$file_error=$_FILES['files']['error'][$i];
+			$file_size=$_FILES['files']['size'][$i];
+
+			if($file_error)
+				continue;
+			
+			$files[]=array(
+				"temp_name"=>$file_tmp_name
+				,"extension"=>$extension
+				,"subject"=>$subject
+				,"size"=>$file_size
+			);
+			//echo $file_name."#<br>".$file_tmp_name."#<br>".$subject."#<br>".$file_error."#<br>".$file_size."#<br>*</br>";
 		}
 
-		$this->data['info']=$info;
-		$this->data['students_rewards']=$this->reward_manager_model->get_reward_values($reward_id);
+		if(!$subject || !$files)
+		{
+			set_message($this->lang->line("please_fill_all_fields"));
+			return redirect(get_link("admin_question_collection")."#add");
+		}
 
-		$this->data['message']=get_message();
+		$this->load->model("user_manager_model");
+		$user=$this->user_manager_model->get_user_info();
+		$user_id=$user->get_id();
 
-		$this->data['lang_pages']=get_lang_pages(get_admin_reward_details_link($reward_id,TRUE));
-		$this->data['header_title']=$info['reward_subject'];
+		$this->question_collector_model->add($grade_id,$course_id,$subject,$files,"user",$user_id);
 
-		$this->send_admin_output("reward_details");
-	}
+		set_message($this->lang->line("question_added_successfully"));
+		return redirect(get_link("admin_question_collection"));
 
-	private function set_prize_access()
-	{
-		$ids=$this->input->post("teachers-ids");
-
-		$this->reward_manager_model->set_prize_teachers($ids);
-
-		set_message($this->lang->line("modifications_have_been_done_successfully"));
-
-		return redirect(get_link("admin_reward")."#prize-access");
 	}
 }

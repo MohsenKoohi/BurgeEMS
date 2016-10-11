@@ -145,7 +145,7 @@
 							+	"</div>"
 							+	"<div class='eight columns'>"
 							+		"<label>{file_subject_text}</label>"
-							+		"<input type='text' class='full-width' name='subject["+index+"]'/>"
+							+		"<input type='text' class='full-width' name='subjects["+index+"]'/>"
 							+	"</div>"
 							+"</div>";
 

@@ -3,7 +3,10 @@ class Question_collector_model extends CI_Model
 {
 	private $question_collection_table_name="question_collection";
 	private $question_collection_files_table_name="question_collection_files";
+
 	private $question_files_dir=NULL;
+	private $question_files_url=NULL;
+
 	private $grades_count=6;
 	private $courses_count=3;
 
@@ -12,6 +15,7 @@ class Question_collector_model extends CI_Model
 		parent::__construct();
 
 		$this->question_files_dir=UPLOAD_DIR."/questions";
+		$this->question_files_url=UPLOAD_URL."/questions";
 
 		return;
 	}
@@ -45,6 +49,7 @@ class Question_collector_model extends CI_Model
 				,`qcf_qc_id` INT NOT NULL
 				,`qcf_subject` VARCHAR(511)
 				,`qcf_hash` CHAR(5)
+				,`qcf_extension` CHAR(5)
 				,PRIMARY KEY (qcf_id)	
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8"
 		);
@@ -88,6 +93,63 @@ class Question_collector_model extends CI_Model
 		$ret=$CI->parser->parse($CI->get_admin_view_file("class_dashboard"),$data,TRUE);
 		
 		return $ret;		
+	}
+
+	public function add($grade_id,$course_id,$subject,$files,$registrar_type,$registrar_id)
+	{
+		$inp=array(
+			"qc_grade_id" 			=> $grade_id
+			,"qc_course_id"		=> $course_id
+			,"qc_subject"			=> $subject
+			,"qc_date"				=> get_current_time()
+			,"qc_registrar_type"	=> $registrar_type
+			,"qc_registrar_id"	=> $registrar_id
+		);
+		$this->db->insert($this->question_collection_table_name,$inp);
+
+		$qc_id=$this->db->insert_id();
+
+		$log=$inp;
+		$log['qc_id']=$qc_id;
+
+		$ins=array();
+		$i=0;
+		foreach($files as $f)
+		{
+			$hash=get_random_word(5,TRUE);
+			$this->db->insert($this->question_collection_files_table_name,array(
+				"qcf_qc_id"			=>	$qc_id
+				,"qcf_subject"		=> $f['subject']
+				,"qcf_extension"	=> $f['extension']
+				,"qcf_hash"			=> $hash
+			));
+
+			$qcf_id=$this->db->insert_id();
+			$path=$this->get_question_file_dir($qc_id,$qcf_id,$hash,$f['extension']);
+
+			@move_uploaded_file($f['temp_name'],$path);
+
+			$log['file_'.$i.'_id']=$qcf_id;
+			$log['file_'.$i.'_hash']=$hash;
+			$log['file_'.$i.'_extension']=$f['extension'];
+			$log['file_'.$i.'_subject']=$f['subject'];
+
+			$i++;
+		}
+
+		$this->log_manager_model->info("QUESTION_COLLECTION_ADD",$log);	
+
+		return $qc_id;
+	}
+
+	private function get_question_file_url($qc_id,$qcf_id,$qcf_hash,$qcf_extension)
+	{
+		return $this->question_files_url."/".$qc_id."_".$qcf_id."_".$qcf_hash.".".$qcf_extension;
+	}
+
+	private function get_question_file_dir($qc_id,$qcf_id,$qcf_hash,$qcf_extension)
+	{
+		return $this->question_files_dir."/".$qc_id."_".$qcf_id."_".$qcf_hash.".".$qcf_extension;
 	}
 
 
