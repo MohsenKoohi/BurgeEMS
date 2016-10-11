@@ -20,7 +20,7 @@ class AE_Question_Collection extends Burge_CMF_Controller {
 		if($this->input->post("post_type")==="add_question")
 			return $this->add_question();
 
-		//$this->data['rewards']=$this->reward_manager_model->get_all_rewards();
+		$this->data['questions']=$this->question_collector_model->get_questions();
 		
 		$this->data['message']=get_message();
 
@@ -38,8 +38,8 @@ class AE_Question_Collection extends Burge_CMF_Controller {
 
 	private function add_question()
 	{
-		$grade_id=$this->input->post("grade");
-		$course_id=$this->input->post("course");
+		$grade_id=$this->input->post("grade_id");
+		$course_id=$this->input->post("course_id");
 		$subject=$this->input->post("subject");
 		$files=array();
 
@@ -65,7 +65,7 @@ class AE_Question_Collection extends Burge_CMF_Controller {
 			//echo $file_name."#<br>".$file_tmp_name."#<br>".$subject."#<br>".$file_error."#<br>".$file_size."#<br>*</br>";
 		}
 
-		if(!$subject || !$files)
+		if(!$grade_id || !$course_id || !$subject || !$files)
 		{
 			set_message($this->lang->line("please_fill_all_fields"));
 			return redirect(get_link("admin_question_collection")."#add");
@@ -79,6 +79,5 @@ class AE_Question_Collection extends Burge_CMF_Controller {
 
 		set_message($this->lang->line("question_added_successfully"));
 		return redirect(get_link("admin_question_collection"));
-
 	}
 }

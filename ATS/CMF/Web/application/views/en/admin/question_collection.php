@@ -40,25 +40,22 @@
 			<div class="tab" id="list">
 				<h2>{questions_list_text}</h2>
 				<div id="class-list">
-					<?php foreach($rewards as $reward) {?>
+					<?php foreach($questions as $q) {?>
 						<div class="row even-odd-bg">
-							<div class="one columns">
-								<?php echo $reward['reward_id'];?>
+							<div class="two columns">
+								<?php echo ${"grade_".$q['qc_grade_id']."_text"};?>
 							</div>
 							<div class="two columns">
-								<?php echo $reward['class_name'];?>
+								<?php echo ${"course_".$q['qc_course_id']."_text"};?>
+							</div>
+							<div class="four columns">
+								<?php echo $q['qc_subject'];?>
+							</div>
+							<div class="two columns" title="<?php echo $q['qc_date'];?>">
+								<?php echo explode(" ",$q['qc_date'])[0];?>
 							</div>
 							<div class="two columns">
-								<?php echo $reward['reward_date'];?>
-							</div>
-							<div class="three columns">
-								<?php echo $reward['reward_subject'];?>
-							</div>
-							<div class="two columns">
-								<?php echo $reward['teacher_name'];?>
-							</div>
-							<div class="two columns">
-								<a href="<?php echo get_admin_reward_details_link($reward['reward_id']); ?>"
+								<a href="<?php echo get_admin_question_collection_details_link($q['qc_id']); ?>"
 									class="button button-primary sub-primary full-width" target="_blank"
 								>
 									{view_text}
@@ -72,14 +69,15 @@
 			
 			<div class="tab" id="add">
 				<h2>{add_question_text}</h2>	
-				<?php echo form_open_multipart($raw_page_url,array()); ?>
+				<?php echo form_open_multipart($raw_page_url,array("onsubmit"=>"return alert('{are_you_sure_to_submit_text}')")); ?>
 					<input type="hidden" name="post_type" value="add_question" />	
 					<div class="row even-odd-bg" >
 						<div class="three columns">
 							<span>{grade_text}</span>
 						</div>
 						<div class="four columns">
-							<select name="grade" class="full-width">
+							<select name="grade_id" class="full-width">
+								<option value="">&nbsp;</option>
 								<?php 
 									for($i=1;$i<=$grades_count;$i++)
 									{
@@ -96,7 +94,8 @@
 							<span>{course_text}</span>
 						</div>
 						<div class="four columns">
-							<select name="course" class="full-width">
+							<select name="course_id" class="full-width">
+								<option value="">&nbsp;</option>
 								<?php 
 									for($i=1;$i<=$courses_count;$i++)
 									{

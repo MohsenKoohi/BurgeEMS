@@ -95,6 +95,16 @@ class Question_collector_model extends CI_Model
 		return $ret;		
 	}
 
+	public function get_questions()
+	{
+		return $this->db
+			->select("*")
+			->from($this->question_collection_table_name)
+			->order_by("qc_id DESC")
+			->get()
+			->result_array();
+	}
+
 	public function add($grade_id,$course_id,$subject,$files,$registrar_type,$registrar_id)
 	{
 		$inp=array(
