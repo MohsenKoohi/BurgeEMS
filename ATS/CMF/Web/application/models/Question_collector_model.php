@@ -4,6 +4,8 @@ class Question_collector_model extends CI_Model
 	private $question_collection_table_name="question_collection";
 	private $question_collection_files_table_name="question_collection_files";
 	private $question_files_dir=NULL;
+	private $grades_count=6;
+	private $courses_count=3;
 
 	public function __construct()
 	{
@@ -58,6 +60,16 @@ class Question_collector_model extends CI_Model
 	public function uninstall()
 	{
 		return;
+	}
+
+	public function get_grades_count()
+	{
+		return $this->grades_count;
+	}
+
+	public function get_courses_count()
+	{
+		return $this->courses_count;
 	}
 	
 	public function get_dashboard_info()

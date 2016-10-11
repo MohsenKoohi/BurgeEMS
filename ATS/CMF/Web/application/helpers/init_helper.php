@@ -101,6 +101,8 @@ function &get_links($just_common=FALSE)
 			,'customer_reward_teacher_edit_format'				=> HOME_URL_LANG."/reward/edit/reward_id"
 			,'customer_reward_teacher_prize_class_format'	=> HOME_URL_LANG."/reward/prize/class_id"
 			,"customer_reward_student"								=> HOME_URL_LANG."/reward"
+
+			,'admin_question_collection'							=> ADMIN_SURL_LANG."/question_collection"
 		));
 	}
 
