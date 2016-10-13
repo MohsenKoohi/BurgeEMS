@@ -182,5 +182,37 @@ class Question_collector_model extends CI_Model
 		return $this->question_files_dir."/".$qc_id."_".$qcf_id."_".$qcf_hash.".".$qcf_extension;
 	}
 
+	public function delete($qc_id)
+	{
+		$log=array("qc_id"=>$qc_id);
+
+		$files=$this->db
+			->select("*")
+			->from($this->question_collection_files_table_name)
+			->where("qcf_qc_id",$qc_id)
+			->get()
+			->result_array();
+
+		$i=0;
+		foreach($files as $f)
+		{
+			$filename=$this->get_question_file_dir($qc_id,$f['qcf_id'],$f['qcf_hash'],$f['qcf_extension']);
+			unlink($filename);
+			$log['file_'.$i++]=$filename;
+		}
+
+		$this->db
+			->where("qc_id",$qc_id)
+			->delete($this->question_collection_table_name);
+
+		$this->db
+			->where("qcf_qc_id",$qc_id)
+			->delete($this->question_collection_files_table_name);
+
+		$this->log_manager_model->info("QUESTION_COLLECTION_DELETE",$log);
+
+		return;
+	}	
+
 
 }

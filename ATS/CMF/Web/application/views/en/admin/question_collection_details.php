@@ -1,6 +1,25 @@
 <div class="main">
 	<div class="container">
-		<h1>{questions_collection_text}</h1>
+		<h1>{questions_collection_text}, <?php echo $info[0]['qc_subject'];?> </h1>
+
+		<div class="row general-buttons">
+			<div class="anti-float two columns button button-type2" onclick="deleteQC()">
+				{delete_text}
+			</div>
+
+			<?php echo form_open($raw_page_url,array("id"=>"delete_form")); ?>
+				<input type="hidden" name="post_type" value="delete_qc"/>
+			</form>
+
+			<script type="text/javascript">
+				function deleteQC()
+				{
+					if(confirm('{are_you_sure_to_delete_this_collection_text}'))
+						$("#delete_form").submit();
+				}
+			</script>
+		</div>
+		<br><br>
 		<div class="row even-odd-bg">
 			<div class="three columns">
 				{grade_text}:
@@ -21,15 +40,6 @@
 
 		<div class="row even-odd-bg">
 			<div class="three columns">
-				{subject_text}:
-			</div>
-			<div class="nine columns">	
-				<?php echo $info[0]['qc_subject'];?>
-			</div>
-		</div>
-
-		<div class="row even-odd-bg">
-			<div class="three columns">
 				{registrar_text}:
 			</div>
 			<div class="nine columns">	
@@ -41,7 +51,7 @@
 			<div class="three columns">
 				{date_text}:
 			</div>
-			<div class="nine columns">	
+			<div class="nine columns ltr">	
 				<?php echo $info[0]['qc_date'];?>
 			</div>
 		</div>

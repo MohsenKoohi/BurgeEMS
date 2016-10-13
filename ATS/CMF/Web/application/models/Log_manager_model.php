@@ -111,6 +111,7 @@ class Log_manager_model extends CI_Model
 		,"REWARD_EDIT"						=> 2073
 
 		,"QUESTION_COLLECTION_ADD"		=> 2101
+		,"QUESTION_COLLECTION_DELETE"	=> 2102
 	);
 
 	public function __construct()

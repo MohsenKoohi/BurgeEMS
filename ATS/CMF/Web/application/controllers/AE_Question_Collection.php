@@ -90,8 +90,8 @@ class AE_Question_Collection extends Burge_CMF_Controller {
 		if(!$info)
 			return redirect(get_link("admin_question_collection"));
 
-		if($this->input->post("post_type")==="add_question")
-			return $this->add_question();
+		if($this->input->post("post_type")==="delete_qc")
+			return $this->delete($qid);
 
 		$this->data['info']=$info;
 
@@ -102,10 +102,22 @@ class AE_Question_Collection extends Burge_CMF_Controller {
 
 		$this->data['raw_page_url']=get_admin_question_collection_details_link($qid);
 		$this->data['lang_pages']=get_lang_pages(get_admin_question_collection_details_link($qid,TRUE));
-		$this->data['header_title']=$info[0]['qc_subject'];
+		$this->data['header_title']=
+			$this->lang->line("questions_collection")
+			.$this->lang->line("header_separator")
+			.$info[0]['qc_subject'];
 
 		$this->send_admin_output("question_collection_details");
 
 		return;	 
+	}
+
+	private function delete($qid)
+	{
+		$this->question_collector_model->delete($qid);
+
+		set_message($this->lang->line("question_set_deleted_successfully"));
+
+		return redirect(get_link("admin_question_collection"));
 	}
 }

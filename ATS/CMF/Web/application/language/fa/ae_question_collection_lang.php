@@ -18,8 +18,8 @@ $lang['are_you_sure_to_submit_the_new_questions_set']="مجموعه سوال ج�
 $lang['registrar']="ثبت کننده";
 $lang['date']="تاریخ";
 $lang['file']="فایل";
-$lang['']="";
-$lang['']="";
-$lang['']="";
+$lang['delete']="حذف";
+$lang['are_you_sure_to_delete_this_collection']="این مجموعه سوال حذف شود؟";
+$lang['question_set_deleted_successfully']="حذف با موفقیت انجام شد.";
 $lang['']="";
 
