@@ -22,6 +22,3 @@ $lang['']="";
 $lang['']="";
 $lang['']="";
 
-$lang['course_1']="ریاضی";
-$lang['course_2']="علوم";
-$lang['course_3']="ادبیات";

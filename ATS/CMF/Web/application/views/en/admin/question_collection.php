@@ -43,10 +43,10 @@
 					<?php foreach($questions as $q) {?>
 						<div class="row even-odd-bg">
 							<div class="two columns">
-								<?php echo ${"grade_".$q['qc_grade_id']."_text"};?>
+								<?php echo $grades_names[$q['qc_grade_id']];?>
 							</div>
 							<div class="two columns">
-								<?php echo ${"course_".$q['qc_course_id']."_text"};?>
+								<?php echo $courses_names[$q['qc_course_id']];?>
 							</div>
 							<div class="four columns">
 								<?php echo $q['qc_subject'];?>
@@ -79,7 +79,7 @@
 							<select name="grade_id" class="full-width">
 								<option value="">&nbsp;</option>
 								<?php 
-									foreach($grades as $gid => $grade)
+									foreach($grades_names as $gid => $grade)
 										echo "<option value='$gid'>$grade</option>";
 								?>
 							</select>
@@ -94,11 +94,8 @@
 							<select name="course_id" class="full-width">
 								<option value="">&nbsp;</option>
 								<?php 
-									for($i=1;$i<=$courses_count;$i++)
-									{
-										$text=${"course_".$i."_text"};
-										echo "<option value='$i'>$text</option>";
-									}
+									foreach($courses_names as $cid => $course)
+										echo "<option value='$cid'>$course</option>";
 								?>
 							</select>
 						</div>

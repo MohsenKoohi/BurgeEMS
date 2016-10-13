@@ -76,7 +76,7 @@ class Class_manager_model extends CI_Model
 		return $ret;		
 	}
 
-	public function get_grades($lang)
+	public function get_grades_names($lang)
 	{
 		$CI=& get_instance();
 
@@ -85,6 +85,23 @@ class Class_manager_model extends CI_Model
 		$ret=array();
 		for($i=1;$i<=$CI->lang->line("grades_count");$i++)
 			$ret[$i]=$CI->lang->line("grade_".$i);
+
+		return $ret;
+	}
+
+	//we may need to create a course manager
+	//which is able to add, edit and delete courses
+	//and answer the queries of courses
+	//required for curriculum and questions collector
+	public function get_courses_names($lang)
+	{
+		$CI=& get_instance();
+
+		$CI->lang->load('ae_class',$lang);
+			
+		$ret=array();
+		for($i=1;$i<=$CI->lang->line("courses_count");$i++)
+			$ret[$i]=$CI->lang->line("course_".$i);
 
 		return $ret;
 	}

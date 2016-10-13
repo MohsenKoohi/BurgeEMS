@@ -25,8 +25,8 @@ class AE_Question_Collection extends Burge_CMF_Controller {
 		
 		$this->data['message']=get_message();
 
-		$this->data['grades']=$this->class_manager_model->get_grades($this->selected_lang);
-		$this->data['courses_count']=$this->question_collector_model->get_courses_count();
+		$this->data['grades_names']=$this->class_manager_model->get_grades_names($this->selected_lang);
+		$this->data['courses_names']=$this->class_manager_model->get_courses_names($this->selected_lang);
 
 		$this->data['raw_page_url']=get_link("admin_question_collection");
 		$this->data['lang_pages']=get_lang_pages(get_link("admin_question_collection",TRUE));

@@ -43,6 +43,11 @@ $lang['grade_5']="پایه چهارم";
 $lang['grade_6']="پایه پنجم";
 $lang['grade_7']="پایه ششم";
 
+$lang['courses_count']="3";
+$lang['course_1']="ریاضی";
+$lang['course_2']="علوم";
+$lang['course_3']="ادبیات";
+
 $lang['']="";
 $lang['']="";
 $lang['']="";
