@@ -76,6 +76,19 @@ class Class_manager_model extends CI_Model
 		return $ret;		
 	}
 
+	public function get_grades($lang)
+	{
+		$CI=& get_instance();
+
+		$CI->lang->load('ae_class',$lang);
+			
+		$ret=array();
+		for($i=1;$i<=$CI->lang->line("grades_count");$i++)
+			$ret[$i]=$CI->lang->line("grade_".$i);
+
+		return $ret;
+	}
+
 	public function get_class($class_id)
 	{
 		$result=$this->db->get_where($this->class_table_name,array("class_id"=>(int)$class_id));

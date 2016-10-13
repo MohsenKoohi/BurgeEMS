@@ -33,6 +33,16 @@ $lang['day_4_name']="سه‌شنبه";
 $lang['day_5_name']="چهارشنبه";
 $lang['day_6_name']="پنج‌شنبه";
 $lang['day_7_name']="جمعه";
+
+$lang['grades_count']=7;
+$lang['grade_1']="پیش دبستانی";
+$lang['grade_2']="پایه اول";
+$lang['grade_3']="پایه دوم";
+$lang['grade_4']="پایه سوم";
+$lang['grade_5']="پایه چهارم";
+$lang['grade_6']="پایه پنجم";
+$lang['grade_7']="پایه ششم";
+
 $lang['']="";
 $lang['']="";
 $lang['']="";

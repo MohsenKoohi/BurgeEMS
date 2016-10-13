@@ -79,11 +79,8 @@
 							<select name="grade_id" class="full-width">
 								<option value="">&nbsp;</option>
 								<?php 
-									for($i=1;$i<=$grades_count;$i++)
-									{
-										$text=${"grade_".$i."_text"};
-										echo "<option value='$i'>$text</option>";
-									}
+									foreach($grades as $gid => $grade)
+										echo "<option value='$gid'>$grade</option>";
 								?>
 							</select>
 						</div>

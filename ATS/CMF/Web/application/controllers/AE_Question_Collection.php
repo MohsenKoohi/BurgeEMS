@@ -10,6 +10,7 @@ class AE_Question_Collection extends Burge_CMF_Controller {
 		
 		$this->load->model(array(
 			"question_collector_model"
+			,"class_manager_model"
 			)
 		);
 
@@ -24,7 +25,7 @@ class AE_Question_Collection extends Burge_CMF_Controller {
 		
 		$this->data['message']=get_message();
 
-		$this->data['grades_count']=$this->question_collector_model->get_grades_count();
+		$this->data['grades']=$this->class_manager_model->get_grades($this->selected_lang);
 		$this->data['courses_count']=$this->question_collector_model->get_courses_count();
 
 		$this->data['raw_page_url']=get_link("admin_question_collection");
