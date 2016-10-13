@@ -69,7 +69,7 @@
 			
 			<div class="tab" id="add">
 				<h2>{add_question_text}</h2>	
-				<?php echo form_open_multipart($raw_page_url,array("onsubmit"=>"return alert('{are_you_sure_to_submit_text}')")); ?>
+				<?php echo form_open_multipart($raw_page_url,array("onsubmit"=>"return confirm('{are_you_sure_to_submit_the_new_questions_set_text}')")); ?>
 					<input type="hidden" name="post_type" value="add_question" />	
 					<div class="row even-odd-bg" >
 						<div class="three columns">
@@ -106,7 +106,7 @@
 							<span>{subject_text}</span>
 						</div>
 						<div class="eight columns">
-							<input  name="subjec" class="full-width"/>
+							<input  name="subject" class="full-width"/>
 						</div>
 					</div>
 					<div class="row separated">

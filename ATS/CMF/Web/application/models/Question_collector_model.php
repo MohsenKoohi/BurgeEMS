@@ -7,8 +7,6 @@ class Question_collector_model extends CI_Model
 	private $question_files_dir=NULL;
 	private $question_files_url=NULL;
 
-	private $courses_count=3;
-
 	public function __construct()
 	{
 		parent::__construct();
@@ -66,11 +64,6 @@ class Question_collector_model extends CI_Model
 		return;
 	}
 
-	public function get_courses_count()
-	{
-		return $this->courses_count;
-	}
-	
 	public function get_dashboard_info()
 	{
 
@@ -97,6 +90,39 @@ class Question_collector_model extends CI_Model
 			->order_by("qc_id DESC")
 			->get()
 			->result_array();
+	}
+
+	public function get_question_info($qc_id)
+	{
+		$ret=$this->db
+			->select("qc.* , qcf.* , user_code, user_name, customer_name")
+			->from($this->question_collection_table_name." qc")
+			->join($this->question_collection_files_table_name." qcf","qc_id = qcf_qc_id","LEFT")
+			->join("user","user_id = qc_registrar_id","LEFT")
+			->join("customer","customer_id = qc_registrar_id","LEFT")
+			->where("qc_id",$qc_id)
+			->order_by("qc_id DESC")
+			->get()
+			->result_array();
+
+		if($ret)
+		{
+			$rtype=$ret[0]['qc_registrar_type'];
+			if($rtype==="user")
+				$rname=$ret[0]['user_name']." (".$ret[0]['user_code'].")";
+			else
+				$rname=$ret[0]['customer_name'];
+
+			foreach($ret as &$q)
+			{
+				$q['qcf_url']=$this->get_question_file_url($qc_id,$q['qcf_id'],$q['qcf_hash'],$q['qcf_extension']);
+				$q['qc_registrar_name']=$rname;
+
+				unset($q['customer_name'],$q['user_code'],$q['user_name']);
+			}
+		}
+
+		return $ret;
 	}
 
 	public function add($grade_id,$course_id,$subject,$files,$registrar_type,$registrar_id)

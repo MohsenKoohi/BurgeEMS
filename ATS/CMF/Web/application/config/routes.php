@@ -134,7 +134,8 @@ $route["reward/list/(\d+)"]								= "CE_Reward/teacher_list/$1";
 $route["reward/list/(\d+)/(\d+)"]						= "CE_Reward/teacher_list/$1/$2";
 $route["reward"]												= "CE_Reward/student_list";
 
-$route[ADMIN_URL_FOLDER."/question_collection"]		= "AE_Question_Collection";
+$route[ADMIN_URL_FOLDER."/question_collection"]				= "AE_Question_Collection";
+$route[ADMIN_URL_FOLDER."/question_collection/(\d+)"]		= "AE_Question_Collection/details/$1";
 
 $route['(((:any)/)*:any)']="CE_Home/redirect";
 

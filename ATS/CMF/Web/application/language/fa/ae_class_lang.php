@@ -36,12 +36,12 @@ $lang['day_7_name']="جمعه";
 
 $lang['grades_count']=7;
 $lang['grade_1']="پیش دبستانی";
-$lang['grade_2']="پایه اول";
-$lang['grade_3']="پایه دوم";
-$lang['grade_4']="پایه سوم";
-$lang['grade_5']="پایه چهارم";
-$lang['grade_6']="پایه پنجم";
-$lang['grade_7']="پایه ششم";
+$lang['grade_2']="اول";
+$lang['grade_3']="دوم";
+$lang['grade_4']="سوم";
+$lang['grade_5']="چهارم";
+$lang['grade_6']="پنجم";
+$lang['grade_7']="ششم";
 
 $lang['courses_count']="3";
 $lang['course_1']="ریاضی";
