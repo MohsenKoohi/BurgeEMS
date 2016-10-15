@@ -49,7 +49,9 @@
 								<?php echo $reward['class_name'];?>
 							</div>
 							<div class="two columns">
-								<?php echo $reward['reward_date'];?>
+								<span class="ltr-inb">
+									<?php echo $reward['reward_date'];?>
+								</span>
 							</div>
 							<div class="three columns">
 								<?php echo $reward['reward_subject'];?>

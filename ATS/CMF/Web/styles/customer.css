@@ -15,6 +15,11 @@ body {
   direction: ltr;
   text-align: left; }
 
+.ltr-inb {
+  direction: ltr;
+  text-align: left;
+  display: inline-block; }
+
 .rtl {
   direction: rtl;
   text-align: right; }
@@ -497,7 +502,7 @@ body.ltr .side-menu-ul a:hover {
     font-size: 1.1em;
     padding: 0; }
   .even-odd-bg label {
-    color: #333; }
+    font-size: .9em; }
   .even-odd-bg span {
     font-size: 1.1em; }
   .even-odd-bg a:not(.button) {

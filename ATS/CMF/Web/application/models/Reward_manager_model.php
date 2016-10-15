@@ -198,8 +198,10 @@ class Reward_manager_model extends CI_Model
 		$date=$date("Y/m/d H:i:s",time()-$this->reward_edit_time);
 
 		return $this->db
-			->select("* , (reward_date > '$date') as reward_editable")
-			->from($this->reward_table_name)
+			->select("r.* , (reward_date > '$date') as reward_editable, class_name,customer_name as teacher_name")
+			->from($this->reward_table_name." r")
+			->join("class","reward_class_id = class_id","LEFT")
+			->join("customer","reward_teacher_id = customer_id","LEFT")
 			->where("reward_id",$reward_id)
 			->get()
 			->row_array();

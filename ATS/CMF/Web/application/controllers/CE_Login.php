@@ -32,6 +32,7 @@ class CE_Login extends Burge_CMF_Controller {
 				{
 					$pass=$this->input->post("pass");
 					$username=$this->input->post("username");
+					persian_normalize($username);
 					
 					if($this->customer_manager_model->login($username,$pass))
 					{
