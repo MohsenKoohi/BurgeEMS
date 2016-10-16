@@ -29,9 +29,9 @@ class Question_collector_model extends CI_Model
 		$this->db->query(
 			"CREATE TABLE IF NOT EXISTS $tbl (
 				`qc_id` INT  NOT NULL AUTO_INCREMENT
-				,`qc_subject` VARCHAR(511)
 				,`qc_grade_id` INT
 				,`qc_course_id` INT
+				,`qc_subject` VARCHAR(511)
 				,`qc_date` CHAR(20)
 				,`qc_registrar_type` ENUM ('user','teacher')
 				,`qc_registrar_id` INT
@@ -82,12 +82,22 @@ class Question_collector_model extends CI_Model
 		return $ret;		
 	}
 
-	public function get_questions()
+	public function get_questions($filters)
 	{
-		return $this->db
+		$this->db
 			->select("*")
-			->from($this->question_collection_table_name)
-			->order_by("qc_id DESC")
+			->from($this->question_collection_table_name);
+
+		if(isset($filters['grade_id']))
+			$this->db->where("qc_grade_id",(int)$filters['grade_id']);
+
+		if(isset($filters['course_id']))
+			$this->db->where("qc_course_id",(int)$filters['course_id']);
+
+		if(isset($filters['order_by']))
+			$this->db->order_by($filters['order_by']);
+		
+		return $this->db
 			->get()
 			->result_array();
 	}

@@ -124,6 +124,7 @@
                 <li><a href="<?php echo get_customer_class_curriculum_link(0);?>">{curriculum_text}</a></li>
                 <li><a href="<?php echo get_link("customer_class_teachers");?>">{teachers_text}</a></li>
                 <li><a href="<?php echo get_customer_class_students_link(0);?>">{students_text}</a></li>
+                <li><a href="<?php echo get_customer_question_collection_list_link(0,0);?>">{questions_collection_text}</a></li>
               </ul>
             </li>
 

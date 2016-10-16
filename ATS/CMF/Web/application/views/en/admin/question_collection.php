@@ -43,13 +43,13 @@
 					<?php foreach($questions as $q) {?>
 						<div class="row even-odd-bg">
 							<div class="two columns">
-								<?php echo $grades_names[$q['qc_grade_id']];?>
+								<b><?php echo $grades_names[$q['qc_grade_id']];?></b>
 							</div>
 							<div class="two columns">
-								<?php echo $courses_names[$q['qc_course_id']];?>
+								<b><?php echo $courses_names[$q['qc_course_id']];?></b>
 							</div>
 							<div class="four columns">
-								<?php echo $q['qc_subject'];?>
+								<b><?php echo $q['qc_subject'];?></b>
 							</div>
 							<div class="two columns" title="<?php echo $q['qc_date'];?>">
 								<?php echo explode(" ",$q['qc_date'])[0];?>

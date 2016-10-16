@@ -3,7 +3,7 @@
 		<h1>{rewards_list_text}</h1>			
 		<div class="row">
 			<div class="four columns">
-				<select class="main-select full-width" onchange="document.location=$(this).val()" >
+				<select class="main-select full-width" onchange="document.location=$(this).val()" style="font-weight:bold" >
 					<?php foreach($teacher_classes as $cl) { ?>
 						<option 
 							<?php if($cl==$class_id) echo 'selected';?>

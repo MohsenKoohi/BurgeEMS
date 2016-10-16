@@ -104,6 +104,8 @@ function &get_links($just_common=FALSE)
 
 			,'admin_question_collection'							=> ADMIN_SURL_LANG."/question_collection"
 			,"admin_question_collection_details_format"		=> ADMIN_SURL_LANG."/question_collection/qc_id"
+			,"customer_question_collection_list_format"		=> HOME_URL_LANG."/question_collection/grade_id/course_id"
+			,"customer_question_collection_details_format"	=> HOME_URL_LANG."/question_collection/grade_id/course_id/qc_id"
 		));
 	}
 
@@ -111,6 +113,18 @@ function &get_links($just_common=FALSE)
 		return $LINKS_COMMON;
 	
 	return $LINKS;
+}
+
+function get_customer_question_collection_details_link($grade_id,$course_id,$qc_id,$do_not_set_lang=FALSE)
+{
+	$format_link=get_link("customer_question_collection_details_format",$do_not_set_lang);
+	return str_replace(array("grade_id","course_id","qc_id"),array($grade_id,$course_id,$qc_id), $format_link);	
+}
+
+function get_customer_question_collection_list_link($grade_id,$course_id,$do_not_set_lang=FALSE)
+{
+	$format_link=get_link("customer_question_collection_list_format",$do_not_set_lang);
+	return str_replace(array("grade_id","course_id"),array($grade_id,$course_id), $format_link);	
 }
 
 function get_admin_question_collection_details_link($qc_id,$do_not_set_lang=FALSE)

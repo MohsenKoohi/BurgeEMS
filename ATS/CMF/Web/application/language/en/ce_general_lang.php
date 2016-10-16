@@ -30,6 +30,7 @@ $lang['academic_affairs']="Academic Affairs";
 $lang['curriculum']="Cirriculum";
 $lang['teachers']="Teachers";
 $lang['students']="Students";
+$lang['questions_collection']="Questions Collection";
 
 $lang['rewards']="Rewards";
 $lang['']="";

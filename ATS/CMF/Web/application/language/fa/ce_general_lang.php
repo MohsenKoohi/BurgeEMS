@@ -30,8 +30,9 @@ $lang['academic_affairs']="امور آموزشی";
 $lang['curriculum']="برنامه درسی";
 $lang['teachers']="معلمان";
 $lang['students']="دانش‌آموزان";
+$lang['questions_collection']="گنیجینه سوالات";
 
 $lang['rewards']="امتیاز‌ها";
-$lang['']="";
+
 $lang['']="";
 $lang['']="";

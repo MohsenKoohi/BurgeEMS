@@ -21,7 +21,11 @@ class AE_Question_Collection extends Burge_CMF_Controller {
 		if($this->input->post("post_type")==="add_question")
 			return $this->add_question();
 
-		$this->data['questions']=$this->question_collector_model->get_questions();
+		$this->data['questions']=$this->question_collector_model->get_questions(
+			array(
+				"order_by"=>"qc_id DESC"
+			)
+		);
 		
 		$this->data['message']=get_message();
 
