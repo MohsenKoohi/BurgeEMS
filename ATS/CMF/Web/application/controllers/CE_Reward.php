@@ -251,6 +251,7 @@ class CE_Reward extends Burge_CMF_Controller {
 
 		$this->data['reward_subject']=$reward_info['reward_subject'];
 		$this->data['reward_date']=$reward_info['reward_date'];
+		$this->data['reward_class_name']=$reward_info['class_name'];
 		$this->data['reward_editable']=$reward_info['reward_editable'];
 
 		$this->data['students_rewards']=$this->reward_manager_model->get_reward_values($reward_id);
