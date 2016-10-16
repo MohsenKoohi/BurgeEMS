@@ -47,7 +47,9 @@
 		<div id="class-list">
 			<?php foreach($questions as $q) {?>
 				<div class="row even-odd-bg">
-					<a href="<?php echo get_customer_question_collection_details_link($grade_id,$q['qc_course_id'],$q['qc_id']);?>">
+					<a target="_blank"
+						href="<?php echo get_customer_question_collection_details_link($grade_id,$q['qc_course_id'],$q['qc_id']);?>"
+					>
 						<div class="three columns">
 							<?php echo $courses_names[$q['qc_course_id']];?>
 						</div>

@@ -55,28 +55,24 @@
 				<?php echo $info[0]['qc_date'];?>
 			</div>
 		</div>
-
 		
-		<div id="class-list">
-			<?php $i=1;foreach($info as $q) {?>
-				<div class="row even-odd-bg">
-					<div class="three columns">
-						{file_text} <?php echo $i++;?>:
-					</div>
-					<div class="seven columns">
-						<?php echo $q['qcf_subject'];?>
-					</div>
-					<div class="two columns">
-						<a href="<?php echo $q['qcf_url'];?>"
-							class="button button-primary sub-primary full-width" target="_blank"
-						>
-							{view_text}
-						</a>
-					</div>
+		<?php $i=1;foreach($info as $q) {?>
+			<div class="row even-odd-bg">
+				<div class="three columns">
+					{file_text} <?php echo $i++;?>:
 				</div>
-
-			<?php } ?>
-		</div>
+				<div class="seven columns">
+					<?php echo $q['qcf_subject'];?>
+				</div>
+				<div class="two columns">
+					<a href="<?php echo $q['qcf_url'];?>"
+						class="button button-primary sub-primary full-width" target="_blank"
+					>
+						{view_text}
+					</a>
+				</div>
+			</div>
+		<?php } ?>
 		
 
 	</div>

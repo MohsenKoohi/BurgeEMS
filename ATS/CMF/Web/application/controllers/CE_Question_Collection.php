@@ -53,7 +53,6 @@ class CE_Question_Collection extends Burge_CMF_Controller {
 		$this->data['message']=get_message();
 		$this->data['lang_pages']=get_lang_pages(get_customer_question_collection_list_link($grade_id,$course_id,TRUE));
 
-
 		$this->data['header_title']=
 			$this->lang->line("grade")." "
 			.$grade_names[$grade_id]
@@ -67,7 +66,7 @@ class CE_Question_Collection extends Burge_CMF_Controller {
 			.$grade_names[$grade_id];
 		$this->data['header_meta_keywords'].=","
 			.$this->lang->line("questions_collection")
-			." ".$this->lang->line("grade")
+			.",".$this->lang->line("grade")
 			." ".$grade_names[$grade_id];
 
 		if($course_id)
@@ -85,6 +84,68 @@ class CE_Question_Collection extends Burge_CMF_Controller {
 		$this->data['header_canonical_url']=get_customer_question_collection_list_link($grade_id,$course_id);
 
 		$this->send_customer_output("question_collection_grade_list");
+	}
+
+	public function details($garde_id,$course_id,$qid)
+	{
+		$grade_id=(int)$garde_id;
+		$course_id=(int)$course_id;
+		$qid=(int)$qid;
+		if(!$grade_id || !$course_id || !$qid)
+			redirect(get_link("home_url"));
+
+		$info=$this->question_collector_model->get_question_info($qid);
+
+		if(!$info || ($grade_id != $info[0]['qc_grade_id']) || ($course_id != $info[0]['qc_course_id']))
+			return redirect(get_link("home_url"));
+
+		$this->data['info']=$info;
+
+		$this->data['message']=get_message();
+
+		$grades_names=$this->class_manager_model->get_grades_names($this->selected_lang);
+		$courses_names=$this->class_manager_model->get_courses_names($this->selected_lang);
+
+		$this->data['grade_name']=$grades_names[$grade_id];
+		$this->data['course_name']=$courses_names[$course_id];
+
+		$this->data['message']=get_message();
+		$this->data['lang_pages']=get_lang_pages(get_customer_question_collection_details_link($grade_id,$course_id,$qid,TRUE));
+
+		$this->data['header_title']=
+			$info[0]['qc_subject']
+			.$this->lang->line("header_separator")
+			.$this->lang->line("course")." "
+			.$this->data['course_name']
+			.$this->lang->line("header_separator")
+			.$this->lang->line("grade")." "
+			.$this->data['grade_name']
+			.$this->lang->line("header_separator")
+			.$this->lang->line("questions_collection")
+			.$this->lang->line("header_separator")
+			.$this->data['header_title'];
+
+		$this->data['header_meta_description']=
+			$this->lang->line("questions_collection")." "
+			.$this->lang->line("grade")." "
+			.$this->data['grade_name']." "
+			.$this->lang->line("course")." "
+			.$this->data['course_name']." "
+			.$info[0]['qc_subject'];
+
+		$this->data['header_meta_keywords'].=","
+			.$this->lang->line("questions_collection")
+			.",".$this->lang->line("grade")
+			." ".$this->data['grade_name']
+			.",".$this->lang->line("course")
+			." ".$this->data['course_name']
+			.",".$info[0]['qc_subject'];
+
+		$this->data['header_canonical_url']=get_customer_question_collection_details_link($grade_id,$course_id,$qid);
+
+		$this->send_customer_output("question_collection_details");
+
+		return;	 
 	}
 
 }
