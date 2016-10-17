@@ -38,6 +38,9 @@ class CE_Dashboard extends Burge_CMF_Controller {
 
 	private function student_dashboard($customer_info)
 	{
+		$this->load->model("class_manager_model");
+		$this->data['class_info']=$this->class_manager_model->get_class_info($customer_info['customer_class_id']);
+
 		$this->send_customer_output("dashboard_student");
 
 		return;

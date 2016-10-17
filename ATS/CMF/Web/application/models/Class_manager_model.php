@@ -196,6 +196,16 @@ class Class_manager_model extends CI_Model
 		return $this->all_classes;
 	}
 
+	public function get_class_info($class_id)
+	{
+		return $this->db
+			->from($this->class_table_name)
+			->select("class_name,class_id,class_grade_id")
+			->where("class_id",$class_id)
+			->get()
+			->row_array();
+	}
+
 	public function get_classes_names()
 	{
 		$ret=array();
