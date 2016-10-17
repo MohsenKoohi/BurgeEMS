@@ -395,8 +395,8 @@
 				<script type="text/javascript">
 					function typeChanges(el)
 					{
-						$(".subject-div").toggleClass("disno");
-						$(".class-div").toggleClass("disno");
+						$("#add .subject-div").toggleClass("disno");
+						$("#add .class-div").toggleClass("disno");
 
 					}
 				</script>

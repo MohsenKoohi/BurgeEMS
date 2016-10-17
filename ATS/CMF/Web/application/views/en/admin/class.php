@@ -49,14 +49,34 @@
 					<div id="class-list">
 						<?php foreach($classes as $class) {?>
 							<div class="row even-odd-bg"  data-id="<?php echo $class['class_id'];?>" style="cursor:grab;">
-								<div class="nine columns">
+								<div class="three columns">
 									<label>{name_text}</label>
 									<input 
+										class="full-width"
 										type='text' value='<?php echo $class['class_name'];?>' 
 										name="class-<?php echo $class['class_id'];?>"
 									/>
 								</div>
-
+								<div class="two columns">
+									&nbsp;
+								</div>
+								<div class="three columns">
+									<label>{grade_text}</label>
+									<select name="grade-id-<?php echo $class['class_id'];?>" class="full-width">
+										<?php 
+											foreach($grades as $gid => $grade)
+											{
+												$selected='';
+												if($gid == $class['class_grade_id'])
+													$selected='selected';
+												echo "<option  $selected value='$gid' >$grade</option>";
+											}
+										?>
+									</select>
+								</div>
+								<div class="two columns">
+									&nbsp;
+								</div>
 								<div class="two columns">
 									<label>&nbsp;</label>
 									<a href="<?php echo get_admin_class_details_link($class['class_id']); ?>"
@@ -109,7 +129,22 @@
 							<label>{name_text}</label>
 							<input type="text" name="name" class="full-width" />
 						</div>
+						<div class="two columns">
+							&nbsp;
+						</div>
+						<div class="three columns">
+							<label>{grade_text}</label>
+							<select name="grade-id" class="full-width">
+								<?php 
+									foreach($grades as $gid => $grade)
+									{
+										echo "<option  $selected value='$gid' >$grade</option>";
+									}
+								?>
+							</select>
+						</div>
 					</div>
+					<br><br>
 					<div class="row">
 							<div class="four columns">&nbsp;</div>
 							<input type="submit" class=" button-primary four columns" value="{add_text}"/>

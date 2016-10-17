@@ -21,6 +21,7 @@ class Class_manager_model extends CI_Model
 				`class_id` INT  NOT NULL AUTO_INCREMENT
 				,`class_name` VARCHAR(511)
 				,`class_order` INT DEFAULT 1
+				,`class_grade_id` INT 
 				,PRIMARY KEY (class_id)	
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8"
 		);
@@ -205,12 +206,22 @@ class Class_manager_model extends CI_Model
 		return $ret;
 	}
 
-	public function add($name)
+	public function add($name,$grade_id)
 	{
-		$this->db->insert($this->class_table_name,array("class_name"=>$name));
+		$grade_id=(int)$grade_id;
+		$this->db->insert($this->class_table_name,array(
+			"class_name"=>$name
+			,"class_grade_id"=>$grade_id
+			)
+		);
+
 		$new_class_id=$this->db->insert_id();
 		
-		$this->log_manager_model->info("CLASS_ADD",array("name"=>$name,"id"=>$new_class_id));	
+		$this->log_manager_model->info("CLASS_ADD",array(
+			"name"=>$name
+			,"new_class_id"=>$new_class_id
+			,"grade_id"=>$grade_id
+		));	
 
 		return;
 	}
@@ -305,9 +316,12 @@ class Class_manager_model extends CI_Model
 
 		$log=array();
 		foreach($new_props as $np)
+		{
 			$log["new_name_".$np['class_id']]=$np['class_name'];
+			$log["new_grade_id_".$np['class_id']]=$np['class_grade_id'];
+		}
 
-		$this->log_manager_model->info("CLASS_RENAME",$log);	
+		$this->log_manager_model->info("CLASS_PROPS_CHANGE",$log);	
 
 		return;
 	}

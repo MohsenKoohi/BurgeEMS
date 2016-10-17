@@ -23,6 +23,7 @@ class AE_Class extends Burge_CMF_Controller {
 			return $this->set_curriculum_hours();
 
 		$this->data['classes']=$this->class_manager_model->get_all_classes();
+		$this->data['grades']=$this->class_manager_model->get_grades_names($this->selected_lang);
 		$this->data['curriculum_hours']=$this->class_manager_model->get_curriculum_hours();
 
 		$this->data['message']=get_message();
@@ -62,7 +63,12 @@ class AE_Class extends Burge_CMF_Controller {
 
 		$new_props=array();
 		foreach($ids_exp as $id)
-			$new_props[]=array("class_id"=>$id,"class_name"=>$this->input->post("class-".$id));
+			$new_props[]=array(
+				"class_id"=>$id
+				,"class_name"=>$this->input->post("class-".$id)
+				,"class_grade_id"=>(int)$this->input->post("grade-id-".$id)
+			);
+
 		if($new_props)
 			$this->class_manager_model->set_class_props($new_props);
 
@@ -77,8 +83,9 @@ class AE_Class extends Burge_CMF_Controller {
 	private function add_class()
 	{
 		$name=$this->input->post("name");
+		$grade_id=(int)$this->input->post("grade-id");
 
-		$this->class_manager_model->add($name);
+		$this->class_manager_model->add($name,$grade_id);
 
 		set_message($this->lang->line("new_class_added_successfully"));
 
