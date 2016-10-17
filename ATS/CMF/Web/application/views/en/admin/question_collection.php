@@ -52,6 +52,7 @@
 								<b><?php echo $q['qc_subject'];?></b>
 							</div>
 							<div class="two columns" title="<?php echo $q['qc_date'];?>">
+								<?php echo $q['qc_registrar_name'];?><br>
 								<?php echo explode(" ",$q['qc_date'])[0];?>
 							</div>
 							<div class="two columns">

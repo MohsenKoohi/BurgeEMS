@@ -97,8 +97,10 @@ class Question_collector_model extends CI_Model
 	{
 		$this->db
 			->select("*")
-			->from($this->question_collection_table_name);
-
+			->from($this->question_collection_table_name)
+			->join("user","user_id = qc_registrar_id","LEFT")
+			->join("customer","customer_id = qc_registrar_id","LEFT");
+			
 		if(isset($filters['grade_id']))
 			$this->db->where("qc_grade_id",(int)$filters['grade_id']);
 
@@ -108,9 +110,24 @@ class Question_collector_model extends CI_Model
 		if(isset($filters['order_by']))
 			$this->db->order_by($filters['order_by']);
 		
-		return $this->db
+		$ret=$this->db
 			->get()
 			->result_array();
+
+		foreach($ret as &$q)
+		{
+			$rtype=$q['qc_registrar_type'];
+			if($rtype==="user")
+				$rname=$q['user_name']." (".$q['user_code'].")";
+			else
+				$rname=$q['customer_name'];
+
+			$q['qc_registrar_name']=$rname;
+
+			unset($q['customer_name'],$q['user_code'],$q['user_name']);
+		}
+
+		return $ret;
 	}
 
 	public function get_question_info($qc_id)
