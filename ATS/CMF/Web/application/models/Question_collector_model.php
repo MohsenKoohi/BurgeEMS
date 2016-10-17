@@ -66,18 +66,29 @@ class Question_collector_model extends CI_Model
 
 	public function get_dashboard_info()
 	{
-
-		return ;
-
 		$CI=& get_instance();
-		$lang=$CI->language->get();
+		$CI->load->model("class_manager_model");
 
-		$CI->lang->load('ae_class',$lang);
-			
-		$data['classes']=$this->get_all_classes();
+		$lang=$CI->language->get();
+		$grades_names=$this->class_manager_model->get_grades_names($lang);
+
+		$counts=$this->db
+			->select("qc_grade_id, COUNT(*) as grade_count")
+			->from($this->question_collection_table_name)
+			->group_by("qc_grade_id")
+			->get()
+			->result_array();
+
+		$grades_counts=array();
+		foreach($counts as $count)
+			$grades_counts[$count['qc_grade_id']]=array(
+				"grade_name"=>$grades_names[$count['qc_grade_id']]
+				,"grade_count"=>$count['grade_count']
+			);
+		$data['grades_counts']=$grades_counts;
 
 		$CI->load->library('parser');
-		$ret=$CI->parser->parse($CI->get_admin_view_file("class_dashboard"),$data,TRUE);
+		$ret=$CI->parser->parse($CI->get_admin_view_file("question_collection_dashboard"),$data,TRUE);
 		
 		return $ret;		
 	}

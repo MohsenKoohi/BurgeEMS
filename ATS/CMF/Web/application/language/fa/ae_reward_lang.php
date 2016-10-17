@@ -14,4 +14,3 @@ $lang['date']="تاریخ";
 $lang['class_name']="کلاس";
 $lang['teacher']="معلم";
 $lang['reward_values']="امتیازهای ثبت شده";
-$lang['']="";

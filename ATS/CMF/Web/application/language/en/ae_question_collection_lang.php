@@ -21,5 +21,3 @@ $lang['file']="File";
 $lang['delete']="Delete";
 $lang['are_you_sure_to_delete_this_collection']="Are you sure to delete?";
 $lang['question_set_deleted_successfully']="The question set successfully.";
-$lang['']="";
-
