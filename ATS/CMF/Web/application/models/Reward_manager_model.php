@@ -52,6 +52,27 @@ class Reward_manager_model extends CI_Model
 		return;
 	}
 
+	public function get_dashboard_info()
+	{
+		$CI=& get_instance();
+
+		$rewards_counts=$this->db
+			->select("class_name, COUNT(*) as reward_count")
+			->from($this->reward_table_name)
+			->join("class","reward_class_id = class_id","LEFT")
+			->where("reward_is_prize",0)
+			->group_by("reward_class_id")
+			->get()
+			->result_array();
+
+		$data['rewards_counts']=$rewards_counts;
+
+		$CI->load->library('parser');
+		$ret=$CI->parser->parse($CI->get_admin_view_file("reward_dashboard"),$data,TRUE);
+		
+		return $ret;		
+	}
+
 	public function get_student_total_rewards($student_id)
 	{
 		return $this->db

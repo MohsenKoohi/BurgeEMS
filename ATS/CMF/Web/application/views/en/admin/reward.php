@@ -54,7 +54,7 @@
 								</span>
 							</div>
 							<div class="three columns">
-								<?php echo $reward['reward_subject'];?>
+								<b><?php echo $reward['reward_subject'];?></b>
 							</div>
 							<div class="two columns">
 								<?php echo $reward['teacher_name'];?>
