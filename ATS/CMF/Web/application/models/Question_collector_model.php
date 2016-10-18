@@ -101,6 +101,12 @@ class Question_collector_model extends CI_Model
 			->join("user","user_id = qc_registrar_id","LEFT")
 			->join("customer","customer_id = qc_registrar_id","LEFT");
 			
+		if(isset($filters['registrar_type']))
+			$this->db->where("qc_registrar_type",$filters['registrar_type']);
+
+		if(isset($filters['registrar_id']))
+			$this->db->where("qc_registrar_id",(int)$filters['registrar_id']);
+
 		if(isset($filters['grade_id']))
 			$this->db->where("qc_grade_id",(int)$filters['grade_id']);
 

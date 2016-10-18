@@ -148,7 +148,7 @@ class CE_Question_Collection extends Burge_CMF_Controller {
 		return;	 
 	}
 
-	public function submit()
+	public function teacher_submit()
 	{
 		$this->load->model("customer_manager_model");
 		if(!$this->customer_manager_model->has_customer_logged_in())
@@ -167,19 +167,108 @@ class CE_Question_Collection extends Burge_CMF_Controller {
 		}
 
 		$this->data['grade_ids']=$grade_ids;
+
+		if($this->input->post("post_type")==="add_question")
+			return $this->add_question($teacher_id);
+
 		$this->data['grades_names']=$this->class_manager_model->get_grades_names($this->selected_lang);
 		$this->data['courses_names']=$this->class_manager_model->get_courses_names($this->selected_lang);
 
 		$this->data['message']=get_message();
 
-		$this->data['raw_page_url']=get_link("customer_questions_collection_teacher_submit");
-		$this->data['lang_pages']=get_lang_pages(get_link("customer_questions_collection_teacher_submit",TRUE));
+		$this->data['raw_page_url']=get_link("customer_question_collection_teacher_submit");
+		$this->data['lang_pages']=get_lang_pages(get_link("customer_question_collection_teacher_submit",TRUE));
 		$this->data['header_title']=
 			$this->lang->line("questions_collection")
 			.$this->lang->line("header_separator")
 			.$this->lang->line("submit");
 
 		$this->send_customer_output("question_collection_teacher_submit");
+
+		return;
+	}
+
+	private function add_question($teacher_id)
+	{
+		$grade_id=$this->input->post("grade_id");
+		if($grade_id && !in_array($grade_id, $this->data['grade_ids']))
+			return redirect(get_link("customer_question_collection_teacher_submit"));
+
+		$course_id=$this->input->post("course_id");
+		$subject=$this->input->post("subject");
+		$files=array();
+
+		$file_count=$this->input->post("file_count");
+		for($i=0;$i<$file_count;$i++)
+		{
+			$file_name=$_FILES['files']['name'][$i];
+			$file_tmp_name=$_FILES['files']['tmp_name'][$i];
+			$extension=pathinfo($file_name, PATHINFO_EXTENSION);
+			$file_subject=$this->input->post('subjects')[$i];
+			$file_error=$_FILES['files']['error'][$i];
+			$file_size=$_FILES['files']['size'][$i];
+
+			if($file_error)
+				continue;
+			
+			$files[]=array(
+				"temp_name"=>$file_tmp_name
+				,"extension"=>$extension
+				,"subject"=>$file_subject
+				,"size"=>$file_size
+			);
+			//echo $file_name."#<br>".$file_tmp_name."#<br>".$subject."#<br>".$file_error."#<br>".$file_size."#<br>*</br>";
+		}
+
+		if(!$grade_id || !$course_id || !$subject || !$files)
+		{
+			set_message($this->lang->line("please_fill_all_fields"));
+			return redirect(get_link("customer_question_collection_teacher_submit"));
+		}
+
+		$this->question_collector_model->add($grade_id,$course_id,$subject,$files,"teacher",$teacher_id);
+
+		set_message($this->lang->line("the_new_question_collection_added_successfully"));
+
+		return redirect(get_link("customer_question_collection_teacher_list"));
+	}
+
+	public function teacher_list()
+	{
+		$this->load->model("customer_manager_model");
+		if(!$this->customer_manager_model->has_customer_logged_in())
+			return redirect(get_link("customer_login"));
+
+		$customer_info=$this->customer_manager_model->get_logged_customer_info();			
+		if("teacher" !== $customer_info['customer_type'])
+			return redirect(get_link("customer_dashboard"));
+
+		$teacher_id=$customer_info['customer_id'];
+		$grade_ids=$this->class_manager_model->get_teacher_grades($teacher_id);
+		if(!$grade_ids)
+		{
+			redirect(get_link("customer_dashboard"));
+			return;
+		}
+
+		$this->data['questions']=$this->question_collector_model->get_questions(
+			array(
+				"registrar_type"=>"teacher"
+				,"registrar_id"=>$teacher_id
+				,"order_by"=>"qc_grade_id ASC, qc_course_id ASC, qc_id ASC"
+			)
+		);
+
+		$this->data['grades_names']=$this->class_manager_model->get_grades_names($this->selected_lang);
+		$this->data['courses_names']=$this->class_manager_model->get_courses_names($this->selected_lang);
+
+		$this->data['message']=get_message();
+
+		$this->data['raw_page_url']=get_link("customer_question_collection_teacher_list");
+		$this->data['lang_pages']=get_lang_pages(get_link("customer_question_collection_teacher_list",TRUE));
+		$this->data['header_title']=$this->lang->line("questions_collection");
+
+		$this->send_customer_output("question_collection_teacher_list");
 
 		return;
 	}

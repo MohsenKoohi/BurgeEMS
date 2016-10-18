@@ -13,3 +13,6 @@ $lang['subject']="موضوع";
 $lang['select_file']="انتخاب فایل";
 $lang['file_subject']="عنوان";
 $lang['add_file']="افزودن فایل";
+$lang['please_fill_all_fields']="لطفا تمامی فیلدها را تکمیل کنید.";
+$lang['the_new_question_collection_added_successfully']="مجموعه سوال با موفقیت ثبت شد.";
+$lang['submit_date']="تاریخ ثبت";
