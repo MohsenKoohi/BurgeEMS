@@ -11,17 +11,17 @@
 		<?php } ?>
 
 		<div class="anti-float">
-			<span class="date">{reward_date}</span>
+			<span class="date"><b>{reward_date}</b></span>
 		</div>
-		<br><br>
-		<div class="row">
+		
+		<div class="row" style="margin-top:50px;">
 			<?php 
 			 	$reward_date=explode(" ",$reward_date)[0];
 				foreach($students_rewards as $st) { 
 			?>
 				<div class="four columns reward">
 					<div class="anti-float date">
-						<?php echo $st['customer_name'];?>
+						<b><?php echo $st['customer_name'];?></b>
 					</div>
 					<div class="value-text">
 						<span class="value">

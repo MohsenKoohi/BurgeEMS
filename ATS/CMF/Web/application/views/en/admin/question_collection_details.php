@@ -1,6 +1,11 @@
 <div class="main">
 	<div class="container">
-		<h1>{questions_collection_text}, <?php echo $info[0]['qc_subject'];?> </h1>
+		<h1>{questions_collection_text}<h1>
+		<h2>
+			{grade_text} <?php echo $grades_names[$info[0]['qc_grade_id']];?>{comma_text}
+			{course_text} <?php echo $courses_names[$info[0]['qc_course_id']];?>{comma_text}
+			<?php echo $info[0]['qc_subject'];?>
+		</h2>
 
 		<div class="row general-buttons">
 			<div class="anti-float two columns button button-type2" onclick="deleteQC()">
@@ -20,24 +25,7 @@
 			</script>
 		</div>
 		<br><br>
-		<div class="row even-odd-bg">
-			<div class="three columns">
-				{grade_text}:
-			</div>
-			<div class="nine columns">	
-				<?php echo $grades_names[$info[0]['qc_grade_id']];?>
-			</div>
-		</div>
-
-		<div class="row even-odd-bg">
-			<div class="three columns">
-				{course_text}:
-			</div>
-			<div class="nine columns">	
-				<?php echo $courses_names[$info[0]['qc_course_id']];?>
-			</div>
-		</div>
-
+		
 		<div class="row even-odd-bg">
 			<div class="three columns">
 				{registrar_text}:

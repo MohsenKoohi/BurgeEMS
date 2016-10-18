@@ -1,7 +1,7 @@
 <div class="main">
 	<div class="container">
 		<h1>{rewards_text}</h1>
-		<h2><?php echo $info['reward_subject'];?></h2>
+		<h2><?php echo $info['class_name'].$comma_text." ".$info['reward_subject'];?></h2>
 		<div class="row even-odd-bg">
 			<div class="four columns name">
 				{date_text}
@@ -10,14 +10,6 @@
 				<span class="ltr-inb">
 					<?php echo $info['reward_date'];?>
 				</span>
-			</div>
-		</div>
-		<div class="row even-odd-bg">
-			<div class="four columns name">
-				{class_name_text}
-			</div>
-			<div class="eight columns">
-				<?php echo $info['class_name'];?>
 			</div>
 		</div>
 		<div class="row even-odd-bg">

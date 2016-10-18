@@ -25,7 +25,7 @@
 
 		<div class="row" >
 			<div class="three columns">
-				<h4>{course_text}</h4>
+				<h4 style="margin-bottom:inherit;">{course_text}</h4>
 			</div>
 			<div class="three columns">
 				<select name="course_id" class="full-width" onchange="document.location=$(this).val();">
@@ -44,6 +44,7 @@
 				</select>
 			</div>
 		</div>
+		<br><br>
 		<div id="class-list">
 			<?php foreach($questions as $q) {?>
 				<div class="row even-odd-bg">
@@ -53,10 +54,10 @@
 						<div class="three columns">
 							<?php echo $courses_names[$q['qc_course_id']];?>
 						</div>
-						<div class="seven columns">
+						<div class="seven columns mobile-center">
 							<b><?php echo $q['qc_subject'];?></b>
 						</div>
-						<div class="two columns">
+						<div class="two columns ltr">
 							<?php echo explode(" ",$q['qc_date'])[0];?>
 						</div>
 					</a>

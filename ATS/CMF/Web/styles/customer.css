@@ -486,7 +486,10 @@ body.ltr .side-menu-ul a:hover {
     padding: 5px; }
 
   .side-menu ul.active {
-    display: block; } }
+    display: block; }
+
+  .mobile-center {
+    text-align: center; } }
 h1, h2, h3, h4, h5, h6 {
   font-weight: bold; }
 
@@ -1017,6 +1020,7 @@ ul.dash-ul li {
       margin: 40px 10px 20px 10px;
       text-align: center; }
       .student-rewards-list .reward .value-text .value {
+        font-weight: bold;
         display: inline-block;
         direction: ltr;
         font-size: 2em;

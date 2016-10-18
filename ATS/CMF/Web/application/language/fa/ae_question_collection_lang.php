@@ -11,7 +11,7 @@ $lang['add_file']="افزودن فایل";
 $lang['select_file']="انتخاب فایل";
 $lang['file_subject']="عنوان فایل";
 $lang['please_fill_all_fields']="لطفا تمام فیلدها را تکمیل کنید.";
-$lang['the_new_question_collection_added_successfully']="مجموعه سوالات با موفقیت ثبت شدند.";
+$lang['the_new_question_collection_added_successfully']="مجموعه سوالات با موفقیت ثبت شد.";
 $lang['view']="مشاهده";
 $lang['are_you_sure_to_submit_the_new_questions_set']="مجموعه سوال جدید ثبت شود؟";
 
