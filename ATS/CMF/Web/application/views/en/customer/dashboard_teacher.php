@@ -23,24 +23,34 @@
 					<?php } ?>
 				</ul>
 			</li>
-			<?php if($grades){ ?>
-				<li><a >{questions_collection_text}</a>
-					<ul class="dash-ul">
-						<li>
-							<a href="<?php echo get_link('customer_question_collection_teacher_submit');?>">
-								{submit_questions_collection_text}
-							</a>
-						</li>
-						<li>
-							<a href="<?php echo get_link('customer_question_collection_teacher_list');?>">
-								{questions_collection_list_text}
-							</a>
-						</li>
-					</ul>
-				</li>
-			<?php } ?>
-			<li><a href="<?php echo get_link('customer_message');?>">{messages_text}</li>
-			<li><a href="<?php echo get_link('customer_logout');?>">{logout_text}</a></li>
+			
+			<li>
+				<a>{questions_collection_text}</a>
+				<ul class="dash-ul">
+					<li>
+						<a href="<?php echo get_link('customer_question_collection_teacher_submit');?>">
+							{submit_questions_collection_text}
+						</a>
+					</li>
+					<li>
+						<a href="<?php echo get_link('customer_question_collection_teacher_list');?>">
+							{questions_collection_list_text}
+						</a>
+					</li>
+				</ul>
+			</li>
+
+			<li>
+				<a href="<?php echo get_link('customer_message');?>">
+					{messages_text}
+				</a>
+			</li>
+
+			<li>
+				<a href="<?php echo get_link('customer_logout');?>">
+					{logout_text}
+				</a>
+			</li>
 		</ul>
 	</div>
 </div>

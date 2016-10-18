@@ -53,9 +53,6 @@ class CE_Dashboard extends Burge_CMF_Controller {
 		$this->load->model("reward_manager_model");
 		$this->data['prize_teacher']=$this->reward_manager_model->is_prize_teacher($teacher_id);
 
-		$this->load->model("class_manager_model");
-		$this->data['grades']=$this->class_manager_model->get_teacher_grades($teacher_id);
-
 		$this->send_customer_output("dashboard_teacher");
 
 		return;

@@ -303,6 +303,7 @@ class Class_manager_model extends CI_Model
 		$this->db
 			->set("customer_active",0)
 			->where("customer_class_id", $class_id)
+			->where("customer_type","student")
 			->update("customer");
 
 		$this->db
