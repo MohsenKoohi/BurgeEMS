@@ -6,3 +6,5 @@ $lang['logout']="Logout";
 $lang['submit_rewards']="Submit reward";
 $lang['rewards_list']="Rewards list";
 $lang['submit_prize']="Submit prize";
+$lang['submit_questions_collection']="Submit questions collection";
+$lang['questions_collection_list']="List of questions collection";
