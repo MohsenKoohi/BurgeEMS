@@ -41,7 +41,7 @@ class CE_Question_Collection extends Burge_CMF_Controller {
 		$this->data['course_id']=$course_id;
 		$filters=array(
 			'grade_id'	=> $grade_id
-			,'order_by'	=> "qc_id ASC"
+			,'order_by'	=> "qc_course_id ASC, qc_subject ASC"
 		);
 
 		if($course_id)
@@ -146,6 +146,42 @@ class CE_Question_Collection extends Burge_CMF_Controller {
 		$this->send_customer_output("question_collection_details");
 
 		return;	 
+	}
+
+	public function submit()
+	{
+		$this->load->model("customer_manager_model");
+		if(!$this->customer_manager_model->has_customer_logged_in())
+			return redirect(get_link("customer_login"));
+
+		$customer_info=$this->customer_manager_model->get_logged_customer_info();			
+		if("teacher" !== $customer_info['customer_type'])
+			return redirect(get_link("customer_dashboard"));
+
+		$teacher_id=$customer_info['customer_id'];
+		$grade_ids=$this->class_manager_model->get_teacher_grades($teacher_id);
+		if(!$grade_ids)
+		{
+			redirect(get_link("customer_dashboard"));
+			return;
+		}
+
+		$this->data['grade_ids']=$grade_ids;
+		$this->data['grades_names']=$this->class_manager_model->get_grades_names($this->selected_lang);
+		$this->data['courses_names']=$this->class_manager_model->get_courses_names($this->selected_lang);
+
+		$this->data['message']=get_message();
+
+		$this->data['raw_page_url']=get_link("customer_questions_collection_teacher_submit");
+		$this->data['lang_pages']=get_lang_pages(get_link("customer_questions_collection_teacher_submit",TRUE));
+		$this->data['header_title']=
+			$this->lang->line("questions_collection")
+			.$this->lang->line("header_separator")
+			.$this->lang->line("submit");
+
+		$this->send_customer_output("question_collection_teacher_submit");
+
+		return;
 	}
 
 }

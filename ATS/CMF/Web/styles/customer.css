@@ -961,6 +961,13 @@ body.post-page #cboxCurrent {
 .container.dashboard a {
   font-size: 1.5em;
   line-height: 2em; }
+.container.dashboard > ul > li {
+  margin-bottom: 30px; }
+  .container.dashboard > ul > li ul > li {
+    margin-bottom: -10px; }
+    .container.dashboard > ul > li ul > li a {
+      color: #C63672;
+      font-size: 1.2em; }
 
 ul.dash-ul li {
   padding: 0 20px;

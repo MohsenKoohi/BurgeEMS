@@ -106,6 +106,8 @@ function &get_links($just_common=FALSE)
 			,"admin_question_collection_details_format"		=> ADMIN_SURL_LANG."/question_collection/qc_id"
 			,"customer_question_collection_list_format"		=> HOME_URL_LANG."/question_collection/grade_id/course_id"
 			,"customer_question_collection_details_format"	=> HOME_URL_LANG."/question_collection/grade_id/course_id/qc_id"
+			,"customer_question_collection_teacher_submit"	=> HOME_URL_LANG."/question_collection/submit"
+			,"customer_question_collection_teacher_list"		=> HOME_URL_LANG."/question_collection/list"
 		));
 	}
 

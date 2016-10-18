@@ -6,3 +6,10 @@ $lang['course']="درس";
 $lang['file']="پرونده";
 $lang['download']="دانلود";
 
+$lang['submit']="ثبت";
+$lang['submit_questions_collection']="ثبت مجموعه سوال";
+$lang['are_you_sure_to_submit_the_new_questions_set']="مجموعه سوال جدید ثبت شود؟";
+$lang['subject']="موضوع";
+$lang['select_file']="انتخاب فایل";
+$lang['file_subject']="عنوان";
+$lang['add_file']="افزودن فایل";

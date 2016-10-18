@@ -5,6 +5,22 @@
 		font-size: 1.5em;
 		line-height: 2em;
 	}
+
+	> ul > li
+	{
+		margin-bottom:30px;
+
+		ul > li 
+		{
+			margin-bottom: -10px;
+
+			a
+			{
+				color:$secondary-color;
+				font-size: 1.2em;
+			}
+		}
+	}
 }
 
 ul.dash-ul

@@ -132,14 +132,33 @@ class Class_manager_model extends CI_Model
 	{
 		$result=$this->db
 			->select("*")
-			->from($this->class_table_name)
-			->join($this->class_teacher_table_name,"class_id = ct_class_id AND ct_teacher_id = ".(int)$teacher_id,"INNER")			
+			->from($this->class_teacher_table_name)
+			->join($this->class_table_name,"ct_class_id = class_id","INNER")			
+			->where("ct_teacher_id",(int)$teacher_id)
 			->order_by("class_order ASC")
 			->get();
 		
 		$ret=array();
 		foreach($result->result_array() as $row)
 			$ret[]=$row['ct_class_id'];
+
+		return $ret;
+	}
+
+	public function get_teacher_grades($teacher_id)
+	{
+		$result=$this->db
+			->select("class_grade_id")
+			->from($this->class_teacher_table_name)
+			->join($this->class_table_name,"ct_class_id = class_id","INNER")
+			->where("ct_teacher_id",(int)$teacher_id)
+			->group_by("class_grade_id")
+			->order_by("class_order ASC")
+			->get();
+		
+		$ret=array();
+		foreach($result->result_array() as $row)
+			$ret[]=$row['class_grade_id'];
 
 		return $ret;
 	}
