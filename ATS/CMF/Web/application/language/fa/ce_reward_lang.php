@@ -8,7 +8,7 @@ $lang['are_you_sure_to_submit_rewards']="امتیازهای جدید ثبت شو
 $lang['reward_value']="مقدار امتیاز";
 $lang['more_description']="توضیح";
 $lang['initial_reward_value']="امتیاز اولیه";
-$lang['rewards_added_successfully']="امتیازها با موفقیت ثبت شدند.";
+$lang['rewards_added_successfully']="امتیازها با موفقیت ثبت شدند.<br> ویرایش امتیازها تا ۲۴ ساعت ممکن است.";
 
 $lang['rewards_list']="لیست امتیازها";
 $lang['value']="تعداد امتیاز ";

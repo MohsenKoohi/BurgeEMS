@@ -8,7 +8,7 @@ $lang['are_you_sure_to_submit_rewards']="Are you sure?";
 $lang['reward_value']="Value";
 $lang['more_description']="More description";
 $lang['initial_reward_value']="Initial reward";
-$lang['rewards_added_successfully']="Rewards added successfully.";
+$lang['rewards_added_successfully']="The new rewards added successfully.<br>You have 24 hours to modify it.";
 
 $lang['rewards_list']="Rewards list";
 $lang['value']="Rewards ";
