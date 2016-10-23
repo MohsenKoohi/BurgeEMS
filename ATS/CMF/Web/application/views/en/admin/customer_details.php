@@ -99,6 +99,9 @@
 				<li><a href="#tasks">{tasks_text}</a></li>
 				<li><a href="#events">{events_text}</a></li>
 				<li><a href="#props">{properties_text}</a></li>
+				<?php if(isset($rewards)) { ?>
+					<li><a href="#rewards">{rewards_text}</a></li>
+				<?php } ?>
 				<li><a href="#logs">{customer_logs_text}</a></li>
 			</ul>
 			<script type="text/javascript">
@@ -737,6 +740,49 @@
 						
 				</div>
 			</div>
+
+			<?php if(isset($rewards)) { ?>
+				<div class="tab" id="rewards" style="">
+					<div class="container">
+						<h2>{rewards_text}</h2>	
+						<?php foreach($rewards as $r) { ?>
+							<div class="row even-odd-bg">
+								<div class="two columns">
+									<?php echo $r['customer_name'];?>
+								</div>
+								<div class="four columns" >
+									<b><?php echo $r['reward_subject']." ".$r['rv_description'];?></b>
+								</div>
+								<div class="two columns">
+									<div class="ltr-inb"><?php echo $r['rv_value'];?></div> {reward_text}
+								</div>
+								<div class="two columns date">
+									<?php echo $r['reward_date'];?>
+								</div>
+								<div class="two columns">
+									<a href="<?php echo get_admin_reward_details_link($r['reward_id']);?>" target='_blank'
+										class="full-width button button-primary">
+										{view_text}
+									</a>
+								</div>
+							</div>
+						<?php } ?>
+						<br><br>
+						<div class="row even-odd-bg"  style="font-size:1.5em;">
+							<div class="two columns">
+								{total_text}
+							</div>
+							<div class="four columns" >
+								&nbsp;
+							</div>
+							<div class="two columns">
+								<b><div class="ltr-inb">{total_rewards}</div> {reward_text}</b>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			<?php } ?>
 
 			<div class="tab" id="logs">
 				<div class="container">

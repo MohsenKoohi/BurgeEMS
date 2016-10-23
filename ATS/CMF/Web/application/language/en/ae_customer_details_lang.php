@@ -104,3 +104,7 @@ $lang['are_you_sure_to_create_new_password']="Are you sure?";
 $lang['customer_code_is_repetitive']="Code is repetetive.";
 $lang['customer_code_has_not_been_specified_or_inactive']="No code, or inactive person.";
 $lang['customer_code_has_not_been_specified_or_inactive_or_no_access']="No code, or no access.";
+
+$lang['rewards']="Rewards";
+$lang['reward']="Reward";
+$lang['view']="View";

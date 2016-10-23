@@ -107,3 +107,8 @@ $lang['are_you_sure_to_create_new_password']="رمز جدید ایجاد شون�
 $lang['customer_code_is_repetitive']="شناسه تکراری است.";
 $lang['customer_code_has_not_been_specified_or_inactive']="شناسه مشخص نشده است و یا غیرفعال است.";
 $lang['customer_code_has_not_been_specified_or_inactive_or_no_access']="شناسه مشخص نشده است و یا امکان دسترسی وجود ندارد.";
+
+$lang['rewards']="امتیازها";
+$lang['reward']="امتیاز";
+$lang['view']="مشاهده";
+$lang['total']="مجموع";

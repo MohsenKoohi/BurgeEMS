@@ -87,9 +87,10 @@ class Reward_manager_model extends CI_Model
 	public function get_student_rewards($student_id)
 	{
 		return $this->db
-			->select("rv_description,rv_value,reward_id,reward_subject,reward_date,reward_is_prize")
+			->select("rv_description,rv_value,reward_id,reward_subject,reward_date,reward_is_prize, customer_name")
 			->from($this->reward_value_table_name)
 			->join($this->reward_table_name,"rv_reward_id = reward_id ","LEFT")
+			->join("customer","reward_teacher_id = customer_id ","LEFT")
 			->where("rv_student_id",$student_id)
 			->order_by("reward_date ASC")
 			->get()
