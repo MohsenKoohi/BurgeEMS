@@ -108,3 +108,4 @@ $lang['customer_code_has_not_been_specified_or_inactive_or_no_access']="No code,
 $lang['rewards']="Rewards";
 $lang['reward']="Reward";
 $lang['view']="View";
+$lang['total']="Total";
