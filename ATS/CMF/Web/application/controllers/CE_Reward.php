@@ -228,7 +228,12 @@ class CE_Reward extends Burge_CMF_Controller {
 	{
 		$this->data['message']=get_message();
 		$this->data['class_id']=$class_id;
-		$this->data['rewards_list']=$this->reward_manager_model->get_rewards_list($teacher_id,$class_id);
+		$filter=array(
+				"teacher_id"=>$teacher_id
+				,"class_id"=>$class_id
+				,"order_by"=>"reward_date ASC"
+			);
+		$this->data['rewards_list']=$this->reward_manager_model->get_rewards($filter);
 
 		$this->data['page_link']=get_customer_reward_teacher_list_class_link($class_id,0);
 		$this->data['lang_pages']=get_lang_pages(get_customer_reward_teacher_list_class_link($class_id,0,TRUE));
