@@ -750,16 +750,16 @@
 								<div class="two columns">
 									<?php echo $r['customer_name'];?>
 								</div>
-								<div class="four columns" >
+								<div class="three columns" >
 									<b><?php echo $r['reward_subject']." ".$r['rv_description'];?></b>
 								</div>
 								<div class="two columns">
 									<div class="ltr-inb"><?php echo $r['rv_value'];?></div> {reward_text}
 								</div>
-								<div class="two columns date">
+								<div class="two columns date ltr">
 									<?php echo $r['reward_date'];?>
 								</div>
-								<div class="two columns">
+								<div class="two columns half-col-margin">
 									<a href="<?php echo get_admin_reward_details_link($r['reward_id']);?>" target='_blank'
 										class="full-width button button-primary">
 										{view_text}
