@@ -191,16 +191,80 @@ class Reward_manager_model extends CI_Model
 			->result_array();
 	}
 
-	public function get_all_rewards()
+	public function get_total_rewards($filter)
 	{
-		return $this->db
-			->select("r.*,class_name,customer_name as teacher_name")
+		$this->db
+			->select("COUNT(*) as count")
+			->from($this->reward_table_name);
+		
+		$this->set_search_where_clause($filter);
+
+		$row=$this->db->get()->row_array();
+
+		return $row['count'];
+	}
+
+	public function get_rewards(&$filter)
+	{
+		$this->db
+			->select("r.*,class_name,customer_name,customer_subject")
 			->from($this->reward_table_name." r")
 			->join("class","reward_class_id = class_id","LEFT")
-			->join("customer","reward_teacher_id = customer_id","LEFT")
+			->join("customer","reward_teacher_id = customer_id","LEFT");
+
+		$this->set_search_where_clause($filter);
+		
+		return $this->db
 			->order_by("reward_date ASC")
 			->get()
 			->result_array();
+	}
+
+	private function set_search_where_clause(&$filter)
+	{
+		if(isset($filter['subject']))
+		{
+			$filter['subject']=persian_normalize($filter['subject']);
+			$this->db->where("reward_subject LIKE '%".str_replace(' ', '%', $filter['subject'])."%'");
+		}
+
+		if(isset($filter['start_date']))
+		{
+			$filter['start_date']=persian_normalize($filter['start_date']);
+			validate_persian_date($filter['start_date']);
+			$this->db->where("reward_date >=",$filter['start_date']." 00:00:00");
+		}
+
+		if(isset($filter['end_date']))
+		{
+			$filter['end_date']=persian_normalize($filter['end_date']);
+			validate_persian_date($filter['end_date']);
+			$this->db->where("reward_date <=",$filter['end_date']." 23:59:59");
+		}
+
+		if(isset($filter['teacher_id']))
+		{
+			$this->db->where("reward_teacher_id",(int)$filter['teacher_id']);
+		}
+
+		if(isset($filter['class_id']))
+		{
+			$this->db->where("reward_class_id",(int)$filter['class_id']);
+		}
+
+		if(isset($filter['is_prize']))
+		{
+			$this->db->where("reward_is_prize",(int)$filter['is_prize']);
+		}
+
+		if(isset($filter['order_by']))
+			$this->db->order_by($filter['order_by']);
+
+		if(isset($filter['start']) && isset($filter['length']))
+			$this->db->limit((int)$filter['length'],(int)$filter['start']);
+
+
+		return;
 	}
 
 	public function get_rewards_list($teacher_id,$class_id)

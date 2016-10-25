@@ -39,37 +39,166 @@
 
 			<div class="tab" id="list">
 				<h2>{rewards_list_text}</h2>
-				<div id="class-list">
-					<?php foreach($rewards as $reward) {?>
-						<div class="row even-odd-bg">
-							<div class="one columns">
-								<?php echo $reward['reward_id'];?>
-							</div>
-							<div class="two columns">
-								<?php echo $reward['class_name'];?>
-							</div>
-							<div class="two columns">
-								<span class="ltr-inb">
-									<?php echo $reward['reward_date'];?>
-								</span>
-							</div>
-							<div class="three columns">
-								<b><?php echo $reward['reward_subject'];?></b>
-							</div>
-							<div class="two columns">
-								<?php echo $reward['teacher_name'];?>
-							</div>
-							<div class="two columns">
-								<a href="<?php echo get_admin_reward_details_link($reward['reward_id']); ?>"
-									class="button button-primary sub-primary full-width" target="_blank"
-								>
-									{view_text}
-								</a>
-							</div>
+				<div class="container separated">
+					<div class="row filter">
+						<div class="three columns">
+							<label>{teacher_text}</label>
+							<select name="teacher_id" class="full-width">
+								<option value="">&nbsp;</option>
+								<?php foreach($teachers as $t){ ?>
+									<option value="<?php echo $t['customer_id'];?>">
+										<?php echo $t['customer_name']." (".$t['customer_subject']. ")";?>
+								<?php } ?>
+							</select>
+						</div>
+						<div class="three columns half-col-margin">
+							<label>{class_name_text}</label>
+							<select name="class_id" class="full-width">
+								<option value="">&nbsp;</option>
+								<?php
+									foreach ($classes as $c)
+										echo "<option value='".$c['class_id']."'>".$c['class_name']."</option>";
+								?>
+							</select>
+						</div>
+						<div class="three columns half-col-margin">
+							<label>{subject_text}</label>
+							<input type="text" name="subject" class="full-width" />
+						</div>
+						<div class="three columns">
+							<label>{start_date_text}</label>
+							<input type="text" name="start_date" class="full-width ltr" />
+						</div>
+						<div class="three columns half-col-margin">
+							<label>{end_date_text}</label>
+							<input type="text" name="end_date" class="full-width ltr" />
 						</div>
 
-					<?php } ?>
+						<div class="three columns half-col-margin">
+							<label>{prize_text}</label>
+							<select name="is_prize" class="full-width">
+								<option>&nbsp;</option>
+								<option value="1">{yes_text}</option>
+								<option value="0">{no_text}</option>
+							</select>
+						</div>
+					</div>
+					<div clas="row">
+						<div class="two columns results-search-again">
+							<input type="button" onclick="searchAgain()" value="{search_again_text}" class="full-width button-primary" />
+						</div>
+					</div>
+					<div class="row results-count" >
+						<div class="three columns">
+							<label>
+								{results_text} {results_start} {to_text} {results_end} - {total_results_text}: {total_count}
+							</label>
+						</div>
+						<div class="three columns results-page-select">
+							<select class="full-width" onchange="pageChanged($(this).val());">
+								<?php 
+									for($i=1;$i<=$total_pages;$i++)
+									{
+										$sel="";
+										if($i == $current_page)
+											$sel="selected";
+
+										echo "<option value='$i' $sel>$page_text $i</option>";
+									}
+								?>
+							</select>
+						</div>
+					</div>
+
+					<script type="text/javascript">							
+						var initialFilters=[];
+						<?php
+							foreach($filter as $key => $val)
+								echo 'initialFilters["'.$key.'"]="'.$val.'";';
+						?>
+						var rawPageUrl="{raw_page_url}";
+
+						$(function()
+						{
+							$(".filter input, .filter select").keypress(function(ev)
+							{
+								if(13 != ev.keyCode)
+									return;
+
+								searchAgain();
+							});
+
+							for(i in initialFilters)
+								$(".filter [name='"+i+"']").val(initialFilters[i]);
+						
+						});
+
+						function searchAgain()
+						{
+							document.location=getSearchUrl(getSearchConditions());
+						}
+
+						function getSearchConditions()
+						{
+							var conds=[];
+
+							$(".filter input, .filter select").each(
+								function(index,el)
+								{
+									var el=$(el);
+									if(el.val())
+										conds[el.prop("name")]=el.val();
+
+								}
+							);
+							
+							return conds;
+						}
+
+						function getSearchUrl(filters)
+						{
+							var ret=rawPageUrl+"?";
+							for(i in filters)
+								ret+="&"+i+"="+encodeURIComponent(filters[i].trim().replace(/\s+/g," "));
+							return ret;
+						}
+
+						function pageChanged(pageNumber)
+						{
+							document.location=getSearchUrl(initialFilters)+"&page="+pageNumber;
+						}
+					</script>
 				</div>
+				<br><br>
+				<?php foreach($rewards as $reward) {?>
+					<div class="row even-odd-bg">
+						<div class="one columns">
+							<?php echo $reward['reward_id'];?>
+						</div>
+						<div class="two columns">
+							<?php echo $reward['class_name'];?>
+						</div>
+						<div class="two columns">
+							<span class="ltr-inb">
+								<?php echo $reward['reward_date'];?>
+							</span>
+						</div>
+						<div class="three columns">
+							<b><?php echo $reward['reward_subject'];?></b>
+						</div>
+						<div class="two columns">
+							<?php echo $reward['customer_name']." (".$reward['customer_subject'].")";?> 
+						</div>
+						<div class="two columns">
+							<a href="<?php echo get_admin_reward_details_link($reward['reward_id']); ?>"
+								class="button button-primary sub-primary full-width" target="_blank"
+							>
+								{view_text}
+							</a>
+						</div>
+					</div>
+
+				<?php } ?>
 			</div>
 			
 			<div class="tab" id="prize-access">
