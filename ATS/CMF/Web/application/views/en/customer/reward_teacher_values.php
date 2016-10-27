@@ -30,10 +30,23 @@
 						</span>
 					</div>
 					<div class="desc same-float" >
-						<?php echo $reward_subject." ".$st['rv_description'];?>
+						<?php 
+							echo $reward_subject;
+							if($st['rv_description'])
+								echo $comma_text." ".$st['rv_description'];
+						?>
 					</div>
 				</div>
 			<?php } ?>
+
+			<script type="text/javascript">
+				$(".reward .desc").each(function(index,el)
+					{
+						var el=$(el);
+						el.prop("title",el.html());
+					}
+				);
+			</script>
 		</div>
 		
 	</div>

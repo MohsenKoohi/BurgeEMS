@@ -14,7 +14,11 @@
 							</span>
 						</div>
 						<div class="desc same-float" >
-							<?php echo $r['reward_subject']." ".$r['rv_description'];?>
+							<?php 
+								echo $r['reward_subject'];
+								if($r['rv_description'])
+									echo $comma_text." ".$r['rv_description'];
+							?>
 						</div>
 					</div>
 			<?php } ?>
