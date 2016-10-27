@@ -21,12 +21,14 @@ class AE_Question_Collection extends Burge_CMF_Controller {
 		if($this->input->post("post_type")==="add_question")
 			return $this->add_question();
 
-		$this->data['questions']=$this->question_collector_model->get_questions(
-			array(
-				"order_by"=>"qc_id DESC"
-			)
-		);
-		
+		$this->set_questions();
+
+		$this->load->model("user_manager_model");
+		$this->data['users']=$this->user_manager_model->get_users();
+		$this->data['teachers']=$this->class_manager_model->get_teachers();
+		$this->data['grades']=$this->class_manager_model->get_grades_names($this->selected_lang);
+		$this->data['courses']=$this->class_manager_model->get_courses_names($this->selected_lang);
+
 		$this->data['message']=get_message();
 
 		$this->data['grades_names']=$this->class_manager_model->get_grades_names($this->selected_lang);
@@ -39,6 +41,60 @@ class AE_Question_Collection extends Burge_CMF_Controller {
 		$this->send_admin_output("question_collection");
 
 		return;	 
+	}
+
+	private function set_questions()
+	{
+
+		$items_per_page=20;
+		$page=1;
+		if($this->input->get("page"))
+			$page=(int)$this->input->get("page");
+
+		$filter=array();
+
+		$pfnames=array("teacher_id","class_id","start_date","end_date","is_prize","subject");
+		foreach($pfnames as $pfname)
+			if($this->input->get($pfname)!==NULL)
+				$filter[$pfname]=$this->input->get($pfname);	
+
+		$total=$this->question_collector_model->get_total_questions($filter);
+		$this->data['total_count']=$total;
+		$this->data['total_pages']=ceil($total/$items_per_page);
+		if($total)
+		{
+			if($page > $this->data['total_pages'])
+				$page=$this->data['total_pages'];
+			if($page<1)
+				$page=1;
+			$this->data['current_page']=$page;
+			
+			$start=($page-1)*$items_per_page;
+			$filter['start']=$start;
+			$filter['length']=$items_per_page;
+
+			$end=$start+$items_per_page-1;
+			if($end>($total-1))
+				$end=$total-1;
+			$this->data['results_start']=$start+1;
+			$this->data['results_end']=$end+1;		
+	
+			$filter['order_by']="qc_id DESC";
+
+			$this->data['questions']=$this->question_collector_model->get_questions($filter);
+
+			unset($filter['start'],$filter['length'],$filter['order_by']);
+		}
+		else
+		{
+			$this->data['results_start']=0;
+			$this->data['results_end']=0;
+			$this->data['questions']=array();
+		}
+
+		$this->data['filter']=$filter;
+
+		return;
 	}
 
 	private function add_question()

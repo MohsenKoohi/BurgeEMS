@@ -93,6 +93,11 @@ class Question_collector_model extends CI_Model
 		return $ret;		
 	}
 
+	public function get_total_questions($filters)
+	{
+		return 0;
+	}
+
 	public function get_questions($filters)
 	{
 		$this->db

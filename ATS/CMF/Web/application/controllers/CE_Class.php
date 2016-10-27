@@ -90,7 +90,7 @@ class CE_Class extends Burge_CMF_Controller {
 
 	public function teachers()
 	{
-		$this->data['teachers']=$this->class_manager_model->get_teachers(0);
+		$this->data['teachers']=$this->class_manager_model->get_class_teachers(0);
 		
 		$this->data['message']=get_message();
 

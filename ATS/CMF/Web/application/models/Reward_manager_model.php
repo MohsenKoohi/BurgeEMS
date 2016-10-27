@@ -149,7 +149,7 @@ class Reward_manager_model extends CI_Model
 	{
 		$this->load->model("class_manager_model");
 		
-		return $this->class_manager_model->get_teachers(-1);
+		return $this->class_manager_model->get_class_teachers(-1);
 	}
 
 	public function set_prize_teachers($tids)

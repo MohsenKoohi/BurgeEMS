@@ -116,7 +116,7 @@ class AE_Class extends Burge_CMF_Controller {
 			return $this->set_class_curriculum($class_id);
 
 		$this->data['info']=$info;
-		$this->data['teachers']=$this->class_manager_model->get_teachers($class_id);
+		$this->data['teachers']=$this->class_manager_model->get_class_teachers($class_id);
 		$this->data['students']=$this->class_manager_model->get_students($class_id);
 		$this->data['curriculum_hours']=$this->class_manager_model->get_curriculum_hours();
 		$this->data['curriculum']=$this->class_manager_model->get_class_curriculum($class_id);

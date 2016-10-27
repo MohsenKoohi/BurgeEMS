@@ -39,7 +39,7 @@ class AE_Reward extends Burge_CMF_Controller {
 		return;	 
 	}
 
-	public function set_rewareds()
+	private function set_rewareds()
 	{
 
 		$items_per_page=20;
