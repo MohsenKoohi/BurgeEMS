@@ -296,6 +296,11 @@ class AE_Customer extends Burge_CMF_Controller {
 				$this->data['total_rewards']=$this->reward_manager_model->get_student_total_rewards($customer_id);
 			}
 
+			if('teacher' === $this->data['customer_info']['customer_type'])
+			{
+				$this->data['rewards_link']=get_link("admin_reward")."?teacher_id=".$customer_id;
+			}
+
 		}
 		
 		$this->data['new_pass_link']=get_link("admin_customer_password")."?id=".$customer_id;
