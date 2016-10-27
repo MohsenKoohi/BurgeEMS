@@ -21,3 +21,14 @@ $lang['file']="File";
 $lang['delete']="Delete";
 $lang['are_you_sure_to_delete_this_collection']="Are you sure to delete?";
 $lang['question_set_deleted_successfully']="The question set successfully.";
+
+$lang['start_date']="Start date";
+$lang['end_date']="End date";
+$lang['search_again']="Search";
+$lang['results']="Results";
+$lang['total_results']="Total results";
+$lang['page']="Page";
+$lang['to']="To";
+$lang['user']="User";
+$lang['teacher']="Teacher";
+$lang['']="";

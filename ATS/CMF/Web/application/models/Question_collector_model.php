@@ -93,12 +93,21 @@ class Question_collector_model extends CI_Model
 		return $ret;		
 	}
 
-	public function get_total_questions($filters)
+	public function get_total_questions($filter)
 	{
-		return 0;
+		$this->db
+			->select("COUNT(*) as count")
+			->from($this->question_collection_table_name);
+		
+		$this->set_search_where_clause($filter);
+
+		$row=$this->db->get()->row_array();
+
+		return $row['count'];
+	
 	}
 
-	public function get_questions($filters)
+	public function get_questions($filter)
 	{
 		$this->db
 			->select("*")
@@ -106,21 +115,8 @@ class Question_collector_model extends CI_Model
 			->join("user","user_id = qc_registrar_id","LEFT")
 			->join("customer","customer_id = qc_registrar_id","LEFT");
 			
-		if(isset($filters['registrar_type']))
-			$this->db->where("qc_registrar_type",$filters['registrar_type']);
+		$this->set_search_where_clause($filter);
 
-		if(isset($filters['registrar_id']))
-			$this->db->where("qc_registrar_id",(int)$filters['registrar_id']);
-
-		if(isset($filters['grade_id']))
-			$this->db->where("qc_grade_id",(int)$filters['grade_id']);
-
-		if(isset($filters['course_id']))
-			$this->db->where("qc_course_id",(int)$filters['course_id']);
-
-		if(isset($filters['order_by']))
-			$this->db->order_by($filters['order_by']);
-		
 		$ret=$this->db
 			->get()
 			->result_array();
@@ -139,6 +135,50 @@ class Question_collector_model extends CI_Model
 		}
 
 		return $ret;
+	}
+
+	private function set_search_where_clause($filter)
+	{
+		if(isset($filter['registrar_type']))
+			$this->db->where("qc_registrar_type",$filter['registrar_type']);
+
+		if(isset($filter['registrar_id']))
+			$this->db->where("qc_registrar_id",(int)$filter['registrar_id']);
+
+		if(isset($filter['user_id']) )
+			$this->db->where("qc_registrar_id",(int)$filter['user_id']);
+
+		if(isset($filter['teacher_id']))
+			$this->db->where("qc_registrar_id",(int)$filter['teacher_id']);
+
+		if(isset($filter['grade_id']))
+			$this->db->where("qc_grade_id",(int)$filter['grade_id']);
+
+		if(isset($filter['course_id']))
+			$this->db->where("qc_course_id",(int)$filter['course_id']);
+
+		if(isset($filter['subject']))
+		{
+			$this->db->where("qc_subject LIKE '%".str_replace(' ', '%', $filter['subject'])."%'");
+		}
+
+		if(isset($filter['start_date']))
+		{
+			$this->db->where("qc_date >=",$filter['start_date']." 00:00:00");
+		}
+
+		if(isset($filter['end_date']))
+		{
+			$this->db->where("qc_date <=",$filter['end_date']." 23:59:59");
+		}
+
+		if(isset($filter['order_by']))
+			$this->db->order_by($filter['order_by']);
+
+		if(isset($filter['start']) && isset($filter['length']))
+			$this->db->limit((int)$filter['length'],(int)$filter['start']);
+
+		return;		
 	}
 
 	public function get_question_info($qc_id)

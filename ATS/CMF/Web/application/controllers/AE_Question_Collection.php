@@ -45,7 +45,6 @@ class AE_Question_Collection extends Burge_CMF_Controller {
 
 	private function set_questions()
 	{
-
 		$items_per_page=20;
 		$page=1;
 		if($this->input->get("page"))
@@ -53,10 +52,27 @@ class AE_Question_Collection extends Burge_CMF_Controller {
 
 		$filter=array();
 
-		$pfnames=array("teacher_id","class_id","start_date","end_date","is_prize","subject");
+		$pfnames=array("grade_id","course_id","subject","start_date","end_date","registrar_type","teacher_id","user_id");
 		foreach($pfnames as $pfname)
 			if($this->input->get($pfname)!==NULL)
 				$filter[$pfname]=$this->input->get($pfname);	
+
+		if(isset($filter['start_date']))
+		{
+			$filter['start_date']=persian_normalize($filter['start_date']);
+			validate_persian_date($filter['start_date']);
+		}
+
+		if(isset($filter['end_date']))
+		{
+			$filter['end_date']=persian_normalize($filter['end_date']);
+			validate_persian_date($filter['end_date']);
+		}
+
+		if(isset($filter['subject']))
+		{
+			$filter['subject']=persian_normalize($filter['subject']);
+		}
 
 		$total=$this->question_collector_model->get_total_questions($filter);
 		$this->data['total_count']=$total;
