@@ -23,3 +23,9 @@ $lang['receiver']="گیرنده";
 $lang['message_sent_successfully']="پیام شما با موفقیت ثبت شد.";
 $lang['date']="تاریخ";
 $lang['reply_to']="پاسخ به";
+
+$lang['class']="کلاس";
+$lang['student']="دانش آموز";
+$lang["receiver_has_not_selected"]="گیرنده پیام مشخص نشده است.";
+$lang['are_you_sure_to_submit']="پیام ارسال شود؟";
+$lang['it_is_not_possible_to_send_message_to_this_class']="امکان ارسال پیام برای کلاس مورد نظر وجود ندارد.";

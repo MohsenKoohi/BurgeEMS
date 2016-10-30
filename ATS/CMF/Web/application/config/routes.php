@@ -109,6 +109,7 @@ $route[ADMIN_URL_FOLDER."/message"]				= "AE_Message/index";
 $route[ADMIN_URL_FOLDER."/message/(\d+)"]		= "AE_Message/message/$1";
 $route['message']										= "CE_Message/message";
 $route['message/send']								= "CE_Message/send";
+$route['message/search/(.*)']						= "CE_Message/search/$1";
 $route['message/(\d+)']								= "CE_Message/details/$1";
 
 

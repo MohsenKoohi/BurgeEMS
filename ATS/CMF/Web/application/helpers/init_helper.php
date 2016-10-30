@@ -80,6 +80,7 @@ function &get_links($just_common=FALSE)
 			,'admin_message_details_format'			=> ADMIN_SURL_LANG."/message/message_id"			
 			,'customer_message'							=> HOME_URL_LANG."/message"
 			,'customer_message_send'					=> HOME_URL_LANG."/message/send"
+			,'customer_message_search'					=> HOME_URL_LANG."/message/search"
 			,'customer_message_details_format'		=> HOME_URL_LANG."/message/message_id"
 
 			,'admin_time'								=> ADMIN_SURL_LANG."/time"

@@ -223,7 +223,7 @@ class Message_manager_model extends CI_Model
 			$where="
 				   ( message_sender_type = 'student' && message_sender_id = $customer_id )
 				|| ( message_receiver_type = 'student' && message_receiver_id = $customer_id )
-				|| ( message_sender_type = 'group' && message_receiver_type = 'group' && message_receiver_id = -$class_id )
+				|| ( message_receiver_type = 'group' && message_receiver_id = -$class_id )
 			";
 
 		if('teacher'===$customer_type)

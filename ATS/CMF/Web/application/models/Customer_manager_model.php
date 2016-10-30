@@ -219,6 +219,11 @@ class Customer_manager_model extends CI_Model
 			$this->db->where("customer_class_id",$filter['class_id']);
 		}
 
+		if(isset($filter['class_id_in']))
+		{
+			$this->db->where_in("customer_class_id",$filter['class_id_in']);
+		}
+
 		if(isset($filter['email']))
 		{
 			$filter['email']=persian_normalize($filter['email']);

@@ -154,6 +154,45 @@ class CE_Message extends Burge_CMF_Controller {
 		return;
 	}
 
+	public function search($name)
+	{
+		if('teacher' !== $this->customer_info['customer_type'])
+			return;
+
+		$teacher_id=$this->customer_info['customer_id'];
+		$this->load->model("class_manager_model");
+		$classes=$this->class_manager_model->get_teacher_classes($teacher_id);
+		if(!$classes)
+			return;
+
+		$max_count=5;
+		$name=urldecode($name);
+		$name=persian_normalize($name);
+
+		$filter=array(
+			"name"=>$name
+			,"start"=>0
+			,"length"=>$max_count
+			,"type"=>"student"
+			,"class_id_in"=>$classes
+		);
+
+		$results=$this->customer_manager_model->get_customers($filter);
+
+		$ret=array();
+
+		foreach ($results as $res)	
+			$ret[]=array(
+				"id"=>$res['customer_id']
+				,"name"=>$res['customer_name']
+			);
+
+		$this->output->set_content_type('application/json');
+    	$this->output->set_output(json_encode($ret));
+
+    	return;
+	}
+
 	public function send()
 	{
 		if('student' === $this->customer_info['customer_type'])
@@ -171,6 +210,9 @@ class CE_Message extends Burge_CMF_Controller {
 		
 		$this->load->model("class_manager_model");
 		$classes=$this->class_manager_model->get_teacher_classes_with_names($teacher_id);
+		if(!$classes)
+			return redirect(get_link("customer_dashboard"));
+
 		$this->class_ids=array();
 
 		$receivers=array();
@@ -178,7 +220,7 @@ class CE_Message extends Burge_CMF_Controller {
 		{
 			$this->class_ids[]=$class['class_id'];
 			
-			$value="c_".$class['class_id'];
+			$value=$class['class_id'];
 			$name=$class['class_name'];
 			$receivers[]=array("value"=>$value,"name"=>$name);
 		}
@@ -195,7 +237,7 @@ class CE_Message extends Burge_CMF_Controller {
 
 		$this->data['subject']=$this->session->flashdata("message_subject");
 		$this->data['content']=$this->session->flashdata("message_content");
-		
+		$this->data['students_search_url']=get_link('customer_message_search');
 		$this->data['header_title']=$this->lang->line("send_message").$this->lang->line("header_separator").$this->data['header_title'];
 	
 		$this->send_customer_output("message_send_teacher");
@@ -210,27 +252,34 @@ class CE_Message extends Burge_CMF_Controller {
 			foreach($fields as $field)
 				$props[$field]=$this->input->post($field);
 			
-			$receiver=$this->input->post("receiver");
-			$receiver=explode("_", $receiver);
-			$receiver_cond=
-				(sizeof($receiver)==2) 
-				&& (($receiver[0]=='t') || ($receiver[0]=='g'))
-				&& (($receiver[0]=='g') || (in_array($receiver[1], $this->teacher_ids)) )
-				&& (($receiver[0]=='t') || (in_array($receiver[1], $this->group_ids)) )
-				;
+			$receiver_type=$this->input->post("receiver_type");
+			if("class" === $receiver_type)
+			{
+				$receiver_class_id=(int)$this->input->post("class");
+				if(!in_array($receiver_class_id,$this->class_ids))
+				{
+					set_message($this->lang->line("it_is_not_possible_to_send_message_to_this_class"));
+					return redirect(get_link("customer_message_send"));
+				}
 
-			if($receiver_cond && $props['subject'] && $props['content'] )
+				$receiver_type="group";
+				$receiver_id=-$receiver_class_id;
+			}
+
+			if("student" === $receiver_type)
+			{
+
+			}
+			
+			if($props['subject'] && $props['content'] )
 			{
 				persian_normalize($props);
 
-				$customer_id=$this->customer_info['customer_id'];
-				$props['sender_id']=$customer_id;
-				$props['sender_type']="student";
-				if($receiver[0]=='t')
-					$props['receiver_type']="teacher";
-				if($receiver[0]=='g')
-					$props['receiver_type']="group";
-				$props['receiver_id']=$receiver[1];
+				$teacher_id=$this->customer_info['customer_id'];
+				$props['sender_id']=$teacher_id;
+				$props['sender_type']="teacher";
+				$props['receiver_type']=$receiver_type;
+				$props['receiver_id']=$receiver_id;
 
 				$this->message_manager_model->add_message($props);
 
