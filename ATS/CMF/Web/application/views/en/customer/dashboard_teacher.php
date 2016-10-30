@@ -41,9 +41,11 @@
 			</li>
 
 			<li>
-				<a href="<?php echo get_link('customer_message');?>">
-					{messages_text}
-				</a>
+				<a>{messages_text}</a>
+				<ul class='dash-ul'>
+					<li ><a href="<?php echo get_link('customer_message');?>">{message_inbox_text}</a></li>
+					<li><a href="<?php echo get_link('customer_message_send');?>">{send_message_text}</a></li>
+				</ul>
 			</li>
 
 			<li>

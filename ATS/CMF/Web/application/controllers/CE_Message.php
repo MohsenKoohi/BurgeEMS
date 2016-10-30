@@ -159,7 +159,95 @@ class CE_Message extends Burge_CMF_Controller {
 		if('student' === $this->customer_info['customer_type'])
 			return $this->send_student();
 
+		if('teacher' === $this->customer_info['customer_type'])
+			return $this->send_teacher();
+
 		return;
+	}
+
+	private function send_teacher()
+	{
+		$teacher_id=$this->customer_info['customer_id'];
+		
+		$this->load->model("class_manager_model");
+		$classes=$this->class_manager_model->get_teacher_classes_with_names($teacher_id);
+		$this->class_ids=array();
+
+		$receivers=array();
+		foreach($classes as $class)
+		{
+			$this->class_ids[]=$class['class_id'];
+			
+			$value="c_".$class['class_id'];
+			$name=$class['class_name'];
+			$receivers[]=array("value"=>$value,"name"=>$name);
+		}
+		$this->data['receivers']=$receivers;
+
+		$this->data['post_url']=get_link("customer_message_send");
+
+		if($this->input->post())
+			return $this->send_teacher_post();
+
+		$this->data['message']=get_message();
+		$this->data['captcha']=get_captcha();
+		$this->data['lang_pages']=get_lang_pages(get_link('customer_message_send',TRUE));
+
+		$this->data['subject']=$this->session->flashdata("message_subject");
+		$this->data['content']=$this->session->flashdata("message_content");
+		
+		$this->data['header_title']=$this->lang->line("send_message").$this->lang->line("header_separator").$this->data['header_title'];
+	
+		$this->send_customer_output("message_send_teacher");
+	}
+
+	private function send_teacher_post()
+	{
+		if(verify_captcha($this->input->post("captcha")))
+		{
+			$fields=array("subject","content");
+			$props=array();
+			foreach($fields as $field)
+				$props[$field]=$this->input->post($field);
+			
+			$receiver=$this->input->post("receiver");
+			$receiver=explode("_", $receiver);
+			$receiver_cond=
+				(sizeof($receiver)==2) 
+				&& (($receiver[0]=='t') || ($receiver[0]=='g'))
+				&& (($receiver[0]=='g') || (in_array($receiver[1], $this->teacher_ids)) )
+				&& (($receiver[0]=='t') || (in_array($receiver[1], $this->group_ids)) )
+				;
+
+			if($receiver_cond && $props['subject'] && $props['content'] )
+			{
+				persian_normalize($props);
+
+				$customer_id=$this->customer_info['customer_id'];
+				$props['sender_id']=$customer_id;
+				$props['sender_type']="student";
+				if($receiver[0]=='t')
+					$props['receiver_type']="teacher";
+				if($receiver[0]=='g')
+					$props['receiver_type']="group";
+				$props['receiver_id']=$receiver[1];
+
+				$this->message_manager_model->add_message($props);
+
+				set_message($this->lang->line("message_sent_successfully"));
+				return redirect(get_link("customer_message"));
+			}
+			else
+				set_message($this->lang->line("fill_all_fields"));
+		}
+		else
+			set_message($this->lang->line("captcha_incorrect"));
+		
+
+		$this->session->set_flashdata("message_subject",$this->input->post("subject"));
+		$this->session->set_flashdata("message_content",$this->input->post("content"));
+
+		return redirect($this->data['post_url']);
 	}
 
 	private function send_student()
@@ -207,7 +295,7 @@ class CE_Message extends Burge_CMF_Controller {
 		
 		$this->data['header_title']=$this->lang->line("send_message").$this->lang->line("header_separator").$this->data['header_title'];
 	
-		$this->send_customer_output("message_send");
+		$this->send_customer_output("message_send_student");
 	}
 
 	private function send_student_post()

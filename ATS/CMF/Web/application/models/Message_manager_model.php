@@ -226,6 +226,12 @@ class Message_manager_model extends CI_Model
 				|| ( message_sender_type = 'group' && message_receiver_type = 'group' && message_receiver_id = -$class_id )
 			";
 
+		if('teacher'===$customer_type)
+			$where="
+				   ( message_sender_type = 'teacher' && message_sender_id = $customer_id )
+				|| ( message_receiver_type = 'teacher' && message_receiver_id = $customer_id )
+			";
+
 		$this->db->where(" ( $where ) ");
 
 		if(isset($filter['start']) && isset($filter['length']))

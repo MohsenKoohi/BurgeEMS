@@ -155,6 +155,18 @@ class Class_manager_model extends CI_Model
 		return $ret;
 	}
 
+	public function get_teacher_classes_with_names($teacher_id)
+	{
+		return $this->db
+			->select("*")
+			->from($this->class_teacher_table_name)
+			->join($this->class_table_name,"ct_class_id = class_id","INNER")			
+			->where("ct_teacher_id",(int)$teacher_id)
+			->order_by("class_order ASC")
+			->get()
+			->result_array();
+	}
+
 	public function get_teacher_grades($teacher_id)
 	{
 		$result=$this->db
