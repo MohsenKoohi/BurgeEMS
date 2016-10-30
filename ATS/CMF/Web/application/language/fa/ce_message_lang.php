@@ -10,7 +10,6 @@ $lang['captcha_incorrect']="حروف تصویر را اشتباه ثبت کرد�
 
 $lang['sender_from']="از";
 $lang['receiver_to']="به";
-$lang['content_of_last_message']="متن";
 $lang['view_details']="مشاهده";
 
 $lang['message']="پیام";
@@ -22,3 +21,5 @@ $lang['reply_message_sent_successfully']="پاسخ شما با موفقیت ثب
 $lang['send_message']="ارسال پیام";
 $lang['receiver']="گیرنده";
 $lang['message_sent_successfully']="پیام شما با موفقیت ثبت شد.";
+$lang['date']="تاریخ";
+$lang['reply_to']="پاسخ به";

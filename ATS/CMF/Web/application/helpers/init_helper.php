@@ -687,6 +687,9 @@ function __initialize_captcha()
 
 function verify_captcha($val)
 {
+	if(ENVIRONMENT === 'development')
+		return TRUE;
+
 	$val=strtolower($val);
 	
 	$CI=&get_instance();

@@ -35,9 +35,9 @@ class Message_manager_model extends CI_Model
 			"CREATE TABLE IF NOT EXISTS $tbl_name (
 				`message_id` BIGINT UNSIGNED AUTO_INCREMENT NOT NULL
 				,`message_sender_type` ENUM ('student','parent','teacher','group')
-				,`message_sender_id` BIGINT UNSIGNED
+				,`message_sender_id` BIGINT 
 				,`message_receiver_type` ENUM ('student','parent','teacher','group')
-				,`message_receiver_id` BIGINT UNSIGNED
+				,`message_receiver_id` BIGINT 
 				,`message_date` CHAR(20)
 				,`message_subject` VARCHAR(255)
 				,`message_content` TEXT
@@ -163,5 +163,74 @@ class Message_manager_model extends CI_Model
 
 		return $id;
 	}
+
+	public function get_customer_total_messages($filter)
+	{
+		$this->db
+			->select("COUNT(*) as count")
+			->from($this->message_table_name);
+		
+		$this->set_customer_search_where_clause($filter);
+
+		$row=$this->db->get()->row_array();
+
+		return $row['count'];
+	}
+
+	public function get_customer_message($message_id, $filter)
+	{
+		$this->db
+			->select("m.*")
+			->select("s.customer_name as s_name , s.customer_subject as s_subject")
+			->select("r.customer_name as r_name , r.customer_subject as r_subject")
+			->from($this->message_table_name." m")
+			->join("customer s","message_sender_id = s.customer_id","LEFT")
+			->join("customer r","message_receiver_id = r.customer_id","LEFT")
+			->where("message_id",$message_id);
+
+		$this->set_customer_search_where_clause($filter);
+		
+		return $this->db
+			->get()
+			->row_array();
+	}
+
+	public function get_customer_messages($filter)
+	{
+		$this->db
+			->select("m.*")
+			->select("s.customer_name as s_name , s.customer_subject as s_subject")
+			->select("r.customer_name as r_name , r.customer_subject as r_subject")
+			->from($this->message_table_name." m")
+			->join("customer s","message_sender_id = s.customer_id","LEFT")
+			->join("customer r","message_receiver_id = r.customer_id","LEFT");
+
+		$this->set_customer_search_where_clause($filter);
+		
+		return $this->db
+			->order_by("message_date DESC")
+			->get()
+			->result_array();
+	}
+
+	private function set_customer_search_where_clause($filter)
+	{
+		$customer_type=$filter['customer_type'];
+		$customer_id=$filter['customer_id'];
+		$class_id=$filter['class_id'];
+
+		if('student'===$customer_type)
+			$where="
+				   ( message_sender_type = 'student' && message_sender_id = $customer_id )
+				|| ( message_receiver_type = 'student' && message_receiver_id = $customer_id )
+				|| ( message_sender_type = 'group' && message_receiver_type = 'group' && message_receiver_id = -$class_id )
+			";
+
+		$this->db->where(" ( $where ) ");
+
+		if(isset($filter['start']) && isset($filter['length']))
+			$this->db->limit((int)$filter['length'],(int)$filter['start']);
+	}
+
 
 }
