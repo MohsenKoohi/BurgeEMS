@@ -1,7 +1,6 @@
 <div class="main">
-
 	<div class="container dashboard">
-		<h2>{customer_name}</h2>
+		<h4>{customer_name}</h4>
 		<ul class="dash-ul">
 			<li><a href="<?php echo get_customer_class_curriculum_link($class_info['class_id'],$class_info['class_name']);?>">{curriculum_text}</li>
 			<li><a href="<?php echo get_customer_question_collection_list_link($class_info['class_grade_id'],0);?>">{questions_collection_text}</li>

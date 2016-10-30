@@ -1,6 +1,6 @@
 <div class="main">
 	<div class="container dashboard">
-		<h4>{hello_text} {customer_name}</h4>
+		<h4>{customer_name}</h4>
 		<ul class="dash-ul">
 			<li><a >{rewards_text}</a>
 				<ul class="dash-ul">

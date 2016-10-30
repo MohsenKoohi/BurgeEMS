@@ -15,10 +15,10 @@
 				min-height: 50px;
 			}
 		</style>
-		<h1>{message_text} {message_id}
+		<h1>
 			<?php 
 				if($info) 
-					echo $comma_text." ".$info['message_subject'];
+					echo $info['message_subject'];
 			?>
 		</h1>		
 		<?php 

@@ -118,6 +118,22 @@ class Message_manager_model extends CI_Model
 			->result_array();
 	}
 
+	public function get_customer_groups($customer_id)
+	{
+		$result=$this->db
+			->select("*")
+			->from($this->message_group_member_table_name)
+			->where("mgm_customer_id",$customer_id)
+			->get()
+			->result_array();
+
+		$ret=array();
+		foreach($result as $row)
+			$ret[]=$row['mgm_group_id'];
+
+		return $ret;
+	}
+
 	public function set_group_members($group_id,$members)
 	{
 		$member_ids=explode(",", $members);
@@ -232,11 +248,20 @@ class Message_manager_model extends CI_Model
 				|| ( message_receiver_type = 'teacher' && message_receiver_id = $customer_id )
 			";
 
+		if('parent'===$customer_type)
+		{
+			$groups="(".implode(",",$filter['customer_groups']).")";
+
+			$where="
+				   ( message_sender_type = 'group' && message_sender_id IN $groups )
+				|| ( message_receiver_type = 'group' && message_receiver_id IN $groups )
+			";
+		}
+
 		$this->db->where(" ( $where ) ");
 
 		if(isset($filter['start']) && isset($filter['length']))
 			$this->db->limit((int)$filter['length'],(int)$filter['start']);
 	}
-
 
 }

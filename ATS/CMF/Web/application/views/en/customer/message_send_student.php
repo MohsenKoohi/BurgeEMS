@@ -65,9 +65,15 @@
 					});
 
 					if(!result)
+					{
 						alert("{fill_all_fields_text}");
+						return false;
+					}
+
+					if(!confirm("{are_you_sure_to_submit_text}"))
+						return false;
 				
-					return result;
+					return true;
 				}
 			</script>
 		</div>

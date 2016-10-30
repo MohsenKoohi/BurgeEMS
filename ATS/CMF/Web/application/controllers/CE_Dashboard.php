@@ -34,6 +34,9 @@ class CE_Dashboard extends Burge_CMF_Controller {
 
 		if("teacher" === $info['customer_type'])
 			return $this->teacher_dashboard($info);
+
+		if("parent" === $info['customer_type'])
+			return $this->parent_dashboard($info);
 	}
 
 	private function student_dashboard($customer_info)
@@ -54,6 +57,18 @@ class CE_Dashboard extends Burge_CMF_Controller {
 		$this->data['prize_teacher']=$this->reward_manager_model->is_prize_teacher($teacher_id);
 
 		$this->send_customer_output("dashboard_teacher");
+
+		return;
+	}
+
+	private function parent_dashboard($customer_info)
+	{
+		$parent_id=$customer_info['customer_id'];
+		
+		$this->load->model("message_manager_model");
+		$this->data['groups']=$this->message_manager_model->get_customer_groups($parent_id);
+		
+		$this->send_customer_output("dashboard_parent");
 
 		return;
 	}
