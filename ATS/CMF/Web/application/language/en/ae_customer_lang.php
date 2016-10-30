@@ -12,6 +12,7 @@ $lang['customer_page']="Customer Page";
 $lang['view']="View";
 
 $lang['type_student']="Student";
+$lang['type_parent']="Parent";
 $lang['type_teacher']="Teacher";
 $lang['added_successfully']="The new customer added successfully.";
 

@@ -21,6 +21,7 @@ $lang['customer_email_is_repetitive']="Email is repetitive.";
 $lang['customer_email_cant_be_deleted']="Email can't be deleted.";
 
 $lang['type_student']="Student";
+$lang['type_parent']="Parent";
 $lang['type_teacher']="Teacher";
 $lang['desc']="Description";
 

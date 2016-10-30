@@ -21,6 +21,7 @@ $lang['customer_email_is_repetitive']="پست الکترونیک تکراری ا
 $lang['customer_email_cant_be_deleted']="امکان حذف پست الکترونیک وجود ندارد.";
 
 $lang['type_student']="دانش‌آموز";
+$lang['type_parent']="والد";
 $lang['type_teacher']="معلم";
 $lang['desc']="توضیح";
 

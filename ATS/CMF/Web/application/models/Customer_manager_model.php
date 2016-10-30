@@ -3,7 +3,7 @@ class Customer_manager_model extends CI_Model
 {
 	private $customer_table_name="customer";
 	private $customer_event_table_name="customer_event";
-	private $customer_types=array("student","teacher");
+	private $customer_types=array("student","parent","teacher");
 
 	private $event_types=array(/*"has_news","verification",*/"has_message");
 
@@ -60,8 +60,7 @@ class Customer_manager_model extends CI_Model
 		,"CUSTOMER_SET_EVENT"				=>1008
 		,"CUSTOMER_UNSET_EVENT"				=>1009
 
-		,"MESSAGE_ADD"							=>1132
-		,"MESSAGE_THREAD_ADD"				=>1133
+		,"MESSAGE_ADD"							=>1131
 
 		,"REWARD_ADD"						=> 2071
 		,"REWARD_SET_PRIZE_ACCESS"		=> 2072

@@ -78,7 +78,7 @@ $route["category-(\d+)/([^\/]+)/([^\/]*)/(\d+)"]		="CE_Category/index/$1/$2/$3/$
 $route[ADMIN_URL_FOLDER."/contact_us"]				="AE_Contact_Us";
 $route[ADMIN_URL_FOLDER."/contact_us/send_new"]	="AE_Contact_Us/send_new";
 $route[ADMIN_URL_FOLDER."/contact_us/(\d+)"]		="AE_Contact_Us/details/$1";
-//$route["contact_us"]										="CE_Contact_Us";
+$route["contact_us"]										="CE_Contact_Us";
 
 $route["retry"]="retry";
 $route["watermark"]="CE_Watermark";
@@ -105,15 +105,11 @@ $route['logout']					= "CE_Login/logout";
 //$route['signup']					= "CE_Login/signup";
 //$route['forgotten_password']	= "CE_Login/forgotten_password";
 
-$route[ADMIN_URL_FOLDER."/message"]										= "AE_Message/index";
-$route[ADMIN_URL_FOLDER."/message/new"]								= "AE_Message/new_message";
-$route[ADMIN_URL_FOLDER."/message/(\d+)"]								= "AE_Message/message/$1";
-$route[ADMIN_URL_FOLDER."/message_access(/(\d+))?"]				= "AE_Message/access/$2";
-$route[ADMIN_URL_FOLDER."/message/search_departments/(.*)"]		= "AE_Message/search_departments/$1";
-$route["contact_us"]															= "CE_Message/c2d";
-$route['message']																= "CE_Message/message";
-$route['message/(\d+)']														= "CE_Message/details/$1";
-$route['message/send/(\d+)']												= "CE_Message/c2c/$1";
+$route[ADMIN_URL_FOLDER."/message"]				= "AE_Message/index";
+$route[ADMIN_URL_FOLDER."/message/(\d+)"]		= "AE_Message/message/$1";
+$route['message']										= "CE_Message/message";
+$route['message/(\d+)']								= "CE_Message/details/$1";
+$route['message/send/(\d+)']						= "CE_Message/c2c/$1";
 
 $route[ADMIN_URL_FOLDER."/time"]							= "AE_Time/index";
 

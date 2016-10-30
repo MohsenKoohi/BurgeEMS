@@ -16,11 +16,15 @@ class AE_Customer extends Burge_CMF_Controller {
 		$name=urldecode($name);
 		$name=persian_normalize($name);
 
-		$results=$this->customer_manager_model->get_customers(array(
+		$filter=array(
 			"name"=>$name
 			,"start"=>0
 			,"length"=>$max_count
-		));
+		);
+		if($this->input->get("type"))
+			$filter['type']=$this->input->get("type");
+
+		$results=$this->customer_manager_model->get_customers($filter);
 
 		$ret=array();
 

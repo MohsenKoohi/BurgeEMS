@@ -1,18 +1,19 @@
 <?php 
 
-$lang['message_access']="سطح دسترسی پیام‌ها";
-
-$lang['department_customers']="مشتریان";
-$lang['department_agents']="نمایندگان";
-$lang['department_management']="مدیریت";
-
-$lang['user']="کاربر";
-$lang['verifier']="تایید کننده";
-$lang['supervisor']="ناظر";
-
-$lang['user_access_set_successfully']="سطح دسترسی پیام‌های این کاربر با موفقیت ثبت شد.";
-
 $lang['messages']="پیام‌ها";
+$lang['messages_list']="لیست پیام‌ها";
+$lang['groups']="گروه‌ها";
+$lang['group']="گروه";
+$lang['parents']="والدین";
+$lang['are_you_sure_to_submit']="تغییرات ثبت شود؟";
+$lang['members']="اعضا";
+$lang['changes_saved_successfully']="تغییرات با موفقیت ثبت شد.";
+$lang['']="";
+$lang['']="";
+
+$lang['group_1_name']="انجمن اولیا و مربیان";
+
+
 $lang['sender']="فرستنده";
 $lang['receiver']="گیرنده";
 $lang['me']="خودم";
@@ -52,7 +53,6 @@ $lang['to']="تا";
 $lang['results']="نتایج";
 $lang['page']="صفحه";
 $lang['total_results']="تعداد";
-$lang['are_you_sure_to_submit']="آیا مطمئنید؟";
 $lang['verifications_saved_successfully']="تایید پیام‌ها با موفقیت ثبت شد.";
 
 $lang['message']="پیام";
