@@ -8,3 +8,6 @@ $lang['rewards_list']="لیست امتیازها";
 $lang['submit_prize']="ثبت جایزه";
 $lang['submit_questions_collection']="ثبت مجموعه سوال";
 $lang['questions_collection_list']="لیست مجموعه سوال‌های ثبت شده";
+
+$lang['message_inbox']="لیست پیام‌ها";
+$lang['send_message']="ارسال پیام";

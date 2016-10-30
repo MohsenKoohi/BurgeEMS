@@ -1,18 +1,19 @@
 <?php 
 
-$lang['message_access']="Messages Access";
-
-$lang['department_customers']="Customers";
-$lang['department_agents']="Agents";
-$lang['department_management']="Management";
-
-$lang['user']="User";
-$lang['verifier']="Verifier";
-$lang['supervisor']="Supervisor";
-
-$lang['user_access_set_successfully']="User access set successfully.";
-
 $lang['messages']="Messages";
+$lang['messages_list']="Messages List";
+$lang['groups']="Groups";
+$lang['group']="Group";
+$lang['parents']="Parents";
+$lang['are_you_sure_to_submit']="Are you sure?";
+$lang['members']="Members";
+$lang['changes_saved_successfully']="Changes have been saved successfully.";
+$lang['']="";
+$lang['']="";
+
+$lang['group_1_name']="Parents and Teachers Community";
+
+
 $lang['sender']="Sender";
 $lang['receiver']="Receiver";
 $lang['me']="Me";

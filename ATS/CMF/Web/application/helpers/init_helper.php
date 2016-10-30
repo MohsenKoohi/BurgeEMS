@@ -79,9 +79,8 @@ function &get_links($just_common=FALSE)
 			,'admin_message_group_format'				=> ADMIN_SURL_LANG."/message?group_id=groupid#group"
 			,'admin_message_details_format'			=> ADMIN_SURL_LANG."/message/message_id"			
 			,'customer_message'							=> HOME_URL_LANG."/message"
+			,'customer_message_send'					=> HOME_URL_LANG."/message/send"
 			,'customer_message_details_format'		=> HOME_URL_LANG."/message/message_id"
-			,'customer_message_c2d'						=> HOME_URL_LANG."/contact_us"
-			,'customer_message_c2c_format'			=> HOME_URL_LANG."/message/send/customer_id"
 
 			,'admin_time'								=> ADMIN_SURL_LANG."/time"
 
@@ -192,15 +191,6 @@ function get_customer_class_students_link($class_id,$class_name="", $do_not_set_
 	return $ret;
 }
 
-function get_customer_message_c2c_link($customer_id, $do_not_set_lang=FALSE)
-{
-	return str_replace(
-		array("customer_id")
-		,array($customer_id)
-		,get_link("customer_message_c2c_format",$do_not_set_lang)
-	);
-}
-
 function get_customer_message_details_link($message_id, $do_not_set_lang=FALSE)
 {
 	return str_replace(
@@ -225,15 +215,6 @@ function get_admin_message_group_link($group_id, $do_not_set_lang=FALSE)
 		array("groupid")
 		,array($group_id)
 		,get_link("admin_message_group_format",$do_not_set_lang)
-	);
-}
-
-function get_admin_message_access_user_link($user_id, $do_not_set_lang=FALSE)
-{
-	return str_replace(
-		array("user_id")
-		,array($user_id)
-		,get_link("admin_message_access_user_format",$do_not_set_lang)
 	);
 }
 

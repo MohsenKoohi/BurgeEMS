@@ -1,7 +1,21 @@
 <?php
+
+/*
+
+We have two types of groups:
+1)Class groups: students of a class are memebers of their class group, with negative id of class
+2)Additional groups: which their members can be set throught the admin page
+
+We have different types of message senders:
+1)Student: can send message to its teachers and additional groups
+2)Teachers: can send message to its students, and classes
+3)Additional groups: can send message to students, and classes 
+
+*/
+
 class Message_manager_model extends CI_Model
 {	
-	private $message_table_name 		 = "message";
+	private $message_table_name = "message";
 	private $message_group_member_table_name = "message_group_member";
 	private $additional_groups=array(
 		1=>"parents_community"
@@ -19,15 +33,15 @@ class Message_manager_model extends CI_Model
 		$tbl_name=$this->db->dbprefix($this->message_table_name); 
 		$this->db->query(
 			"CREATE TABLE IF NOT EXISTS $tbl_name (
-				`mi_message_id` BIGINT UNSIGNED AUTO_INCREMENT NOT NULL
-				,`mi_sender_type` ENUM ('student','parent','teacher','group')
-				,`mi_sender_id` BIGINT UNSIGNED
-				,`mi_receiver_type` ENUM ('student','parent','teacher','group')
-				,`mi_receiver_id` BIGINT UNSIGNED
-				,`mi_last_activity` CHAR(20)
-				,`mi_subject` VARCHAR(255)
-				,`mi_content` TEXT
-				,PRIMARY KEY (`mi_message_id`)	
+				`message_id` BIGINT UNSIGNED AUTO_INCREMENT NOT NULL
+				,`message_sender_type` ENUM ('student','parent','teacher','group')
+				,`message_sender_id` BIGINT UNSIGNED
+				,`message_receiver_type` ENUM ('student','parent','teacher','group')
+				,`message_receiver_id` BIGINT UNSIGNED
+				,`message_date` CHAR(20)
+				,`message_subject` VARCHAR(255)
+				,`message_content` TEXT
+				,PRIMARY KEY (`message_id`)	
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8"
 		);
 
@@ -128,14 +142,23 @@ class Message_manager_model extends CI_Model
 	}
 
 
-	private function add_message($props)
+	public function add_message($in_props)
 	{
-		$props['mi_last_activity']=get_current_time();
+		$props=array();
 
-		$this->db->insert($this->message_info_table_name,$props);
+		$props['message_date']=get_current_time();
+
+		$props['message_sender_type']=$in_props['sender_type'];
+		$props['message_sender_id']=$in_props['sender_id'];
+		$props['message_receiver_type']=$in_props['receiver_type'];
+		$props['message_receiver_id']=$in_props['receiver_id'];
+		$props['message_content']=$in_props['content'];
+		$props['message_subject']=$in_props['subject'];
+
+		$this->db->insert($this->message_table_name,$props);
 		$id=$this->db->insert_id();
 		
-		$props['mi_message_id']=$id;
+		$props['message_id']=$id;
 		$this->log_manager_model->info("MESSAGE_ADD",$props);
 
 		return $id;

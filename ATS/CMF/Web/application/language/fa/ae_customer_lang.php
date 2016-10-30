@@ -12,7 +12,7 @@ $lang['customer_page']="صفحه مشتری";
 $lang['view']="مشاهده";
 
 $lang['type_student']="دانش‌آموز";
-$lang['type_parent']="والد";
+$lang['type_parent']="پدر/مادر";
 $lang['type_teacher']="معلم";
 
 $lang['added_successfully']="مشتری جدید با موفقیت افزوده شد.";

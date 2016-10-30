@@ -1,12 +1,20 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class CE_Message extends Burge_CMF_Controller {
+	private $customer_info=NULL;
+
 	function __construct()
 	{
 		parent::__construct();
 
 		$this->load->model(array("customer_manager_model","message_manager_model"));
+		
 		$this->data['customer_logged_in']=$this->customer_manager_model->has_customer_logged_in();
+		if(!$this->data['customer_logged_in'])
+			return redirect(get_link("home_url"));
+
+		$this->customer_info=$this->customer_manager_model->get_logged_customer_info();		
+
 		$this->lang->load('ce_message',$this->selected_lang);		
 	}
 
@@ -126,64 +134,84 @@ class CE_Message extends Burge_CMF_Controller {
 		return;
 	}
 
-	public function c2c($customer_id)
+	public function send()
 	{
-		$customer_id=(int)$customer_id;
-		if(!$customer_id)
-			return redirect(get_link("home_url"));
-
-		//check access first
-		if(!$this->data['customer_logged_in'])
-		{
-			$this->session->set_userdata("backurl",get_customer_message_c2c_link($customer_id));
-			return redirect(get_link("customer_login"));
-		}
-
-		$customer_info=$this->customer_manager_model->get_customer_info($customer_id);
-		if(!$customer_info)
-			return redirect(get_link("home_url"));
-
-		$this->data['customer_name']=$customer_info['customer_name'];
-		$this->data['post_url']=get_customer_message_c2c_link($customer_id);
-
-		if($this->input->post())
-			return $this->add_new_c2c_message($customer_id);
-
-		$this->data['message']=get_message();
-		$this->data['captcha']=get_captcha();
-		$this->data['lang_pages']=get_lang_pages(get_customer_message_c2c_link($customer_id,TRUE));
-
-		$this->data['subject']=$this->session->flashdata("message_c2c_subject");
-		$this->data['content']=$this->session->flashdata("message_c2c_content");
-		
-		$this->data['header_meta_robots']="noindex";
-
-		$this->data['header_title']=$this->lang->line("send_message").$this->lang->line("header_separator").$this->data['header_title'];
-	
-		$this->send_customer_output("message_c2c");
+		if('student' === $this->customer_info['customer_type'])
+			return $this->send_student();
 
 		return;
 	}
 
-	private function add_new_c2c_message($receiver_id)
+	private function send_student()
 	{
+		$class_id=$this->customer_info['customer_class_id'];
 		
-		if(verify_captcha($this->input->post("captcha")))
+		$this->load->model("class_manager_model");
+		$teachers=$this->class_manager_model->get_class_teachers($class_id);
+		$teacher_ids=array();
+		foreach($teachers as $index => &$teacher)
+			if(!$teacher['ct_teacher_id'])
+				unset($teachers[$index]);
+			else
+				$teacher_ids[]=$teacher['customer_id'];
+
+		$this->data['teachers']=$teachers;
+		$this->teacher_ids=$teacher_ids;
+
+		$this->data['groups']=$this->message_manager_model->get_additional_groups();
+		$this->group_ids=array();
+		foreach($this->data['groups'] as $gid => $gname)
+			$this->group_ids[]=$gid;
+
+		$this->data['post_url']=get_link("customer_message_send");
+
+		if($this->input->post())
+			return $this->send_student_post();
+
+		$this->data['message']=get_message();
+		$this->data['captcha']=get_captcha();
+		$this->data['lang_pages']=get_lang_pages(get_link('customer_message_send',TRUE));
+
+		$this->data['subject']=$this->session->flashdata("message_subject");
+		$this->data['content']=$this->session->flashdata("message_content");
+		
+		$this->data['header_title']=$this->lang->line("send_message").$this->lang->line("header_separator").$this->data['header_title'];
+	
+		$this->send_customer_output("message_send_student");
+	}
+
+	private function send_student_post()
+	{
+		if(1 || verify_captcha($this->input->post("captcha")))
 		{
 			$fields=array("subject","content");
 			$props=array();
 			foreach($fields as $field)
 				$props[$field]=$this->input->post($field);
 			
-			if($props['subject'] && $props['content'] )
+			$receiver=$this->input->post("receiver");
+			$receiver=explode("_", $receiver);
+			$receiver_cond=
+				(sizeof($receiver)==2) 
+				&& (($receiver[0]=='t') || ($receiver[0]=='g'))
+				&& (($receiver[0]=='g') || (in_array($receiver[1], $this->teacher_ids)) )
+				&& (($receiver[0]=='t') || (in_array($receiver[1], $this->group_ids)) )
+				;
+
+			if($receiver_cond && $props['subject'] && $props['content'] )
 			{
 				persian_normalize($props);
 
-				$customer_id=$this->customer_manager_model->get_logged_customer_id();
+				$customer_id=$this->customer_info['customer_id'];
 				$props['sender_id']=$customer_id;
-				$props['receiver_id']=$receiver_id;
+				$props['sender_type']="student";
+				if($receiver[0]=='t')
+					$props['receiver_type']="teacher";
+				if($receiver[0]=='g')
+					$props['receiver_type']="group";
+				$props['receiver_id']=$receiver[1];
 
-				$this->message_manager_model->add_c2c_message($props);
+				$this->message_manager_model->add_message($props);
 
 				set_message($this->lang->line("message_sent_successfully"));
 				return redirect(get_link("customer_message"));
@@ -195,10 +223,10 @@ class CE_Message extends Burge_CMF_Controller {
 			set_message($this->lang->line("captcha_incorrect"));
 		
 
-		$this->session->set_flashdata("message_c2c_subject",$this->input->post("subject"));
-		$this->session->set_flashdata("message_c2c_content",$this->input->post("content"));
+		$this->session->set_flashdata("message_subject",$this->input->post("subject"));
+		$this->session->set_flashdata("message_content",$this->input->post("content"));
 
-		return redirect(get_customer_message_c2c_link($receiver_id));
+		return redirect($this->data['post_url']);
 	}
 
 	public function c2d()

@@ -8,8 +8,24 @@
 					<div class="three columns">
 						<label>{receiver_text}</label>
 					</div>
-					<div class="three columns">
-						{customer_name}
+					<div class="six columns">
+						<select name="receiver" class="full-width">
+							<?php 
+								foreach($teachers as $t)
+								{
+									$value="t_".$t['customer_id'];
+									$name=$t['customer_name'];
+									echo "<option value='$value'>$name</option>";
+								}
+
+								foreach($groups as $gid => $gname)
+								{
+									$value="g_".$gid;
+									$name=${"group_".$gid."_name_text"};
+									echo "<option value='$value'>$name</option>";
+								}
+							?>
+						</select>
 					</div>
 				</div>
 				
