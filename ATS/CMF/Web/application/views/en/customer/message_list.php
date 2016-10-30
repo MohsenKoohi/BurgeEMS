@@ -73,8 +73,10 @@
 								<span>
 									<?php echo $mess['message_subject'];?>
 								</span>
-								<div class='ltr'>
-									<?php echo str_replace("-","/",$mess['message_date']); ?>
+								<div>
+									<span style="display:inline-block"  class='ltr'>
+										<?php echo str_replace("-","/",$mess['message_date']); ?>
+									</span>
 								</div>
 							</div>
 

@@ -471,4 +471,23 @@ class Class_manager_model extends CI_Model
 		return;
 	}
 
+	public function filter_students_in_classes($student_ids,$class_ids)
+	{
+		$result=$this->db
+			->select("customer_id")
+			->from("customer")
+			->where_in("customer_id",$student_ids)
+			->where_in("customer_class_id",$class_ids)
+			->where("customer_type","student")
+			->where("customer_active",1)
+			->get()
+			->result_array();
+
+		$ret=array();
+		foreach($result as $row)
+			$ret[]=$row['customer_id'];
+
+		return $ret;
+	}
+
 }

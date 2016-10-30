@@ -268,23 +268,51 @@ class CE_Message extends Burge_CMF_Controller {
 
 			if("student" === $receiver_type)
 			{
+				$student_ids=explode(",",$this->input->post("students"));
+				$student_ids=$this->class_manager_model->filter_students_in_classes($student_ids,$this->class_ids);
 
+				if(!$student_ids)
+				{
+					set_message($this->lang->line("it_is_not_possible_to_send_message_to_this_class"));
+					return redirect(get_link("customer_message_send"));	
+				}
+
+				$receiver_type="student";
+				$receiver_ids=$student_ids;
 			}
 			
 			if($props['subject'] && $props['content'] )
 			{
 				persian_normalize($props);
-
 				$teacher_id=$this->customer_info['customer_id'];
 				$props['sender_id']=$teacher_id;
 				$props['sender_type']="teacher";
-				$props['receiver_type']=$receiver_type;
-				$props['receiver_id']=$receiver_id;
+					
+				if($receiver_type === 'group')
+				{
+					$props['receiver_type']="group";
+					$props['receiver_id']=$receiver_id;
 
-				$this->message_manager_model->add_message($props);
+					$this->message_manager_model->add_message($props);
 
-				set_message($this->lang->line("message_sent_successfully"));
-				return redirect(get_link("customer_message"));
+					set_message($this->lang->line("message_sent_successfully"));
+					return redirect(get_link("customer_message"));
+				}
+
+				if($receiver_type==="student")
+				{
+					$props['receiver_type']="student";		
+					foreach($receiver_ids as $rid)
+					{
+						$props['receiver_id']=$rid;
+
+						$this->message_manager_model->add_message($props);
+					}
+
+					set_message($this->lang->line("messages_sent_successfully"));
+					return redirect(get_link("customer_message"));
+				}
+
 			}
 			else
 				set_message($this->lang->line("fill_all_fields"));

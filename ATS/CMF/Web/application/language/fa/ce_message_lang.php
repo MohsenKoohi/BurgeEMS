@@ -29,3 +29,5 @@ $lang['student']="دانش آموز";
 $lang["receiver_has_not_selected"]="گیرنده پیام مشخص نشده است.";
 $lang['are_you_sure_to_submit']="پیام ارسال شود؟";
 $lang['it_is_not_possible_to_send_message_to_this_class']="امکان ارسال پیام برای کلاس مورد نظر وجود ندارد.";
+$lang['it_is_not_possible_to_send_message_to_these_students']="امکان ارسال به دانش آموزان انتخاب شده وجود ندارد.";
+$lang['messages_sent_successfully']="پیام(ها) با موفقیت ارسال شدند.";
