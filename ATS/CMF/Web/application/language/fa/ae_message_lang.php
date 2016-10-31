@@ -91,7 +91,8 @@ $lang['message_added_successfully']="پیام شما با موفقیت ارسا�
 
 $lang['last_message']="آخرین پیام";
 $lang['count']="تعداد";
-
+$lang['messages_of']="پیام‌های";
+$lang['and']="و";
 
 $lang['']="";
 $lang['']="";

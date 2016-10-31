@@ -88,6 +88,12 @@ $lang['please_specify_the_sender_department']="Please specify the sender.";
 $lang['please_specify_the_receiver']="Please specify the receiver.";
 $lang['please_fill_subject_and_content']="Please fill subject and content fields.";
 $lang['message_added_successfully']="The new message sent successfully.";
+
+$lang['last_message']="Last message";
+$lang['count']="Count";
+$lang['messages_of']="Messages between";
+$lang['and']="and";
+
 $lang['']="";
 $lang['']="";
 $lang['']="";
