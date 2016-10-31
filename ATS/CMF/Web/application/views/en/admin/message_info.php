@@ -4,6 +4,7 @@
 			.even-odd-bg
 			{
 				margin-bottom: 20px;
+				font-size: 1.2em;
 			}
 			div.two.columns
 			{

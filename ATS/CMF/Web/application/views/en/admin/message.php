@@ -45,11 +45,9 @@
 						color:black;
 					}
 
-					.even-odd-bg div.message-content
-					{
-						text-overflow: ellipsis;
-						overflow:hidden;
-						max-height: 110px;
+					.even-odd-bg 
+					{ 
+						font-size: 1.2em;
 					}
 
 					.view-img
