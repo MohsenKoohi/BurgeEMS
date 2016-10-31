@@ -263,7 +263,7 @@ class Message_manager_model extends CI_Model
 			->join("customer r","message_receiver_id = r.customer_id","LEFT");
 
 		$this->set_customer_search_where_clause($filter);
-
+		
 		return $this->db
 			->order_by("message_date DESC")
 			->get()

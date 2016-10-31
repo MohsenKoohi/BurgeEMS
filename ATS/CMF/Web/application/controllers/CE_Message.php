@@ -230,7 +230,7 @@ class CE_Message extends Burge_CMF_Controller {
 
 		if($total)
 		{
-			$per_page=10;
+			$per_page=20;
 			$total_pages=ceil($total/$per_page);
 			$page=1;
 			if($this->input->get("page"))
