@@ -548,9 +548,6 @@ body.rtl .even-odd-bg > div {
 .row.even-odd-bg:nth-child(2n+2) .counter {
   color: #C63672; }
 
-body.customer-env .row.even-odd-bg {
-  font-size: 1.2em; }
-
 .checkbox-holder {
   vertical-align: middle;
   position: relative;
@@ -874,6 +871,7 @@ body.ltr .category-div li {
   color: white;
   margin: 5px;
   padding: 5px 10px;
+  font-size: 1.2em;
   border-radius: 5px; }
 
 @media (min-width: 600px) {

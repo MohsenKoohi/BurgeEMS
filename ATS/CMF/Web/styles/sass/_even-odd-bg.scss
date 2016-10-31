@@ -69,8 +69,3 @@ body.rtl .even-odd-bg > div
 .row.even-odd-bg:nth-child(2n+2) .counter {
     color: $secondary-color;
 }
-
-body.customer-env .row.even-odd-bg 
-{
-	font-size: 1.2em;
-}
