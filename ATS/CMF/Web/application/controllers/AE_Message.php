@@ -10,47 +10,96 @@ class AE_Message extends Burge_CMF_Controller {
 		$this->load->model(array("message_manager_model"));
 	}
 
-	public function message($message_id)
+	public function message($message_code)
 	{
-		$message_id=(int)$message_id;
-				
-		$ret=$this->message_manager_model->get_admin_message($message_id);
+		$parts=explode("_",$message_code);
+		if(sizeof($parts) != 2)
+			return redirect(get_link("admin_message"));
 
-		//bprint_r($ret['access']['added_departments']);
-		//bprint_r($ret['access']['added_users']);
-		
-		if($ret)
+		$filter=array();
+		switch($parts[0][0])
 		{
-			if($this->input->post("post_type") === "add_reply_comment")
-				return $this->add_reply_comment($message_id,$ret);
-
-			if($this->input->post("post_type") === "set_participants")
-				return $this->set_participants($message_id);
-
-			$this->data['access']=$ret['access'];
-			$this->data['message_info']=$ret['message'];
-			$this->data['threads']=$ret['threads'];
-
-			if($this->data['message_info'])
-				$message_id=$this->data['message_info']['mi_message_id'];
-			
-			$this->data['departments']=$this->message_manager_model->get_departments();
-
-			$this->data['departments_search_url']=get_link("admin_message_search_departments");
-			$this->data['users_search_url']=get_link("admin_user_search");
-			
+			case 's':
+				$filter['part1_type']='student';
+				break;
+			case 't':
+				$filter['part1_type']='teacher';
+				break;
+			case 'g':
+				$filter['part1_type']='group';
+				break;
+			case 'p':
+				$filter['part1_type']='parent';
+				break;
 		}
-		else
+		$filter['part1_id']=substr($parts[0], 1);
+
+		switch($parts[1][0])
 		{
-			$this->data['message_info']=NULL;	
+			case 's':
+				$filter['part2_type']='student';
+				break;
+			case 't':
+				$filter['part2_type']='teacher';
+				break;
+			case 'g':
+				$filter['part2_type']='group';
+				break;
+			case 'p':
+				$filter['part2_type']='parent';
+				break;
 		}
+		$filter['part2_id']=substr($parts[1], 1);
 
-		$this->data['message_id']=$message_id;
+		$result=$this->message_manager_model->get_admin_message($filter);
+		$this->data['messages']=$result;
+
+		$this->load->model("class_manager_model");
+		$this->data['class_names']=$this->class_manager_model->get_classes_names();
+
+		$header=$this->get_message_header($result);
+		$this->data['header']=$header;
+		$this->data['header_title']=$header;
+	
 		$this->data['message']=get_message();
-		$this->data['lang_pages']=get_lang_pages(get_admin_message_details_link($message_id,TRUE));
-		$this->data['header_title']=$this->lang->line("message")." ".$message_id;
+		$this->data['lang_pages']=get_lang_pages(get_admin_message_details_link($message_code,TRUE));
 
 		$this->send_admin_output("message_info");
+	}
+
+	private function get_message_header($result)
+	{
+		$lmess=$result[sizeof($result)-1];
+
+		$type=$lmess['message_sender_type'];
+		if($type === "group")
+		{
+			if($lmess['message_sender_id'] > 0)
+				$sender=$this->lang->line("group_".$lmess['message_sender_id']."_name");
+			else
+				$sender=$this->data['class_names'][-$lmess['message_sender_id']];
+		}
+		if($type === "teacher")						
+			$sender=$lmess['s_name']." (".$lmess['s_subject'].")";
+		if($type === "student" || $type === "parent")						
+			$sender=$lmess['s_name'];
+
+		$type=$lmess['message_receiver_type'];
+		if($type === "group")
+		{
+			if($lmess['message_receiver_id'] > 0)
+				$receiver=$this->lang->line("group_".$lmess['message_receiver_id']."_name");
+			else
+				$receiver=$this->data['class_names'][-$lmess['message_receiver_id']];
+		}
+		if($type === "teacher")						
+			$receiver=$lmess['r_name']." (".$lmess['r_subject'].")";
+		if($type === "student" || $type === "parent")						
+			$receiver=$lmess['r_name'];
+
+		$header=$this->lang->line("messages_of")." ".$sender." ".$this->lang->line("and")." ".$receiver;
+
+		return $header;
 	}
 
 	public function index()
@@ -106,29 +155,14 @@ class AE_Message extends Burge_CMF_Controller {
 
 	private function set_messages()
 	{
-		return;
-		$op_access=$this->data['op_access'];
-		$departments=$this->message_manager_model->get_departments();
-		$user_departments=array();
-		foreach($departments as $id => $name)
-			if($op_access['departments'][$name])
-				$user_departments[]=$id;
-		unset($departments);
 
-		$access=array(
-			"type"=>"user"
-			,"id"=>$this->user_manager_model->get_user_info()->get_id()
-			,"op_access"=>$op_access
-			,"department_ids"=>$user_departments
-		);
-
-		$filters=array();
+		$this->load->model("class_manager_model");
+		$this->data['class_names']=$this->class_manager_model->get_classes_names();
 
 		$this->data['raw_page_url']=get_link("admin_message");
+		$filters=array();
 		
-		$this->initialize_filters($filters,$access);
-		
-		$total=$this->message_manager_model->get_total_messages($filters,$access);
+		$total=$this->message_manager_model->get_admin_total_messages($filters);
 		if($total)
 		{
 			$per_page=20;
@@ -143,8 +177,9 @@ class AE_Message extends Burge_CMF_Controller {
 			$filters['start']=$start;
 			$filters['length']=$per_page;
 			
-			$this->data['messages']=$this->message_manager_model->get_messages($filters,$access);
-			$this->process_messages_for_view();
+			$this->data['messages']=$this->message_manager_model->get_admin_messages($filters);
+			foreach($this->data['messages'] as &$mess)
+				$mess['link']=$this->get_admin_message_link($mess);
 			
 			$end=$start+sizeof($this->data['messages'])-1;
 
@@ -171,6 +206,13 @@ class AE_Message extends Burge_CMF_Controller {
 		$this->data['filters']=$filters;
 
 		return;
+	}
+
+	private function get_admin_message_link($mess)
+	{
+		$p1=$mess['message_sender_type'][0].$mess['message_sender_id'];
+		$p2=$mess['message_receiver_type'][0].$mess['message_receiver_id'];
+		return get_admin_message_details_link($p1."_".$p2);
 	}
 
 	//in this function we set limitations for messages based on 

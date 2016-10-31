@@ -106,7 +106,7 @@ $route['logout']					= "CE_Login/logout";
 //$route['forgotten_password']	= "CE_Login/forgotten_password";
 
 $route[ADMIN_URL_FOLDER."/message"]				= "AE_Message/index";
-$route[ADMIN_URL_FOLDER."/message/(\d+)"]		= "AE_Message/message/$1";
+$route[ADMIN_URL_FOLDER."/message/([^\/]*)"] = "AE_Message/message/$1";
 $route['message']										= "CE_Message/message";
 $route['message/send']								= "CE_Message/send";
 $route['message/search/(.*)']						= "CE_Message/search/$1";

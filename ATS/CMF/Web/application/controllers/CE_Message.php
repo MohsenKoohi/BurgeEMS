@@ -107,11 +107,11 @@ class CE_Message extends Burge_CMF_Controller {
 
 		$this->data['messages']=$result;
 
-		$this->data['captcha']=get_captcha();
+		//$this->data['captcha']=get_captcha();
 		$this->load->model("class_manager_model");
 		$this->data['class_names']=$this->class_manager_model->get_classes_names();
 
-		$this->data['content']=$this->session->flashdata("content");
+		//$this->data['content']=$this->session->flashdata("content");
 		
 		$this->data['page_link']=get_customer_message_details_link($message_code);
 		$this->data['message']=get_message();

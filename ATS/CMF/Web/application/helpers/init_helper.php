@@ -77,7 +77,7 @@ function &get_links($just_common=FALSE)
 
 			,'admin_message'								=> ADMIN_SURL_LANG."/message"
 			,'admin_message_group_format'				=> ADMIN_SURL_LANG."/message?group_id=groupid#group"
-			,'admin_message_details_format'			=> ADMIN_SURL_LANG."/message/message_id"			
+			,'admin_message_details_format'			=> ADMIN_SURL_LANG."/message/message_code"			
 			,'customer_message'							=> HOME_URL_LANG."/message"
 			,'customer_message_send'					=> HOME_URL_LANG."/message/send"
 			,'customer_message_search'					=> HOME_URL_LANG."/message/search"
@@ -201,11 +201,11 @@ function get_customer_message_details_link($message_code, $do_not_set_lang=FALSE
 	);
 }
 
-function get_admin_message_details_link($message_id, $do_not_set_lang=FALSE)
+function get_admin_message_details_link($message_code, $do_not_set_lang=FALSE)
 {
 	return str_replace(
-		array("message_id")
-		,array($message_id)
+		array("message_code")
+		,array($message_code)
 		,get_link("admin_message_details_format",$do_not_set_lang)
 	);
 }

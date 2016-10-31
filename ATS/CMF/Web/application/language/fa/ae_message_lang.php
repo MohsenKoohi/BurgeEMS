@@ -88,6 +88,11 @@ $lang['please_specify_the_sender_department']="لطفا فرستنده را مش
 $lang['please_specify_the_receiver']="گیرنده پیام را مشخص فرمایید.";
 $lang['please_fill_subject_and_content']="لطفا عنوان و متن پیام رامشخص نمایید.";
 $lang['message_added_successfully']="پیام شما با موفقیت ارسال شد.";
+
+$lang['last_message']="آخرین پیام";
+$lang['count']="تعداد";
+
+
 $lang['']="";
 $lang['']="";
 $lang['']="";

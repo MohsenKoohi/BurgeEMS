@@ -67,6 +67,7 @@
 				</style>
 
 				<div class="container separated">
+					<?php if(0) { ?>
 					<div class="row filter half-col-margin-children">				
 						<div class="three columns">
 							<label>{start_date_text}</label>
@@ -193,6 +194,7 @@
 						</div>				
 						
 					</div>
+					<?php } ?>
 
 					<div class="row results-count" >
 						<div class="six columns">
@@ -331,106 +333,62 @@
 						if($messages_total)
 							foreach($messages as $mess)
 							{ 
-								$mess_link=get_admin_message_details_link($mess['mi_message_id']);
 					?>
 								<div class="row even-odd-bg">
-									<div class="one column counter">
-										#<?php echo $i++;?>
-									</div>
-
 									<div class="three columns">
-										{sender_from_text}:
+										<label>{sender_from_text}</label>
 										<?php 
-											$type=$mess['mi_sender_type'];
-											if($type === "department")
-												$sender=$department_text." ".${"department_".$departments[$mess['mi_sender_id']]."_text"};
-											if($type === "user")
-												$sender=$user_text." ".$mess['suc']." - ".$mess['sun'];
-											if($type === "customer")
+											$type=$mess['message_sender_type'];
+											if($type === "group")
 											{
-												$link=get_admin_customer_details_link($mess['mi_sender_id']);
-												$sender="<a target='_blank' href='$link'>"
-													.$customer_text." ".$mess['mi_sender_id']." - ".$mess['scn']
-													."</a>";
+												if($mess['message_sender_id'] > 0)
+													$sender=${"group_".$mess['message_sender_id']."_name_text"};
+												else
+													$sender=$class_names[-$mess['message_sender_id']];
 											}
+											if($type === "teacher")						
+												$sender=$mess['s_name']." (".$mess['s_subject'].")";
+											if($type === "student" || $type === "parent")						
+												$sender=$mess['s_name'];
 											echo "<span>".$sender."</span>";
 										?>
-										<br>
-										{receiver_to_text}:
+									</div>
+									<div class="three columns">
+										<label>{receiver_to_text}:</label>
 										<?php 
-											$type=$mess['mi_receiver_type'];
-											if($type === "department")
-												$receiver=$department_text." ".${"department_".$departments[$mess['mi_receiver_id']]."_text"};
-											if($type === "user")
-												$receiver=$user_text." ".$mess['ruc']." - ".$mess['run'];
-											if($type === "customer")
+											$type=$mess['message_receiver_type'];
+											if($type === "group")
 											{
-												$link=get_admin_customer_details_link($mess['mi_receiver_id']);
-												$receiver="<a target='_blank' href='$link'>"
-													.$customer_text." ".$mess['mi_receiver_id']." - ".$mess['rcn']
-													."</a>";
+												if($mess['message_receiver_id'] > 0)
+													$receiver=${"group_".$mess['message_receiver_id']."_name_text"};
+												else
+													$receiver=$class_names[-$mess['message_receiver_id']];
 											}
+											if($type === "teacher")						
+												$receiver=$mess['r_name']." (".$mess['r_subject'].")";
+											if($type === "student" || $type === "parent")						
+												$receiver=$mess['r_name'];
 											echo "<span>".$receiver."</span>";
 										?>
-										<div class='ltr'>
-											<?php echo str_replace("-","/",$mess['mi_last_activity']); ?>
-										</div>
 									</div>
 									
+									<div class="three columns">
+										<label>{last_message_text}</label>
+										<span>
+											<?php echo $mess['message_subject'];?><br>
+											<small style="display:inline-block"  class='ltr'>
+												<?php echo str_replace("-","/",$mess['message_date']); ?>
+											</small>
+										</span>
+									</div>
 									<div class="two columns">
-										<label>{subject_text}</label>
+										<label>{count_text}</label>
 										<span>
-											<?php echo $mess['mi_subject'];?>
+											<?php echo $mess['count'];?>
 										</span>
-									</div>
-
-									<div class="three columns message-content">
-										<label>{content_of_last_message_text}</label>
-										<span>
-											<?php echo $mess['mt_content'];?>
-										</span>
-									</div>
-
-									<div class="two columns">
-										<label>{status_text}</label>
-										<span>
-											<?php
-												if($mess['mi_complete'])
-													echo $complete_text;
-												else
-													echo $changing_text;
-
-												if($op_access['users'])
-													if(!$mess['mi_active'])
-														echo " - ".$inactive_text;
-
-												if(($mess['mi_sender_type'] === "customer") && ($mess['mi_receiver_type'] === "customer") && ($mess['mt_sender_type'] === "customer"))
-												{
-													echo " - ";
-													$verification_status[$mess['mt_thread_id']]=(int)$mess['mt_verifier_id'];
-													if($mess['mt_verifier_id'])
-													{
-														$verify="checked";
-														echo $verified_text;
-													}
-													else
-													{
-														$verify="";
-														$not_verified_messages[]=$mess['mi_message_id'];
-														echo $not_verified_text;
-													}
-
-													$id=$mess['mt_thread_id'];
-													if($op_access['verifier'])
-														echo "<br>".$verify_text.": <span>&nbsp;</span> <input type='checkbox' ".$verify." class='graphical' onchange='verifyMessage($id,$(this).prop(\"checked\"));'>";
-												}
-											?>
-										</span>
-									</div>
-
-									<div class="one column">
-										
-										<a target="_blank" href="<?php echo $mess_link;?>">
+									</div>							
+									<div class="one columns">
+										<a target="_blank" href="<?php echo $mess['link'];?>">
 											<img src="{images_url}/details.png" class="view-img anti-float" title="{view_details_text}";/>
 										</a>
 									
@@ -439,63 +397,6 @@
 					<?php 
 							}
 					?>
-
-					<?php 
-						if($op_access['verifier'] && $verification_status) {
-							echo form_open(get_link("admin_message"),array("onsubmit"=>"return verifySubmit();")); 
-					?>
-							<br><br>
-							<input type="hidden" name="post_type" value="verify_c2c_messages"/>
-							<input type="hidden" name="verified_messages" value=""/>
-							<input type="hidden" name="redirect_link" value=""/>
-							<input type="hidden" name="not_verified_messages" value=""/>
-							<div class="row">
-									<div class="nine columns">&nbsp;</div>
-									<input type="submit" class=" button-primary three columns" value="{verify_text}"/>
-							</div>
-						</form>
-
-						<script type="text/javascript">
-							var verificationStatus=JSON.parse('<?php echo json_encode($verification_status);?>');
-							function verifyMessage(tid, checked)
-							{
-								verificationStatus[tid]=checked;
-							}
-
-							function verifySubmit()
-							{
-								if(!confirm("{are_you_sure_to_submit_text}"))
-									return false;
-
-								var v=[];
-								var nv=[];
-								for(i in verificationStatus)
-									if(verificationStatus[i])
-										v.push(i);
-									else
-										nv.push(i);
-
-								$("input[name='verified_messages']").val(v.join(","));
-								$("input[name='not_verified_messages']").val(nv.join(","));
-								$("input[name='redirect_link']").val(getCustomerSearchUrl(initialFilters));
-
-								return true;
-							}
-						</script>
-					<?php
-						}
-					?>
-					<script type="text/javascript">
-						$(function()
-						{
-							$(".row.even-odd-bg div.message-content a").each(
-								function(index,el)
-								{
-									$(el).prop("title",$(el).text());
-								}
-							);
-						});
-					</script>
 				</div>
 			</div>
 

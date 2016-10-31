@@ -33,3 +33,5 @@ $lang['it_is_not_possible_to_send_message_to_these_students']="It's not possible
 $lang['messages_sent_successfully']="Message(s) have been sent successfully.";
 $lang['last_message']="Last message";
 $lang['count']="Count";
+$lang['messages_of']="Messages between";
+$lang['and']="and";
