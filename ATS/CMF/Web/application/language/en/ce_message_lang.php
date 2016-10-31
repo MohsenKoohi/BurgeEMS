@@ -31,3 +31,5 @@ $lang['are_you_sure_to_submit']="Are you sure?";
 $lang['it_is_not_possible_to_send_message_to_this_class']="It's not possible to send message to this class";
 $lang['it_is_not_possible_to_send_message_to_these_students']="It's not possible to send message to these students";
 $lang['messages_sent_successfully']="Message(s) have been sent successfully.";
+$lang['last_message']="Last message";
+$lang['count']="Count";

@@ -182,19 +182,45 @@ class Message_manager_model extends CI_Model
 
 	public function get_customer_total_messages($filter)
 	{
+		$subquery=$this->db
+			->select("max(message_id) as max_message_id")
+			->from($this->message_table_name)
+			->group_by("message_sender_type, message_sender_id, message_receiver_type, message_receiver_id")
+			->get_compiled_select();
+
 		$this->db
-			->select("COUNT(*) as count")
-			->from($this->message_table_name);
-		
+			->select("*")
+			->from($this->message_table_name)
+			->join("($subquery) sub","message_id = max_message_id","INNER");
+
 		$this->set_customer_search_where_clause($filter);
 
-		$row=$this->db->get()->row_array();
+		$subquery=$this->db->get_compiled_select();
+
+		$row=$this->db
+			->query("SELECT COUNT(*) as count from ($subquery) sub")
+			->row_array();
 
 		return $row['count'];
 	}
 
-	public function get_customer_message($message_id, $filter)
+	public function get_customer_message($filter)
 	{
+		$ft=$filter['part1_type'];
+		$fi=$filter['part1_id'];
+		$st=$filter['part2_type'];
+		$si=$filter['part2_id'];
+		$where="
+			(
+				message_sender_type = '$ft' && message_sender_id = $fi 
+				&& message_receiver_type = '$st' && message_receiver_id = '$si' 
+			)
+			|| ( 
+				message_sender_type = '$st' && message_sender_id = $si 
+				&& message_receiver_type = '$ft' && message_receiver_id = '$fi' 
+			)
+		";
+
 		$this->db
 			->select("m.*")
 			->select("s.customer_name as s_name , s.customer_subject as s_subject")
@@ -202,27 +228,42 @@ class Message_manager_model extends CI_Model
 			->from($this->message_table_name." m")
 			->join("customer s","message_sender_id = s.customer_id","LEFT")
 			->join("customer r","message_receiver_id = r.customer_id","LEFT")
-			->where("message_id",$message_id);
-
-		$this->set_customer_search_where_clause($filter);
+			->order_by("message_date ASC")
+			->where("( $where )");
 		
 		return $this->db
 			->get()
-			->row_array();
+			->result_array();
 	}
 
 	public function get_customer_messages($filter)
 	{
+		$subquery=$this->db
+			->select("max(message_id) as max_message_id,count(*) as count")
+			->from($this->message_table_name)
+			->group_by("
+				(if(
+				CONCAT(message_receiver_type, message_receiver_id,message_sender_type, message_sender_id)
+				<
+				CONCAT(message_sender_type, message_sender_id,message_receiver_type, message_receiver_id)
+				,CONCAT(message_sender_type, message_sender_id,message_receiver_type, message_receiver_id)
+				,CONCAT(message_receiver_type, message_receiver_id,message_sender_type, message_sender_id)
+			))
+
+				")
+			->get_compiled_select();
+
 		$this->db
-			->select("m.*")
+			->select("m.*, sub.count")
 			->select("s.customer_name as s_name , s.customer_subject as s_subject")
 			->select("r.customer_name as r_name , r.customer_subject as r_subject")
 			->from($this->message_table_name." m")
+			->join("($subquery) sub","message_id = max_message_id","INNER")
 			->join("customer s","message_sender_id = s.customer_id","LEFT")
 			->join("customer r","message_receiver_id = r.customer_id","LEFT");
 
 		$this->set_customer_search_where_clause($filter);
-		
+
 		return $this->db
 			->order_by("message_date DESC")
 			->get()
@@ -259,6 +300,16 @@ class Message_manager_model extends CI_Model
 		}
 
 		$this->db->where(" ( $where ) ");
+
+		$this->db->group_by("
+			(if(
+				CONCAT(message_receiver_type, message_receiver_id,message_sender_type, message_sender_id)
+				<
+				CONCAT(message_sender_type, message_sender_id,message_receiver_type, message_receiver_id)
+				,CONCAT(message_receiver_type, message_receiver_id,message_sender_type, message_sender_id)
+				,CONCAT(message_sender_type, message_sender_id,message_receiver_type, message_receiver_id)
+			))
+		 ");
 
 		if(isset($filter['start']) && isset($filter['length']))
 			$this->db->limit((int)$filter['length'],(int)$filter['start']);

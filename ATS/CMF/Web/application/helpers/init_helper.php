@@ -81,7 +81,7 @@ function &get_links($just_common=FALSE)
 			,'customer_message'							=> HOME_URL_LANG."/message"
 			,'customer_message_send'					=> HOME_URL_LANG."/message/send"
 			,'customer_message_search'					=> HOME_URL_LANG."/message/search"
-			,'customer_message_details_format'		=> HOME_URL_LANG."/message/message_id"
+			,'customer_message_details_format'		=> HOME_URL_LANG."/message/message_code"
 
 			,'admin_time'								=> ADMIN_SURL_LANG."/time"
 
@@ -192,11 +192,11 @@ function get_customer_class_students_link($class_id,$class_name="", $do_not_set_
 	return $ret;
 }
 
-function get_customer_message_details_link($message_id, $do_not_set_lang=FALSE)
+function get_customer_message_details_link($message_code, $do_not_set_lang=FALSE)
 {
 	return str_replace(
-		array("message_id")
-		,array($message_id)
+		array("message_code")
+		,array($message_code)
 		,get_link("customer_message_details_format",$do_not_set_lang)
 	);
 }

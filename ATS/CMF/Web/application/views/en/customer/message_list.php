@@ -62,24 +62,9 @@
 				if($messages_total)
 					foreach($messages as $mess)
 					{ 
-						$mess_link=get_customer_message_details_link($mess['message_id']);
+						$mess_link=$mess['link'];
 			?>
 						<div class="row even-odd-bg">
-							<div class="one column counter">
-								#<?php echo $i++;?>
-							</div>
-							<div class="four columns">
-								<label>{subject_text}</label>
-								<span>
-									<?php echo $mess['message_subject'];?>
-								</span>
-								<div>
-									<small style="display:inline-block"  class='ltr'>
-										<?php echo str_replace("-","/",$mess['message_date']); ?>
-									</small>
-								</div>
-							</div>
-
 							<div class="three columns">
 								<label>{sender_from_text}</label>
 								<?php 
@@ -117,8 +102,22 @@
 								?>
 							</div>
 							
-							
-							<div class="one column">
+							<div class="three columns">
+								<label>{last_message_text}</label>
+								<span>
+									<?php echo $mess['message_subject'];?><br>
+									<small style="display:inline-block"  class='ltr'>
+										<?php echo str_replace("-","/",$mess['message_date']); ?>
+									</small>
+								</span>
+							</div>
+							<div class="two columns">
+								<label>{count_text}</label>
+								<span>
+									<?php echo $mess['count'];?>
+								</span>
+							</div>							
+							<div class="one columns">
 								<a target="_blank" href="<?php echo $mess_link;?>">
 									<img src="{images_url}/details.png" class="view-img anti-float" title="{view_details_text}";/>
 								</a>
