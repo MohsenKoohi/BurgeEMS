@@ -629,7 +629,6 @@ class CE_Message extends Burge_CMF_Controller {
 					foreach($parent_ids as $pid)
 					{
 						$props['receiver_id']=$pid;
-						bprint_r($props);exit();
 
 						$this->message_manager_model->add_message($props);
 					}

@@ -216,9 +216,19 @@
 						<label>{content_text}</label>
 					</div>
 					<div class="nine columns">
-						<textarea name="content" class="full-width" rows="5">{content}</textarea>
+						<textarea name="content" class="full-width" rows="8">{content}</textarea>
 					</div>
 				</div>
+				<?php if(0){ ?>
+					<div class="row">
+						<div class="three columns">
+							{captcha}
+						</div>
+						<div class="nine columns">
+							<input name="captcha" class="lang-en"/>
+						</div>
+					</div>
+				<?php } ?>
 				<div class="row">
 					<div class="six columns">&nbsp;</div>
 					<input type="submit" class=" button-primary three columns" value="{send_text}"/>

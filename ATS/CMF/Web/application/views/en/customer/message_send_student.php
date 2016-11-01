@@ -31,7 +31,7 @@
 						<label>{content_text}</label>
 					</div>
 					<div class="nine columns">
-						<textarea name="content" class="full-width" rows="5">{content}</textarea>
+						<textarea name="content" class="full-width" rows="8">{content}</textarea>
 					</div>
 				</div>
 				<?php if(0){ ?>
