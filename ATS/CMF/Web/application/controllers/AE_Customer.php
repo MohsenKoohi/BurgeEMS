@@ -23,6 +23,8 @@ class AE_Customer extends Burge_CMF_Controller {
 		);
 		if($this->input->get("type"))
 			$filter['type']=$this->input->get("type");
+		if($this->input->get("active"))
+			$filter['active']=$this->input->get("active");
 
 		$results=$this->customer_manager_model->get_customers($filter);
 

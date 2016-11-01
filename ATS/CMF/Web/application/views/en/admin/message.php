@@ -463,7 +463,7 @@
 							         source: function(request, response)
 							         {
 							            var term=request["term"];
-							            $.get(searchUrl+"/"+encodeURIComponent(term)+"?type=parent",
+							            $.get(searchUrl+"/"+encodeURIComponent(term)+"?type=parent&active=1",
 							              function(res)
 							              {
 							                var rets=[];
