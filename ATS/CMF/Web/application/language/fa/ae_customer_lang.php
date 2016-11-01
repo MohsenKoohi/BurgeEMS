@@ -27,6 +27,8 @@ $lang['mobile']="موبایل";
 $lang['total']="تعداد";
 
 $lang['code']="شناسه";
+$lang['father_code']="شناسه پدر";
+$lang['mother_code']="شناسه مادر";
 $lang['province']="استان";
 $lang['city']="شهر";
 $lang['address']="آدرس";

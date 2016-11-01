@@ -9,6 +9,8 @@ $lang['type']="Type";
 
 $lang['customer_not_found']="Person not found.";
 $lang['code']="Code";
+$lang['father_code']="Father code";
+$lang['mother_code']="Mother code";
 $lang['province']="Province";
 $lang['city']="City";
 $lang['address']="Address";

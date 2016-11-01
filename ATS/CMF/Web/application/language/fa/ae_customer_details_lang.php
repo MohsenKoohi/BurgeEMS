@@ -9,6 +9,8 @@ $lang['type']="نوع";
 
 $lang['customer_not_found']="شخص مورد نظر پیدا نشد.";
 $lang['code']="شناسه";
+$lang['father_code']="شناسه پدر";
+$lang['mother_code']="شناسه مادر";
 $lang['province']="استان";
 $lang['city']="شهر";
 $lang['address']="آدرس";

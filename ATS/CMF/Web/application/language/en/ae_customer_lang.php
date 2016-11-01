@@ -26,6 +26,8 @@ $lang['mobile']="Mobile";
 $lang['total']="Total";
 
 $lang['code']="Code";
+$lang['father_code']="Father code";
+$lang['mother_code']="Mother code";
 $lang['province']="Province";
 $lang['city']="City";
 $lang['address']="Address";

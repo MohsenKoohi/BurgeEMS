@@ -10,6 +10,8 @@ We have different types of message senders:
 1)Student: can send message to its teachers and additional groups
 2)Teachers: can send message to its students, and classes
 3)Additional groups: can send message to students, and classes 
+4)Students Class: to receive a message by students of a class
+5)Parents Class: to receive a message by students' parents of a class
 
 */
 
@@ -35,8 +37,8 @@ class Message_manager_model extends CI_Model
 			"CREATE TABLE IF NOT EXISTS $tbl_name (
 				`message_id` BIGINT UNSIGNED AUTO_INCREMENT NOT NULL
 				,`message_sender_type` ENUM ('student','parent','teacher','group')
-				,`message_sender_id` BIGINT 
-				,`message_receiver_type` ENUM ('student','parent','teacher','group')
+				,`message_sender_id` BIGINT UNSIGNED
+				,`message_receiver_type` ENUM ('student','student_class','parent','parent_class','teacher','group')
 				,`message_receiver_id` BIGINT 
 				,`message_date` CHAR(20)
 				,`message_subject` VARCHAR(255)

@@ -598,7 +598,7 @@
 									</div>
 									<div class="three columns">
 										<label>{type_text}</label>
-										<select name="customer_type" class="full-width" onchange="$('.subject-div,.class-div').toggleClass('disno');">
+										<select name="customer_type" class="full-width" onchange="typeChanged(this);">
 											<?php
 												foreach ($customer_types as $type)
 												{
@@ -610,9 +610,7 @@
 											?>
 										</select>
 									</div>
-									<div class="three columns class-div
-										<?php if($customer_info['customer_type']==='teacher') echo 'disno' ?>
-									">
+									<div class="three columns student-div disno">
 										<label>{class_text}</label>
 										<select name="customer_class_id" class="full-width">
 											<option value="">&nbsp;</option>
@@ -625,9 +623,7 @@
 										</select>
 
 									</div>
-									<div class="three columns subject-div 
-										<?php if($customer_info['customer_type']==='student') echo 'disno' ?>
-									" >
+									<div class="three columns teacher-div disno" >
 										<label>{subject_text}</label>
 										<input type="text" name="customer_subject" class="full-width" 
 											value="<?php echo $customer_info['customer_subject'];?>"
@@ -637,6 +633,18 @@
 										<label>{code_text}</label>
 										<input type="text" name="customer_code" class="full-width" 
 											value="<?php echo $customer_info['customer_code'];?>"
+										/>
+									</div>
+									<div class="three columns student-div disno" >
+										<label>{father_code_text}</label>
+										<input type="text" name="customer_father_code" class="full-width" 
+											value="<?php echo $customer_info['customer_father_code'];?>"
+										/>
+									</div>
+									<div class="three columns student-div disno" >
+										<label>{mother_code_text}</label>
+										<input type="text" name="customer_mother_code" class="full-width" 
+											value="<?php echo $customer_info['customer_mother_code'];?>"
 										/>
 									</div>
 									<div class="three columns" >
@@ -659,7 +667,6 @@
 											?>
 										</select>
 									</div>
-
 									<div class="three columns">
 										<label>{city_text}</label>
 										<select name="customer_city" class="full-width">
@@ -703,6 +710,27 @@
 								</div>				
 							</form>
 							<script type="text/javascript">
+								function typeChanged(el)
+								{
+									$("#props .teacher-div").addClass("disno");
+									$("#props .student-div").addClass("disno");
+								
+									switch($(el).val())
+									{
+										case 'teacher':
+											$("#props .teacher-div").removeClass("disno");
+											break;
+
+										case 'student':
+											$("#props .student-div").removeClass("disno");
+											break;
+									}
+								}
+
+								$(function()
+								{
+									$("#props select[name=customer_type]").trigger("change");
+								})
 								var cities=JSON.parse('<?php echo json_encode($cities);?>');
 
 								function setCities(province_id)

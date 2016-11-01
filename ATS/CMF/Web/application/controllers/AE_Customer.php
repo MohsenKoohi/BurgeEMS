@@ -205,6 +205,8 @@ class AE_Customer extends Burge_CMF_Controller {
 		$customer_subject=$this->input->post("customer_subject");
 		$customer_class_id=$this->input->post("customer_class_id");
 		$customer_code=$this->input->post("customer_code");
+		$customer_father_code=$this->input->post("customer_father_code");
+		$customer_mother_code=$this->input->post("customer_mother_code");
 
 		$customer_birthday=persian_normalize_word($this->input->post("customer_birthday"));
 		validate_persian_date($customer_birthday);
@@ -223,6 +225,8 @@ class AE_Customer extends Burge_CMF_Controller {
 				,"customer_subject"=>$customer_subject
 				,"customer_class_id"=>$customer_class_id
 				,"customer_code"=>$customer_code
+				,"customer_father_code"=>$customer_father_code
+				,"customer_mother_code"=>$customer_mother_code
 				,"customer_birthday"=>$customer_birthday
 
 				), $desc);
@@ -233,7 +237,7 @@ class AE_Customer extends Burge_CMF_Controller {
 				set_message($this->lang->line("code_email_must_be_unique"));
 		}
 
-		return redirect(get_link("admin_customer"));
+		//return redirect(get_link("admin_customer"));
 	}
 
 	public function customer_details($customer_id,$task_id=0)
@@ -427,6 +431,8 @@ class AE_Customer extends Burge_CMF_Controller {
 			,"customer_type"		=>$this->input->post("customer_type")
 			,"customer_email"		=>$this->input->post("customer_email")
 			,"customer_code"		=>$this->input->post("customer_code")
+			,"customer_father_code"		=>$this->input->post("customer_father_code")
+			,"customer_mother_code"		=>$this->input->post("customer_mother_code")
 			,"customer_province"	=>$this->input->post("customer_province")
 			,"customer_city"		=>$this->input->post("customer_city")
 			,"customer_address"	=>$this->input->post("customer_address")

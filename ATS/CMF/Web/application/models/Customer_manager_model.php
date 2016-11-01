@@ -12,6 +12,8 @@ class Customer_manager_model extends CI_Model
 		,"customer_email"
 		,"customer_name"
 		,"customer_code" 
+		,"customer_father_code" 
+		,"customer_mother_code" 
 		,"customer_province"
 		,"customer_city"
 		,"customer_address"
@@ -32,6 +34,8 @@ class Customer_manager_model extends CI_Model
 		,"customer_email"
 		,"customer_name"
 		,"customer_code" 
+		,"customer_father_code" 
+		,"customer_mother_code" 
 		,"customer_province"
 		,"customer_city"
 		,"customer_address"
@@ -91,6 +95,8 @@ class Customer_manager_model extends CI_Model
 				,`customer_salt` char(32) DEFAULT NULL
 				,`customer_name` varchar(255) DEFAULT NULL
 				,`customer_code` char(10) DEFAULT NULL
+				,`customer_father_code` char(10) DEFAULT NULL
+				,`customer_mother_code` char(10) DEFAULT NULL
 				,`customer_province` int DEFAULT 0
 				,`customer_city` int DEFAULT 0
 				,`customer_address` varchar(1000) DEFAULT NULL
@@ -390,7 +396,7 @@ class Customer_manager_model extends CI_Model
 		{
 			$this->db->select("count(customer_id) as count");
 			$this->db->from($this->customer_table_name);
-			$this->db->where("customer_id !=",$customer_id);
+			$this->db->where("customer_code !=",$customer_code);
 			$this->db->where("customer_email",$props['customer_email']);
 			$result=$this->db->get();
 			$row=$result->row_array();
@@ -407,7 +413,6 @@ class Customer_manager_model extends CI_Model
 		{
 			$this->db->select("count(customer_id) as count");
 			$this->db->from($this->customer_table_name);
-			$this->db->where("customer_id !=",$customer_id);
 			$this->db->where("customer_code",$props['customer_code']);
 			$result=$this->db->get();
 			$row=$result->row_array();

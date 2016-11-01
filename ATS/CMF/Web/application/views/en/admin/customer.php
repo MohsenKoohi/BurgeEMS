@@ -337,9 +337,9 @@
 				<?php echo form_open(get_link("admin_customer"),array()); ?>
 					<input type="hidden" name="post_type" value="add_customer" />	
 					<div class="row even-odd-bg" >
-						<div class="three columns">
+						<div class="three columns half-col-margin">
 							<label>{name_text}</label>
-							<input type="text" name="customer_name" class="full-width" />
+							<input type="text" name="customer_name" class="full-width " />
 						</div>
 						<div class="three columns half-col-margin">
 							<label>{type_text}</label>
@@ -350,7 +350,7 @@
 								?>
 							</select>
 						</div>
-						<div class="three columns half-col-margin class-div">
+						<div class="three columns half-col-margin student-div disno">
 							<label>{class_text}</label>
 							<select name="customer_class_id" class="full-width">
 								<option value="">&nbsp;</option>
@@ -360,13 +360,22 @@
 								?>
 							</select>
 						</div>
-						<div class="three columns half-col-margin subject-div disno" >
+						<div class="three columns half-col-margin teacher-div disno" >
 							<label>{subject_text}</label>
 							<input type="text" name="customer_subject" class="full-width" />
 						</div>
-						<div class="three columns" >
+						
+						<div class="three columns half-col-margin" >
 							<label>{code_text}</label>
 							<input type="text" name="customer_code" class="full-width" />
+						</div>
+						<div class="three columns half-col-margin student-div disno" >
+							<label>{father_code_text}</label>
+							<input type="text" name="customer_father_code" class="full-width" />
+						</div>
+						<div class="three columns half-col-margin student-div disno" >
+							<label>{mother_code_text}</label>
+							<input type="text" name="customer_mother_code" class="full-width" />
 						</div>
 						<div class="three columns half-col-margin" >
 							<label>{birthday_text}</label>
@@ -376,7 +385,7 @@
 							<label>{phone_text}</label>
 							<input value="" type="text" name="customer_phone" class="full-width ltr" />
 						</div>
-						<div class="three columns">
+						<div class="three columns half-col-margin">
 							<label>{mobile_text}</label>
 							<input value="" type="text" name="customer_mobile" class="full-width ltr" />
 						</div>
@@ -395,10 +404,25 @@
 				<script type="text/javascript">
 					function typeChanges(el)
 					{
-						$("#add .subject-div").toggleClass("disno");
-						$("#add .class-div").toggleClass("disno");
+						$("#add .teacher-div").addClass("disno");
+						$("#add .student-div").addClass("disno");
+					
+						switch($(el).val())
+						{
+							case 'teacher':
+								$("#add .teacher-div").removeClass("disno");
+								break;
 
+							case 'student':
+								$("#add .student-div").removeClass("disno");
+								break;
+						}
 					}
+
+					$(function()
+					{
+						$("select[name=customer_type]").trigger("change");
+					})
 				</script>
 			</div>
 
