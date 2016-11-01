@@ -293,10 +293,14 @@ class Message_manager_model extends CI_Model
 
 		if('parent'===$customer_type)
 		{
+			$classes="(".implode(",",$filter['parent_classes']).")";
 			$groups="(".implode(",",$filter['customer_groups']).")";
 
 			$where="
-				   ( message_sender_type = 'group' && message_sender_id IN $groups )
+					( message_sender_type = 'parent' && message_sender_id = $customer_id )
+				|| ( message_receiver_type = 'parent' && message_receiver_id = $customer_id )
+				|| ( message_receiver_type = 'parent_class' && message_receiver_id IN $classes )	
+				|| ( message_sender_type = 'group' && message_sender_id IN $groups )
 				|| ( message_receiver_type = 'group' && message_receiver_id IN $groups )
 			";
 		}

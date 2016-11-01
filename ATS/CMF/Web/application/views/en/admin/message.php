@@ -329,71 +329,68 @@
 						$i=$messages_start;
 						$verification_status=array();
 						if($messages_total)
+						{
 							foreach($messages as $mess)
 							{ 
+								$mess_link=$mess['link'];
 					?>
-								<div class="row even-odd-bg">
-									<div class="three columns">
-										<label>{sender_from_text}</label>
-										<?php 
-											$type=$mess['message_sender_type'];
-											if($type === "group")
-											{
-												if($mess['message_sender_id'] > 0)
-													$sender=${"group_".$mess['message_sender_id']."_name_text"};
-												else
-													$sender=$class_names[-$mess['message_sender_id']];
-											}
-											if($type === "teacher")						
-												$sender=$mess['s_name']." (".$mess['s_subject'].")";
-											if($type === "student" || $type === "parent")						
-												$sender=$mess['s_name'];
-											echo "<span>".$sender."</span>";
-										?>
-									</div>
-									<div class="three columns">
-										<label>{receiver_to_text}:</label>
-										<?php 
-											$type=$mess['message_receiver_type'];
-											if($type === "group")
-											{
-												if($mess['message_receiver_id'] > 0)
-													$receiver=${"group_".$mess['message_receiver_id']."_name_text"};
-												else
-													$receiver=$class_names[-$mess['message_receiver_id']];
-											}
-											if($type === "teacher")						
-												$receiver=$mess['r_name']." (".$mess['r_subject'].")";
-											if($type === "student" || $type === "parent")						
-												$receiver=$mess['r_name'];
-											echo "<span>".$receiver."</span>";
-										?>
-									</div>
-									
-									<div class="three columns">
-										<label>{last_message_text}</label>
-										<span>
-											<?php echo $mess['message_subject'];?><br>
-											<small style="display:inline-block"  class='ltr'>
-												<?php echo str_replace("-","/",$mess['message_date']); ?>
-											</small>
-										</span>
-									</div>
-									<div class="two columns">
-										<label>{count_text}</label>
-										<span>
-											<?php echo $mess['count'];?>
-										</span>
-									</div>							
-									<div class="one columns">
-										<a target="_blank" href="<?php echo $mess['link'];?>">
-											<img src="{images_url}/details.png" class="view-img anti-float" title="{view_details_text}";/>
-										</a>
-									
-									</div>
-								</div>
+						<div class="row even-odd-bg">
+							<div class="three columns">
+								<label>{sender_from_text}</label>
+								<?php
+									$type=$mess['message_sender_type'];
+									if($type === "group")
+										$sender=${"group_".$mess['message_sender_id']."_name_text"};										
+									if($type === "teacher")						
+										$sender=$mess['s_name']." (".$mess['s_subject'].")";
+									if($type === "student" || $type === "parent")						
+										$sender=$mess['s_name'];
+									echo "<span>".$sender."</span>";
+								?>
+							</div>
+							<div class="three columns">
+								<label>{receiver_to_text}:</label>
+								<?php 
+									$type=$mess['message_receiver_type'];
+									if($type === "group")
+										$receiver=${"group_".$mess['message_receiver_id']."_name_text"};
+									if($type === "teacher")						
+										$receiver=$mess['r_name']." (".$mess['r_subject'].")";
+									if(($type === "student") || ($type === "parent"))
+										$receiver=$mess['r_name'];
+									if($type === "student_class")
+										$receiver=$students_of_text." ".$class_names[$mess['message_receiver_id']];
+									if($type === "parent_class")
+										$receiver=$parents_of_text." ".$class_names[$mess['message_receiver_id']];
+									echo "<span>".$receiver."</span>";
+								?>
+							</div>
+							
+							<div class="three columns">
+								<label>{last_message_text}</label>
+								<span>
+									<?php echo $mess['message_subject'];?><br>
+									<small style="display:inline-block"  class='ltr'>
+										<?php echo str_replace("-","/",$mess['message_date']); ?>
+									</small>
+								</span>
+							</div>
+							<div class="two columns">
+								<label>{count_text}</label>
+								<span>
+									<?php echo $mess['count'];?>
+								</span>
+							</div>							
+							<div class="one columns">
+								<a target="_blank" href="<?php echo $mess_link;?>">
+									<img src="{images_url}/details.png" class="view-img anti-float" title="{view_details_text}";/>
+								</a>
+							
+							</div>
+						</div>
 					<?php 
 							}
+						}
 					?>
 				</div>
 			</div>

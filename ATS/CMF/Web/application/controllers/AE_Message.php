@@ -39,6 +39,9 @@ class AE_Message extends Burge_CMF_Controller {
 			case 's':
 				$filter['part2_type']='student';
 				break;
+			case 'r':
+				$filter['part2_type']='student_class';
+				break;
 			case 't':
 				$filter['part2_type']='teacher';
 				break;
@@ -47,6 +50,9 @@ class AE_Message extends Burge_CMF_Controller {
 				break;
 			case 'p':
 				$filter['part2_type']='parent';
+				break;
+			case 'o':
+				$filter['part2_type']='parent_class';
 				break;
 		}
 		$filter['part2_id']=substr($parts[1], 1);
@@ -73,29 +79,23 @@ class AE_Message extends Burge_CMF_Controller {
 
 		$type=$lmess['message_sender_type'];
 		if($type === "group")
-		{
-			if($lmess['message_sender_id'] > 0)
-				$sender=$this->lang->line("group_".$lmess['message_sender_id']."_name");
-			else
-				$sender=$this->data['class_names'][-$lmess['message_sender_id']];
-		}
+			$sender=$this->lang->line("group_".$lmess['message_sender_id']."_name");
 		if($type === "teacher")						
 			$sender=$lmess['s_name']." (".$lmess['s_subject'].")";
-		if($type === "student" || $type === "parent")						
+		if(($type === "student") || ($type === "parent"))
 			$sender=$lmess['s_name'];
 
 		$type=$lmess['message_receiver_type'];
 		if($type === "group")
-		{
-			if($lmess['message_receiver_id'] > 0)
-				$receiver=$this->lang->line("group_".$lmess['message_receiver_id']."_name");
-			else
-				$receiver=$this->data['class_names'][-$lmess['message_receiver_id']];
-		}
+			$receiver=$this->lang->line("group_".$lmess['message_receiver_id']."_name");
 		if($type === "teacher")						
 			$receiver=$lmess['r_name']." (".$lmess['r_subject'].")";
-		if($type === "student" || $type === "parent")						
+		if(($type === "student") || ($type === "parent"))
 			$receiver=$lmess['r_name'];
+		if($type === 'student_class')
+			$receiver=$this->lang->line("students")." ".$this->data['class_names'][$lmess['message_receiver_id']];
+		if($type === 'parent_class')
+			$receiver=$this->lang->line("parents")." ".$this->data['class_names'][$lmess['message_receiver_id']];
 
 		$header=$this->lang->line("messages_of")." ".$sender." ".$this->lang->line("and")." ".$receiver;
 
@@ -212,6 +212,11 @@ class AE_Message extends Burge_CMF_Controller {
 	{
 		$p1=$mess['message_sender_type'][0].$mess['message_sender_id'];
 		$p2=$mess['message_receiver_type'][0].$mess['message_receiver_id'];
+		if('student_class' === $mess['message_receiver_type'])
+			$p2='r'.$mess['message_receiver_id'];
+		if('parent_class' === $mess['message_receiver_type'])
+			$p2='o'.$mess['message_receiver_id'];
+	
 		return get_admin_message_details_link($p1."_".$p2);
 	}
 

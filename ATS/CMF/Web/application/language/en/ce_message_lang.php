@@ -35,3 +35,13 @@ $lang['last_message']="Last message";
 $lang['count']="Count";
 $lang['messages_of']="Messages between";
 $lang['and']="and";
+
+$lang['parents']="Parents";
+$lang['students_of']="Students of";
+$lang['some_of_students']="A number of students";
+$lang['parents_of']="Parents of";
+$lang['some_of_parents']="A number of parents";
+$lang['sender']="Sender";
+$lang['member_of']="Member of";
+$lang['student_parent']="Student Parent";
+$lang['send_message_as']="Send message as";

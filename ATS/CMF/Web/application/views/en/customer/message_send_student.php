@@ -4,7 +4,7 @@
 
 		<div class="container">
 			<?php echo form_open($post_url,array("id"=>"send-message-form","onsubmit"=>"return checkForm();")); ?>
-				<div class="row">
+				<div class="row even-odd-bg">
 					<div class="three columns">
 						<label>{receiver_text}</label>
 					</div>
@@ -18,7 +18,7 @@
 					</div>
 				</div>
 				
-				<div class="row">
+				<div class="row even-odd-bg">
 					<div class="three columns">
 						<label>{subject_text}</label>
 					</div>
@@ -26,7 +26,7 @@
 						<input name="subject" class="full-width" value="{subject}"/>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row even-odd-bg">
 					<div class="three columns">
 						<label>{content_text}</label>
 					</div>
@@ -35,7 +35,7 @@
 					</div>
 				</div>
 				<?php if(0){ ?>
-					<div class="row">
+					<div class="row even-odd-bg">
 						<div class="three columns">
 							{captcha}
 						</div>

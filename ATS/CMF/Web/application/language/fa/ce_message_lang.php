@@ -41,3 +41,7 @@ $lang['students_of']="دانش آموزان";
 $lang['some_of_students']="تعدادی از دانش آموزان";
 $lang['parents_of']="والدین";
 $lang['some_of_parents']="تعدادی از والدین";
+$lang['sender']="فرستنده";
+$lang['member_of']="عضو";
+$lang['student_parent']="ولی دانش آموز";
+$lang['send_message_as']="ارسال پیام به عنوان";

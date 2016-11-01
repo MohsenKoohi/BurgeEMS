@@ -89,9 +89,9 @@
 									if(($type === "student") || ($type === "parent"))
 										$receiver=$mess['r_name'];
 									if($type === "student_class")
-										$receiver=$students_text." ".$class_names[$mess['message_receiver_id']];
+										$receiver=$students_of_text." ".$class_names[$mess['message_receiver_id']];
 									if($type === "parent_class")
-										$receiver=$parents_text." ".$class_names[$mess['message_receiver_id']];
+										$receiver=$parents_of_text." ".$class_names[$mess['message_receiver_id']];
 									echo "<span>".$receiver."</span>";
 								?>
 							</div>

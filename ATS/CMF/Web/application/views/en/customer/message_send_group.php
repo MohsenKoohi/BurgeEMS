@@ -3,6 +3,28 @@
 		<h1>{send_message_text}</h1>
 
 		<div class="container">
+			<?php if($parent_groups){ ?>
+				<div class="row even-odd-bg">
+					<div class="three columns">
+						<label>{send_message_as_text}</label>
+					</div>
+					<div class="six columns">
+						<select name="sender" class="full-width" onchange="location=$(this).val();">
+							<option value="{send_parent_url}" 
+								<?php if($sender_type=='parent') echo 'selected'?>
+							>	
+								{student_parent_text}
+							</option>
+
+							<option value="{send_group_url}"
+								<?php if($sender_type=='group') echo 'selected'?>
+							>	
+								{member_of_text} <?php echo ${"group_".$parent_groups[0]."_name_text"}; ?>
+							</option>
+						</select>
+					</div>
+				</div>
+			<?php } ?>
 			<?php echo form_open($post_url,array("id"=>"send-message-form","onsubmit"=>"return checkForm();")); ?>
 				<div class="row even-odd-bg">
 					<div class="three columns">
@@ -10,102 +32,6 @@
 					</div>
 
 					<div class="nine columns">
-						<div class="row">
-							<div class="three columns" style="padding-top:10px;">
-								<input type="radio" name="receiver_type" value="student_class"/> {students_of_text}
-							</div>
-							<div class="six columns">
-								<select name="student_class" class="full-width receiver-type-is"
-									onchange='$("input[name=receiver_type][value=class]").prop("checked","checked");'
-								>
-									<?php 
-										foreach($receivers as $r)
-											echo "<option value='".$r['value']."'>".$r['name']."</option>";
-									?>
-								</select>
-							</div>
-						</div>
-
-						<div class="row">
-							<div class="three columns" style="padding-top:10px;">
-								<input type="radio" name="receiver_type" value="student"/> {some_of_students_text}
-							</div>
-
-							<div class="six columns">
-								<link rel="stylesheet" type="text/css" href="{styles_url}/jquery-ui.min.css" />
-								<script src="{scripts_url}/jquery-ui.min.js"></script>
-								<input type="hidden" name="students" id="students-main"/>
-								
-								<input type="text" class="students-autocomplete full-width receiver-type-is"/>
-							</div>
-							
-							<div class="tweleve column aclist" id="students-list" style="margin-top:20px;">
-							</div>
-
-							<script type="text/javascript">
-								
-								$(document).ready(function()
-							   {
-							      var el=$("input.students-autocomplete");
-						      	var searchUrl="{students_search_url}";
-							      	
-						      	el.autocomplete({
-							         source: function(request, response)
-							         {
-							            var term=request["term"];
-							            $.get(searchUrl+"/"+encodeURIComponent(term)+"?type=student",
-							              function(res)
-							              {
-							                var rets=[];
-							                for(var i=0;i<res.length;i++)
-							                  rets[rets.length]=
-							                    {
-							                      label:res[i].name
-							                      ,name:res[i].name
-							                      ,id:res[i].id						                      
-							                      ,value:term
-							                    };
-
-							                response(rets); 
-
-							                return;       
-							              },"json"
-							            ); 
-							          },
-							          delay:700,
-							          minLength:1,
-							          select: function(event,ui)
-							          {
-							            var item=ui.item;
-							            var id=item.id;
-							            var name=item.name;
-
-							            if(!$("div[data-id="+id+"]",$("#students-list")).length)
-							            	$("#students-list").append($("<div class='three columns' data-id='"+id+"'>"+name+"<span class='anti-float' onclick='$(this).parent().remove();'></span></div>"));
-							            
-							            el.val("");
-							            return false;
-							          }
-							      });
-
-							   });
-
-								function setStudents()
-								{
-									var ids=[];
-									$("#students-list div").each(function(index,el)
-									{
-										ids[ids.length]=$(el).data("id");
-									});
-									if(!ids.length)
-										return false;
-									
-									$("#students-main").val(ids.join(","));
-									return true;
-								}
-							</script>
-						</div>
-
 						<div class="row">
 							<div class="three columns" style="padding-top:10px;">
 								<input type="radio" name="receiver_type" value="parent_class"/> {parents_of_text}
@@ -219,7 +145,7 @@
 						<textarea name="content" class="full-width" rows="8">{content}</textarea>
 					</div>
 				</div>
-				<?php if(0){ ?>
+				<?php if(0) { ?>
 					<div class="row even-odd-bg">
 						<div class="three columns">
 							{captcha}
@@ -244,7 +170,8 @@
 						$(".receiver-type-is").prop("disabled",true);
 						$(".receiver-type-is",$(this).parent().parent()).prop("disabled",false);
 					});
-				})
+				});
+
 				function checkForm()
 				{
 					if(!$("input[name=receiver_type]:checked").length)
@@ -252,13 +179,6 @@
 						alert("{receiver_has_not_selected_text}");
 						return false;
 					}
-
-					if($("input[name=receiver_type]:checked").val() === "student")
-						if(!setStudents())
-						{
-							alert("{receiver_has_not_selected_text}");
-							return false;
-						}
 
 					if($("input[name=receiver_type]:checked").val() === "parent")
 						if(!setParents())

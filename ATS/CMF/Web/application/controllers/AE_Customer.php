@@ -237,7 +237,7 @@ class AE_Customer extends Burge_CMF_Controller {
 				set_message($this->lang->line("code_email_must_be_unique"));
 		}
 
-		//return redirect(get_link("admin_customer"));
+		return redirect(get_link("admin_customer"));
 	}
 
 	public function customer_details($customer_id,$task_id=0)

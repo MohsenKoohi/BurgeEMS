@@ -124,15 +124,25 @@ class Class_manager_model extends CI_Model
 		));
 	}
 
-	public function get_class_teachers($class_id)
+	public function get_class_teachers($class_id_s)
 	{
-		$result=$this->db
+		$this->db
 			->select("customer_id,customer_name,customer_subject,ct_teacher_id")
-			->from("customer")
-			->join($this->class_teacher_table_name,"customer_id = ct_teacher_id AND ct_class_id = ".(int)$class_id,"LEFT")			
+			->from("customer");
+
+		if(is_array($class_id_s))
+		{
+			$classes="(".implode(",",$class_id_s).")";
+			$this->db->join($this->class_teacher_table_name,"customer_id = ct_teacher_id AND ct_class_id IN $classes ","LEFT");
+		}
+		else
+			$this->db->join($this->class_teacher_table_name,"customer_id = ct_teacher_id AND ct_class_id = ".(int)$class_id_s,"LEFT");
+
+		$result=$this->db
 			->where("customer_type","teacher")
 			->where("customer_active",1)
 			->order_by("customer_order ASC")
+			->group_by("customer_id")
 			->get();
 		
 		return $result->result_array();
@@ -321,7 +331,6 @@ class Class_manager_model extends CI_Model
 			->where("class_id", $class_id)
 			->delete($this->class_table_name);
 
-
 		$this->db
 			->set("customer_active",0)
 			->where("customer_class_id", $class_id)
@@ -488,6 +497,24 @@ class Class_manager_model extends CI_Model
 			$ret[]=$row['customer_id'];
 
 		return $ret;
+	}
+
+	public function get_parent_class_ids($parent_code)
+	{
+		$result=$this->db
+			->select("customer_class_id")
+			->from("customer")
+			->where("( customer_father_code = '$parent_code' OR  customer_mother_code = '$parent_code' )")
+			->where("customer_active",1)
+			->group_by("customer_class_id")
+			->get()
+			->result_array();
+
+		$ret=array();
+		foreach($result as $row)
+			$ret[]=$row['customer_class_id'];
+
+		return $ret;	
 	}
 
 	public function filter_parents_in_classes($parent_ids,$class_ids)

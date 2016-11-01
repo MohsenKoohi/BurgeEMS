@@ -47,12 +47,7 @@
 								<?php 
 									$type=$mess['message_sender_type'];
 									if($type === "group")
-									{
-										if($mess['message_sender_id'] > 0)
-											$sender=${"group_".$mess['message_sender_id']."_name_text"};
-										else
-											$sender=$class_names[-$mess['message_sender_id']];
-									}
+										$sender=${"group_".$mess['message_sender_id']."_name_text"};
 									if($type === "teacher")						
 										$sender=$mess['s_name']." (".$mess['s_subject'].")";
 									if($type === "student" || $type === "parent")						
@@ -65,16 +60,15 @@
 								<?php 
 									$type=$mess['message_receiver_type'];
 									if($type === "group")
-									{
-										if($mess['message_receiver_id'] > 0)
-											$receiver=${"group_".$mess['message_receiver_id']."_name_text"};
-										else
-											$receiver=$class_names[-$mess['message_receiver_id']];
-									}
+										$receiver=${"group_".$mess['message_receiver_id']."_name_text"};
 									if($type === "teacher")						
 										$receiver=$mess['r_name']." (".$mess['r_subject'].")";
-									if($type === "student" || $type === "parent")						
+									if(($type === "student") || ($type === "parent"))
 										$receiver=$mess['r_name'];
+									if($type === "student_class")
+										$receiver=$students_of_text." ".$class_names[$mess['message_receiver_id']];
+									if($type === "parent_class")
+										$receiver=$parents_of_text." ".$class_names[$mess['message_receiver_id']];
 									echo "<span>$receiver</span>";
 								?>
 							</div>

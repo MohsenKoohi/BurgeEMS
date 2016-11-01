@@ -98,3 +98,6 @@ $lang['']="";
 $lang['']="";
 $lang['']="";
 $lang['']="";
+
+$lang['students_of']="دانش آموزان";
+$lang['parents_of']="والدین";
