@@ -34,14 +34,16 @@
 						<textarea name="content" class="full-width" rows="5">{content}</textarea>
 					</div>
 				</div>
-				<div class="row">
-					<div class="three columns">
-						{captcha}
+				<?php if(0){ ?>
+					<div class="row">
+						<div class="three columns">
+							{captcha}
+						</div>
+						<div class="nine columns">
+							<input name="captcha" class="lang-en"/>
+						</div>
 					</div>
-					<div class="nine columns">
-						<input name="captcha" class="lang-en"/>
-					</div>
-				</div>
+				<?php } ?>
 				<div class="row">
 					<div class="six columns">&nbsp;</div>
 					<input type="submit" class=" button-primary three columns" value="{send_text}"/>
@@ -52,7 +54,7 @@
 				function checkForm()
 				{
 					var form=$("#send-message-form");
-					var fields=["captcha","content","subject"];
+					var fields=["content","subject"];
 					var result=true;
 					$(fields).each(function(index,value)
 					{

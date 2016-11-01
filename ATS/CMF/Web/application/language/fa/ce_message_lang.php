@@ -35,3 +35,9 @@ $lang['last_message']="آخرین پیام";
 $lang['count']="تعداد";
 $lang['messages_of']="پیام‌های";
 $lang['and']="و";
+
+$lang['parents']="والدین";
+$lang['students_of']="دانش آموزان";
+$lang['some_of_students']="تعدادی از دانش آموزان";
+$lang['parents_of']="والدین";
+$lang['some_of_parents']="تعدادی از والدین";

@@ -1,0 +1,60 @@
+.container.message-details
+{
+	.even-odd-bg:nth-child(2n + 1)
+	{
+		background: linear-gradient(to bottom left, $primary-color -50%, #fff, $secondary-color 150%);
+		//border: 1px solid #aaa;
+	}
+
+	.even-odd-bg:nth-child(2n + 2)
+	{
+		background: linear-gradient(to bottom right, $secondary-color -50%, #fff, $primary-color 150%);
+		//border: 1px solid #aaa;
+	}
+
+	.even-odd-bg:hover:nth-child(2n + 1)
+	{
+		background: linear-gradient(to bottom left, $primary-color , #fff, $secondary-color );
+		//border: 1px solid #aaa;
+	}
+
+	.even-odd-bg:hover:nth-child(2n + 2)
+	{
+		background: linear-gradient(to bottom right, $secondary-color , #fff, $primary-color );
+		//border: 1px solid #aaa;
+	}
+
+	.even-odd-bg
+	{ 
+		> .row:nth-child(1)
+		{
+			background:linear-gradient(to bottom, #fff, #eee);
+		}
+		 > .row:nth-child(2)
+		{
+			background:linear-gradient(to bottom, #eee, #fff);
+		}
+		 > .row:nth-child(3)
+		{
+			background:linear-gradient(to bottom, #fff, #eee);
+		}
+	}
+
+	.even-odd-bg:hover 
+	{ 
+		> .row:nth-child(1)
+		{
+			background:linear-gradient(to bottom, #fff, #ccc);
+		}
+		 > .row:nth-child(2)
+		{
+			background:linear-gradient(to bottom, #ccc, #fff);
+		}
+		 > .row:nth-child(3)
+		{
+			background:linear-gradient(to bottom, #fff, #ccc);
+		}
+	}
+
+
+}

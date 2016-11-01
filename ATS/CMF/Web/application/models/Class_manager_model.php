@@ -490,4 +490,28 @@ class Class_manager_model extends CI_Model
 		return $ret;
 	}
 
+	public function filter_parents_in_classes($parent_ids,$class_ids)
+	{
+		$result=$this->db
+			->select("parent.customer_id")
+			->from("customer parent")
+			->join("customer child"
+				,"parent.customer_code = child.customer_father_code OR parent.customer_code = child.customer_mother_code"
+				,"INNER")
+			->where_in("parent.customer_id",$parent_ids)
+			->where_in("child.customer_class_id",$class_ids)
+			->where("parent.customer_type","parent")
+			->where("parent.customer_active",1)
+			->where("child.customer_active",1)
+			->group_by("parent.customer_id")
+			->get()
+			->result_array();
+
+		$ret=array();
+		foreach($result as $row)
+			$ret[]=$row['customer_id'];
+
+		return $ret;
+	}
+
 }

@@ -189,10 +189,55 @@ class Customer_manager_model extends CI_Model
 		return;
 	}
 
+	public function get_parents($filter)
+	{
+		$this->db->select("main.customer_id, main.customer_name");
+		$this->db->from($this->customer_table_name." main");
+		
+		$this->db->join(
+			$this->customer_table_name." child" 
+			,"main.customer_code = child.customer_father_code OR main.customer_code = child.customer_mother_code"
+			,"INNER");
+
+		if(isset($filter['child_class_id_in']))
+		{
+			$this->db->where("child.customer_active",1);
+			$this->db->where_in("child.customer_class_id",$filter['child_class_id_in']);
+		}
+
+		if(isset($filter['name']))
+		{
+			$filter['name']=persian_normalize($filter['name']);
+			$this->db->where("main.customer_name LIKE '%".str_replace(' ', '%', $filter['name'])."%'");
+		}
+
+		if(isset($filter['type']))
+		{
+			$this->db->where("main.customer_type",$filter['type']);
+		}
+
+		if(isset($filter['active']))
+		{
+			$this->db->where("main.customer_active",$filter['active']);
+		}
+
+		if(isset($filter['start']) && isset($filter['length']))
+			$this->db->limit((int)$filter['length'],(int)$filter['start']);		
+
+		$this->db->group_by("main.customer_id");
+		
+		$query=$this->db->get();
+
+		$results=$query->result_array();
+
+		return $results;
+	}
+
 	public function get_customers($filter)
 	{
 		$this->db->select($this->customer_props_can_be_read);
 		$this->db->from($this->customer_table_name);
+
 		$this->set_search_where_clause($filter);
 
 		$query=$this->db->get();

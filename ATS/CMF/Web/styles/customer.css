@@ -1093,3 +1093,24 @@ ul.dash-ul li {
 
 .row.even-odd-bg .checkbox-holder label i {
   box-shadow: none; }
+
+.container.message-details .even-odd-bg:nth-child(2n + 1) {
+  background: linear-gradient(to bottom left, #0C7B77 -50%, #fff, #C63672 150%); }
+.container.message-details .even-odd-bg:nth-child(2n + 2) {
+  background: linear-gradient(to bottom right, #C63672 -50%, #fff, #0C7B77 150%); }
+.container.message-details .even-odd-bg:hover:nth-child(2n + 1) {
+  background: linear-gradient(to bottom left, #0C7B77, #fff, #C63672); }
+.container.message-details .even-odd-bg:hover:nth-child(2n + 2) {
+  background: linear-gradient(to bottom right, #C63672, #fff, #0C7B77); }
+.container.message-details .even-odd-bg > .row:nth-child(1) {
+  background: linear-gradient(to bottom, #fff, #eee); }
+.container.message-details .even-odd-bg > .row:nth-child(2) {
+  background: linear-gradient(to bottom, #eee, #fff); }
+.container.message-details .even-odd-bg > .row:nth-child(3) {
+  background: linear-gradient(to bottom, #fff, #eee); }
+.container.message-details .even-odd-bg:hover > .row:nth-child(1) {
+  background: linear-gradient(to bottom, #fff, #ccc); }
+.container.message-details .even-odd-bg:hover > .row:nth-child(2) {
+  background: linear-gradient(to bottom, #ccc, #fff); }
+.container.message-details .even-odd-bg:hover > .row:nth-child(3) {
+  background: linear-gradient(to bottom, #fff, #ccc); }
