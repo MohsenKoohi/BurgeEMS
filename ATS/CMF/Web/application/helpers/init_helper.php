@@ -553,6 +553,15 @@ function bprint_r($var)
 	return;
 }
 
+function validate_persian_date_time(&$date_time)
+{
+	list($date,$time)=explode(" ", $date_time);
+	$ret=validate_persian_date($date);
+	$date_time=$date." ".$time;
+
+	return $ret;
+}
+
 function validate_persian_date(&$date_main)
 {
 	$date=explode("/",$date_main);
