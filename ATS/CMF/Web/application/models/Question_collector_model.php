@@ -256,7 +256,9 @@ class Question_collector_model extends CI_Model
 			$i++;
 		}
 
-		$this->log_manager_model->info("QUESTION_COLLECTION_ADD",$log);	
+		$this->log_manager_model->info("QUESTION_COLLECTION_ADD",$log);
+		if('teacher' === $registrar_type)
+			$this->customer_manager_model->add_customer_log($registrar_id,'QUESTION_COLLECTION_ADD',$log);
 
 		return $qc_id;
 	}

@@ -53,7 +53,7 @@ function &get_links($just_common=FALSE)
 			,'admin_contact_us'									=> ADMIN_SURL_LANG."/contact_us"
 			,'admin_contact_us_send_new'						=> ADMIN_SURL_LANG."/contact_us/send_new"
 			,'admin_contact_us_message_details_format'	=> ADMIN_SURL_LANG."/contact_us/message_id"
-			,'customer_contact_us'								=> HOME_URL_LANG."/contact_us"
+			,'customer_contact_us'								=> HOME_SURL_LANG."/contact_us"
 
 			,'admin_customer'						=> ADMIN_SURL_LANG."/customer"
 			,'admin_customer_password'			=> ADMIN_SURL_LANG."/customer/password"
@@ -113,7 +113,6 @@ function &get_links($just_common=FALSE)
 			,'customer_class_post_discussion'						=> HOME_SURL_LANG."/discussion"
 			,'customer_class_post_discussion_details_format'	=> HOME_SURL_LANG."/discussion/discussion_id"
 			,'customer_class_post_discussion_edit_format'		=> HOME_SURL_LANG."/discussion/edit/discussion_id"
-			
 		));
 	}
 

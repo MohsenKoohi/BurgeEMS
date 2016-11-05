@@ -87,8 +87,8 @@ class Log_manager_model extends CI_Model
 		,"TASK_INFO_CHANGE"		=>1102
 		,"TASK_USERS_CHANGE"		=>1103
 
-		,"MESSAGE_ADD"						=>1131
-		,"MESSAGE_GROUP_SET"				=>1132
+		,"MESSAGE_ADD"				=>1131
+		,"MESSAGE_GROUP_SET"		=>1132
 
 		,"TIME_ADD"					=>2001
 
@@ -108,6 +108,9 @@ class Log_manager_model extends CI_Model
 
 		,"QUESTION_COLLECTION_ADD"		=> 2101
 		,"QUESTION_COLLECTION_DELETE"	=> 2102
+
+		,"CLASS_POST_ADD"					=> 2131
+
 	);
 
 	public function __construct()

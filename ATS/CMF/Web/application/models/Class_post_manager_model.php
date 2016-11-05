@@ -101,35 +101,36 @@ class Class_post_manager_model extends CI_Model
 			")->row_array();
 	}
 
-	public function add_post()
+	public function add_class_post($ins)
 	{
-		$user=$this->user_manager_model->get_user_info();
-
 		$props=array(
-			"post_date"=>get_current_time()
-			,"post_creator_uid"=>$user->get_id()
+			"cp_date_start"		=> get_current_time()
+			,'cp_assignment'		=> $ins['assignment']
+			,'cp_teacher_id'		=> $ins['teacher_id']
 		);
 
-		$this->db->insert($this->post_table_name,$props);
+		$this->db->insert($this->class_post_table_name,$props);
 		
-		$new_post_id=$this->db->insert_id();
-		$props['post_id']=$new_post_id;
+		$new_class_post_id=$this->db->insert_id();
+		$props['class_post_id']=$new_class_post_id;
 
-		$this->log_manager_model->info("POST_ADD",$props);	
+		$this->log_manager_model->info("CLASS_POST_ADD",$props);	
+		$this->customer_manager_model->add_customer_log($ins['teacher_id'],'CLASS_POST_ADD',$props);
 
-		$post_contents=array();
+		$post_texts=array();
 		foreach($this->language->get_languages() as $index=>$lang)
-			$post_content[]=array(
-				"pc_post_id"=>$new_post_id
-				,"pc_lang_id"=>$index
+			$post_texts[]=array(
+				"cpt_cp_id"=>$new_class_post_id
+				,"cpt_lang_id"=>$index
 			);
-		$this->db->insert_batch($this->post_content_table_name,$post_content);
+		$this->db->insert_batch($this->class_post_text_table_name,$post_texts);
 
-		return $new_post_id;
+		return $new_class_post_id;
 	}
 
-	public function get_posts($filter)
+	public function get_customer_class_posts($filter)
 	{
+		return;
 		$this->db->from($this->post_table_name);
 		$this->db->join($this->post_content_table_name,"post_id = pc_post_id","left");
 		$this->db->join($this->post_category_table_name,"post_id = pcat_post_id","left");
@@ -145,8 +146,10 @@ class Class_post_manager_model extends CI_Model
 		return $rows;
 	}
 
-	public function get_total($filter)
+	public function get_customer_class_total($filter)
 	{
+		return 0;
+
 		$this->db->select("COUNT( DISTINCT post_id ) as count");
 		$this->db->from($this->post_table_name);
 		$this->db->join($this->post_content_table_name,"post_id = pc_post_id","left");

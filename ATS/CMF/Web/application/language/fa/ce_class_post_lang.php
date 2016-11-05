@@ -4,8 +4,8 @@
 $lang['class_posts']='پست‌های کلاسی';
 $lang['lesson_conversations']='گفتگوهای درسی';
 $lang['lesson_assignments']='تکالیف درسی';
-$lang['']="";
-$lang['']="";
+$lang['add_assignment']="تکلیف جدید";
+$lang['assignments']="تکالیف درسی";
 $lang['']="";
 $lang['']="";
 $lang['']="";
