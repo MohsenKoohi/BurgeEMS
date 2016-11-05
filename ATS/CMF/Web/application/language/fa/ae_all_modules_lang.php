@@ -25,3 +25,4 @@ $lang['time']="زمان‌ها";
 $lang['class']="کلاس‌ها";
 $lang['reward']="امتیاز‌ها";
 $lang['question_collection']="گنجینه سوالات";
+$lang['class_post']="پست‌های کلاسی";

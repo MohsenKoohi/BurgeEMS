@@ -112,3 +112,4 @@ $lang['rewards']="Rewards";
 $lang['reward']="Reward";
 $lang['view']="View";
 $lang['total']="Total";
+$lang['messages']="Messages";

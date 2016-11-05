@@ -162,6 +162,9 @@ class AE_Message extends Burge_CMF_Controller {
 		$this->data['raw_page_url']=get_link("admin_message");
 		$filters=array();
 		
+		if($this->input->get('customer_id'))
+			$filters['customer_id']=(int)$this->input->get('customer_id');
+		
 		$total=$this->message_manager_model->get_admin_total_messages($filters);
 		if($total)
 		{

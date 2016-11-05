@@ -13,15 +13,17 @@
 		<?php if(isset($rewards_link)) { ?>
 			<div class="row general-buttons">
 				<div class="anti-float two columns button sub-primary button-type2 "
-					onclick="window.open('<?php echo $rewards_link?>','_blank');"
+					onclick="window.open('{rewards_link}','_blank');"
 				>
 					{rewards_text}
 				</div>
 			</div>
 		<?php } ?>
 		<div class="row general-buttons">
-			<div class="anti-float two columns button button-primary" onclick="document.location='{send_message_address}';">
-				{send_message_text}
+			<div class="anti-float two columns button button-primary" 
+				onclick="window.open('{messages_address}','_blank');"
+			>
+				{messages_text}
 			</div>
 		</div>
 		<div class="row general-buttons">

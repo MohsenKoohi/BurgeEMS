@@ -115,3 +115,4 @@ $lang['rewards']="امتیازها";
 $lang['reward']="امتیاز";
 $lang['view']="مشاهده";
 $lang['total']="مجموع";
+$lang['messages']="پیام‌ها";

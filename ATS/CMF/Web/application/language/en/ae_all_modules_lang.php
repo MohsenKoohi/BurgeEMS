@@ -25,3 +25,4 @@ $lang['time']="Times";
 $lang['class']="Classes";
 $lang['reward']="Rewards";
 $lang['question_collection']="Questions Collection";
+$lang['class_post']="Class Posts";

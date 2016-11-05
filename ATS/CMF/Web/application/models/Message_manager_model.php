@@ -418,6 +418,17 @@ class Message_manager_model extends CI_Model
 
 	private function set_admin_search_where_clause($filter)
 	{
+		if(isset($filter['customer_id']))
+		{
+			$cid=(int)$filter['customer_id'];
+			$this->db->where("
+				(
+					( (message_sender_type IN ('student','teacher','parent')) AND (message_sender_id = $cid) )
+					OR ( (message_receiver_type IN ('student','teacher','parent')) AND (message_receiver_id = $cid) )
+				)
+			");
+		}
+
 		$this->db->group_by("
 			(if(
 				CONCAT(message_receiver_type, message_receiver_id,message_sender_type, message_sender_id)
