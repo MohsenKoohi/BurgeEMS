@@ -66,22 +66,22 @@ function &get_links($just_common=FALSE)
 			,'admin_task_exec'				=> ADMIN_SURL_LANG."/task_exec"
 			,'admin_task_exec_file_format'=> ADMIN_SURL_LANG."/task_exec/get_file/customer_id/file_name"
 
-			,'customer_dashboard'				=> HOME_URL_LANG."/dashboard"
-			,'customer_login'						=> HOME_URL_LANG."/login"
-			,'customer_login_yahoo'				=> HOME_URL_LANG."/login/yahoo"
-			,'customer_login_google'			=> HOME_URL_LANG."/login/google"
-			,'customer_login_facebook'			=> HOME_URL_LANG."/login/facebook"
-			,'customer_logout'					=> HOME_URL_LANG."/logout"
-			,'customer_signup'					=> HOME_URL_LANG."/signup"
-			,'customer_forgotten_password'	=> HOME_URL_LANG."/forgotten_password"
+			,'customer_dashboard'				=> HOME_SURL_LANG."/dashboard"
+			,'customer_login'						=> HOME_SURL_LANG."/login"
+			,'customer_login_yahoo'				=> HOME_SURL_LANG."/login/yahoo"
+			,'customer_login_google'			=> HOME_SURL_LANG."/login/google"
+			,'customer_login_facebook'			=> HOME_SURL_LANG."/login/facebook"
+			,'customer_logout'					=> HOME_SURL_LANG."/logout"
+			,'customer_signup'					=> HOME_SURL_LANG."/signup"
+			,'customer_forgotten_password'	=> HOME_SURL_LANG."/forgotten_password"
 
 			,'admin_message'								=> ADMIN_SURL_LANG."/message"
 			,'admin_message_group_format'				=> ADMIN_SURL_LANG."/message?group_id=groupid#group"
 			,'admin_message_details_format'			=> ADMIN_SURL_LANG."/message/message_code"			
-			,'customer_message'							=> HOME_URL_LANG."/message"
-			,'customer_message_send'					=> HOME_URL_LANG."/message/send"
-			,'customer_message_search'					=> HOME_URL_LANG."/message/search"
-			,'customer_message_details_format'		=> HOME_URL_LANG."/message/message_code"
+			,'customer_message'							=> HOME_SURL_LANG."/message"
+			,'customer_message_send'					=> HOME_SURL_LANG."/message/send"
+			,'customer_message_search'					=> HOME_SURL_LANG."/message/search"
+			,'customer_message_details_format'		=> HOME_SURL_LANG."/message/message_code"
 
 			,'admin_time'								=> ADMIN_SURL_LANG."/time"
 
@@ -93,18 +93,27 @@ function &get_links($just_common=FALSE)
 
 			,'admin_reward'											=> ADMIN_SURL_LANG."/reward"
 			,'admin_reward_details_format'						=> ADMIN_SURL_LANG."/reward/reward_id"
-			,'customer_reward_teacher_submit_class_format'	=> HOME_URL_LANG."/reward/submit/class_id"
-			,'customer_reward_teacher_list_class_format'		=> HOME_URL_LANG."/reward/list/class_id/reward_id"
-			,'customer_reward_teacher_edit_format'				=> HOME_URL_LANG."/reward/edit/reward_id"
-			,'customer_reward_teacher_prize_class_format'	=> HOME_URL_LANG."/reward/prize/class_id"
-			,"customer_reward_student"								=> HOME_URL_LANG."/reward"
+			,'customer_reward_teacher_submit_class_format'	=> HOME_SURL_LANG."/reward/submit/class_id"
+			,'customer_reward_teacher_list_class_format'		=> HOME_SURL_LANG."/reward/list/class_id/reward_id"
+			,'customer_reward_teacher_edit_format'				=> HOME_SURL_LANG."/reward/edit/reward_id"
+			,'customer_reward_teacher_prize_class_format'	=> HOME_SURL_LANG."/reward/prize/class_id"
+			,"customer_reward_student"								=> HOME_SURL_LANG."/reward"
 
 			,'admin_question_collection'							=> ADMIN_SURL_LANG."/question_collection"
 			,"admin_question_collection_details_format"		=> ADMIN_SURL_LANG."/question_collection/qc_id"
 			,"customer_question_collection_list_format"		=> HOME_URL_LANG."/question_collection/grade_id/course_id"
 			,"customer_question_collection_details_format"	=> HOME_URL_LANG."/question_collection/grade_id/course_id/qc_id"
-			,"customer_question_collection_teacher_submit"	=> HOME_URL_LANG."/question_collection/submit"
-			,"customer_question_collection_teacher_list"		=> HOME_URL_LANG."/question_collection/list"
+			,"customer_question_collection_teacher_submit"	=> HOME_SURL_LANG."/question_collection/submit"
+			,"customer_question_collection_teacher_list"		=> HOME_SURL_LANG."/question_collection/list"
+
+			,'admin_class_post'											=> ADMIN_SURL_LANG."/class_post"
+			,'customer_class_post_assignment'						=> HOME_SURL_LANG."/assignment"
+			,'customer_class_post_assignment_details_format'	=> HOME_SURL_LANG."/assignment/assignment_id"
+			,'customer_class_post_assignment_edit_format'		=> HOME_SURL_LANG."/assignment/edit/assignment_id"
+			,'customer_class_post_discussion'						=> HOME_SURL_LANG."/discussion"
+			,'customer_class_post_discussion_details_format'	=> HOME_SURL_LANG."/discussion/discussion_id"
+			,'customer_class_post_discussion_edit_format'		=> HOME_SURL_LANG."/discussion/edit/discussion_id"
+			
 		));
 	}
 
@@ -112,6 +121,30 @@ function &get_links($just_common=FALSE)
 		return $LINKS_COMMON;
 	
 	return $LINKS;
+}
+
+function get_customer_class_post_discussion_edit_link($discussion_id,$do_not_set_lang=FALSE)
+{
+	$format_link=get_link("customer_class_post_discussion_edit_format",$do_not_set_lang);
+	return str_replace("discussion_id",$discussion_id, $format_link);	
+}
+
+function get_customer_class_post_discussion_details_link($discussion_id,$do_not_set_lang=FALSE)
+{
+	$format_link=get_link("customer_class_post_discussion_details_format",$do_not_set_lang);
+	return str_replace("discussion_id",$discussion_id, $format_link);	
+}
+
+function get_customer_class_post_assignment_edit_link($assignment_id,$do_not_set_lang=FALSE)
+{
+	$format_link=get_link("customer_class_post_assignment_edit_format",$do_not_set_lang);
+	return str_replace("assignment_id",$assignment_id, $format_link);	
+}
+
+function get_customer_class_post_assignment_details_link($assignment_id,$do_not_set_lang=FALSE)
+{
+	$format_link=get_link("customer_class_post_assignment_details_format",$do_not_set_lang);
+	return str_replace("assignment_id",$assignment_id, $format_link);	
 }
 
 function get_customer_question_collection_details_link($grade_id,$course_id,$qc_id,$do_not_set_lang=FALSE)

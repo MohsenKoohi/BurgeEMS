@@ -139,6 +139,14 @@ $route["question_collection/(\d+)/(\d+)/(\d+)"]				= "CE_Question_Collection/det
 $route["question_collection/submit"]							= "CE_Question_Collection/teacher_submit";
 $route["question_collection/list"]								= "CE_Question_Collection/teacher_list";
 
+$route[ADMIN_URL_FOLDER."/class_post"]			= "AE_Class_Post";
+$route["assignment"]									= "CE_Class_Post/assignment";
+$route["assignment/(\d+)"]							= "CE_Class_Post/assignment_view/$1";
+$route["assignment/edit/(\d+)"]					= "CE_Class_Post/assignment_edit/$1";
+$route["discussion"]									= "CE_Class_Post/discussion";
+$route["discussion/(\d+)"]							= "CE_Class_Post/discussion_view/$1";
+$route["discussion/edit/(\d+)"]					= "CE_Class_Post/discussion_edit/$1";
+
 $route['(((:any)/)*:any)']="CE_Home/redirect";
 
 /* End of file routes.php */

@@ -6,14 +6,14 @@
 				<li><a >{class_posts_text}</a>
 					<ul class="dash-ul">
 						<li>
-							<a href="<?php echo get_link('customer_class_post_assingment');?>">
+							<a href="<?php echo get_link('customer_class_post_assignment');?>">
 								{lesson_assignments_text}
 							</a>
 						</li>
 
 						<li>
-							<a href="<?php echo get_link('customer_class_post_conversation');?>">
-								{lesson_conversations_text}
+							<a href="<?php echo get_link('customer_class_post_discussion');?>">
+								{lesson_discussions_text}
 							</a>
 						</li>
 					</ul>
