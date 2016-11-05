@@ -6,7 +6,7 @@ class Class_post_manager_model extends CI_Model
 	private $class_post_comment_table_name="class_post_comment";
 	
 	private $class_post_writable_props=array(
-		"cp_date_start","cp_date_end","cp_class_id","cp_active","cp_assignment","cp_allow_comment"
+		"cp_date_start","cp_date_end","cp_class_id","cp_active","cp_allow_comment"
 	);
 	private $class_post_text_writable_props=array(
 		"cpt_title","cpt_content","cpt_gallery"
@@ -55,7 +55,7 @@ class Class_post_manager_model extends CI_Model
 			"CREATE TABLE IF NOT EXISTS $tbl (
 				`cpc_id` INT  NOT NULL AUTO_INCREMENT
 				,`cpc_cp_id` INT  NOT NULL
-				,`cpc_student_id` INT NOT NULL
+				,`cpc_customer_id` INT NOT NULL
 				,`cpc_comment` TEXT
 				,PRIMARY KEY (cpc_id)	
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8"
