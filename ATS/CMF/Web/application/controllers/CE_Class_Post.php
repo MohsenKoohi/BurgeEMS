@@ -95,7 +95,7 @@ class CE_Class_Post extends Burge_CMF_Controller {
 		$this->class_post_manager_model->delete_class_post($cp_id,$this->customer_info['customer_id']);
 
 		set_message($this->lang->line('class_post_deleted_successfully'));
-		exit();
+
 		if($cp_type==='assignment')
 			return redirect(get_link("customer_class_post_assignment"));
 		else
