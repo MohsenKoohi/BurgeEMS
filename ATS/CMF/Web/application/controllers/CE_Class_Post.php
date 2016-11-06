@@ -101,16 +101,18 @@ class CE_Class_Post extends Burge_CMF_Controller {
 	{
 		$props=array();
 		
-		$props['cp_start_date']=$this->input->post('start_date');
+		$props['cp_start_date']=trim($this->input->post('start_date'));
 		persian_normalize($props['cp_start_date']);
 		
-		$props['cp_end_date']=$this->input->post('end_date');
+		$props['cp_end_date']=trim($this->input->post('end_date'));
 		persian_normalize($props['cp_end_date']);
 
 		if( DATE_FUNCTION === 'jdate')
 		{
 			validate_persian_date_time($props['cp_start_date']);
-			validate_persian_date_time($props['cp_end_date']);
+			
+			if($props['cp_end_date'])
+				validate_persian_date_time($props['cp_end_date']);
 		}
 			
 		$props['cp_class_id']=(int)($this->input->post('class_id'));
@@ -229,6 +231,8 @@ class CE_Class_Post extends Burge_CMF_Controller {
 			$this->image_lib->clear();			
 			$this->image_lib->initialize($config);
 			$this->image_lib->resize();
+
+			echo $img;
 		}
 
 		return;
