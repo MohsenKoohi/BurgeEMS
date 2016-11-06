@@ -108,10 +108,10 @@ function &get_links($just_common=FALSE)
 
 			,'admin_class_post'											=> ADMIN_SURL_LANG."/class_post"
 			,'customer_class_post_assignment'						=> HOME_SURL_LANG."/assignment"
-			,'customer_class_post_assignment_details_format'	=> HOME_SURL_LANG."/assignment/assignment_id"
+			,'customer_class_post_assignment_view_format'		=> HOME_SURL_LANG."/assignment/assignment_id"
 			,'customer_class_post_assignment_edit_format'		=> HOME_SURL_LANG."/assignment/edit/assignment_id"
 			,'customer_class_post_discussion'						=> HOME_SURL_LANG."/discussion"
-			,'customer_class_post_discussion_details_format'	=> HOME_SURL_LANG."/discussion/discussion_id"
+			,'customer_class_post_discussion_view_format'		=> HOME_SURL_LANG."/discussion/discussion_id"
 			,'customer_class_post_discussion_edit_format'		=> HOME_SURL_LANG."/discussion/edit/discussion_id"
 		));
 	}
@@ -122,15 +122,35 @@ function &get_links($just_common=FALSE)
 	return $LINKS;
 }
 
+function get_class_post_gallery_image_path($cp_id,$img)
+{
+	return CLASS_POST_DIR."/".$cp_id."/gallery/".$img;
+}
+
+function get_class_post_gallery_image_url($cp_id,$img)
+{
+	return CLASS_POST_URL."/".$cp_id."/gallery/".$img;
+}
+
+function get_class_post_directory_path($cp_id)
+{
+	return CLASS_POST_DIR."/".$cp_id;
+}
+
+function get_class_post_directory_url($cp_id)
+{
+	return CLASS_POST_URL."/".$cp_id;
+}
+
 function get_customer_class_post_discussion_edit_link($discussion_id,$do_not_set_lang=FALSE)
 {
 	$format_link=get_link("customer_class_post_discussion_edit_format",$do_not_set_lang);
 	return str_replace("discussion_id",$discussion_id, $format_link);	
 }
 
-function get_customer_class_post_discussion_details_link($discussion_id,$do_not_set_lang=FALSE)
+function get_customer_class_post_discussion_view_link($discussion_id,$do_not_set_lang=FALSE)
 {
-	$format_link=get_link("customer_class_post_discussion_details_format",$do_not_set_lang);
+	$format_link=get_link("customer_class_post_discussion_view_format",$do_not_set_lang);
 	return str_replace("discussion_id",$discussion_id, $format_link);	
 }
 
@@ -140,9 +160,9 @@ function get_customer_class_post_assignment_edit_link($assignment_id,$do_not_set
 	return str_replace("assignment_id",$assignment_id, $format_link);	
 }
 
-function get_customer_class_post_assignment_details_link($assignment_id,$do_not_set_lang=FALSE)
+function get_customer_class_post_assignment_view_link($assignment_id,$do_not_set_lang=FALSE)
 {
-	$format_link=get_link("customer_class_post_assignment_details_format",$do_not_set_lang);
+	$format_link=get_link("customer_class_post_assignment_view_format",$do_not_set_lang);
 	return str_replace("assignment_id",$assignment_id, $format_link);	
 }
 

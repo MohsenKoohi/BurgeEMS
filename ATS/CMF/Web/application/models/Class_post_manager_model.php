@@ -6,7 +6,7 @@ class Class_post_manager_model extends CI_Model
 	private $class_post_comment_table_name="class_post_comment";
 	
 	private $class_post_writable_props=array(
-		"cp_date_start","cp_date_end","cp_class_id","cp_active","cp_allow_comment"
+		"cp_start_date","cp_end_date","cp_class_id","cp_active","cp_allow_comment","cp_allow_file"
 	);
 	private $class_post_text_writable_props=array(
 		"cpt_title","cpt_content","cpt_gallery"
@@ -26,13 +26,14 @@ class Class_post_manager_model extends CI_Model
 			"CREATE TABLE IF NOT EXISTS $tbl (
 				`cp_id` INT  NOT NULL AUTO_INCREMENT
 				,`cp_academic_time_id` INT NOT NULL
-				,`cp_date_start` CHAR(20)
-				,`cp_date_end` CHAR(20)
+				,`cp_start_date` CHAR(20)
+				,`cp_end_date` CHAR(20)
 				,`cp_teacher_id` INT NOT NULL DEFAULT 0
 				,`cp_class_id` INT NOT NULL
 				,`cp_active` BIT(1) NOT NULL DEFAULT 0
 				,`cp_assignment` BIT(1) NOT NULL DEFAULT 0
 				,`cp_allow_comment` BIT(1) NOT NULL DEFAULT 0
+				,`cp_allow_file` BIT(1) NOT NULL DEFAULT 0
 				,`cp_comment_count` INT NOT NULL DEFAULT 0
 				,PRIMARY KEY (cp_id)	
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8"
@@ -57,6 +58,8 @@ class Class_post_manager_model extends CI_Model
 				,`cpc_cp_id` INT  NOT NULL
 				,`cpc_customer_id` INT NOT NULL
 				,`cpc_comment` TEXT
+				,`cpc_active` BIT(1) NOT NULL DEFAULT 1
+				,`cpc_file` CHAR(10) DEFAULT NULL
 				,PRIMARY KEY (cpc_id)	
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8"
 		);
@@ -103,10 +106,14 @@ class Class_post_manager_model extends CI_Model
 
 	public function add_class_post($ins)
 	{
+		$this->load->model("time_manager_model");
+		$current_academic_time=$this->time_manager_model->get_current_academic_time();
+
 		$props=array(
-			"cp_date_start"		=> get_current_time()
-			,'cp_assignment'		=> $ins['assignment']
-			,'cp_teacher_id'		=> $ins['teacher_id']
+			"cp_academic_time_id"		=> $current_academic_time['time_id']
+			,"cp_start_date"				=> get_current_time()
+			,'cp_assignment'				=> $ins['assignment']
+			,'cp_teacher_id'				=> $ins['teacher_id']
 		);
 
 		$this->db->insert($this->class_post_table_name,$props);
@@ -125,10 +132,13 @@ class Class_post_manager_model extends CI_Model
 			);
 		$this->db->insert_batch($this->class_post_text_table_name,$post_texts);
 
+		@mkdir(get_class_post_directory_path($new_class_post_id),0777);
+		@mkdir(get_class_post_gallery_image_path($new_class_post_id,''),0777);
+
 		return $new_class_post_id;
 	}
 
-	public function get_customer_class_posts($filter)
+	public function get_class_posts($filter)
 	{
 		return;
 		$this->db->from($this->post_table_name);
@@ -146,7 +156,7 @@ class Class_post_manager_model extends CI_Model
 		return $rows;
 	}
 
-	public function get_customer_class_total($filter)
+	public function get_class_posts_total($filter)
 	{
 		return 0;
 
@@ -165,7 +175,21 @@ class Class_post_manager_model extends CI_Model
 	private function set_post_query_filter($filter)
 	{
 		if(isset($filter['lang']))
-			$this->db->where("pc_lang_id",$filter['lang']);
+			$this->db->where("cpt_lang_id",$filter['lang']);
+
+		if(isset($filter['teacher_id']))
+			$this->db->where("cp_teacher_id",(int)$filter['teacher_id']);
+
+		if(isset($filter['class_id']))
+			$this->db->where("cp_class_id",(int)$filter['class_id']);
+
+		if(isset($filter['assignment']))
+			$this->db->where("cp_assignment",(int)$filter['assignment']);
+
+		if(isset($filter['active']))
+			$this->db->where("cp_active",(int)$filter['active']);
+
+		return;
 
 		if(isset($filter['category_id']))
 			$this->db->where("pcat_category_id",$filter['category_id']);
@@ -208,21 +232,18 @@ class Class_post_manager_model extends CI_Model
 		return;
 	}
 
-	public function get_post($post_id,$filter=array())
+	public function get_class_post($class_post_id,$filter=array())
 	{
-		$cat_query=$this->db
-			->select("GROUP_CONCAT(pcat_category_id)")
-			->from($this->post_category_table_name)
-			->where("pcat_post_id",$post_id)
-			->get_compiled_select();
-
 		$this->db
-			->select("post.* , post_content.* , user_id, user_name")
-			->select("(".$cat_query.") as categories")
-			->from("post")
-			->join("user","post_creator_uid = user_id","left")
-			->join("post_content","post_id = pc_post_id","left")
-			->where("post_id",$post_id);
+			->select($this->class_post_table_name.".* ")
+			->select($this->class_post_text_table_name.".* ")
+			->select("time.time_name as academic_time")
+			->select("customer_name as teacher_name, customer_subject as teacher_subject")
+			->from($this->class_post_table_name)
+			->join($this->class_post_text_table_name,"cpt_cp_id = cp_id","left")
+			->join("customer","cp_teacher_id = customer_id","left")
+			->join("time","cp_academic_time_id = time_id","left")
+			->where("cp_id",$class_post_id);
 
 		$this->set_post_query_filter($filter);
 
@@ -244,37 +265,18 @@ class Class_post_manager_model extends CI_Model
 				,'images'		=> array()
 			);
 
-			if($post['pc_gallery'])
-				$gallery=json_decode($post['pc_gallery'],TRUE);
+			if($post['cpt_gallery'])
+				$gallery=json_decode($post['cpt_gallery'],TRUE);
 
-			$post['pc_gallery']=$gallery;
+			$post['cpt_gallery']=$gallery;
 		}
 
 		return;
 	}
 
-	public function set_post_props($post_id, $props, $post_contents)
-	{	
-		$this->db
-			->where("pcat_post_id",$post_id)
-			->delete($this->post_category_table_name);
-		
-		$props_categories=$props['categories'];
-		
-		if($props_categories!=NULL)
-		{
-			$categories=explode(",",$props_categories);
-			$ins=array();
-			foreach($categories as $category_id)
-				$ins[]=array("pcat_post_id"=>$post_id,"pcat_category_id"=>(int)$category_id);
-
-			if($ins)
-				$this->db->insert_batch($this->post_category_table_name,$ins);
-		}
-
-		unset($props['categories']);
-
-		$props=select_allowed_elements($props,$this->post_writable_props);
+	public function set_class_post_props($cp_id, $props, $text_props,$teacher_id)
+	{
+		$props=select_allowed_elements($props,$this->class_post_writable_props);
 
 		if($props)
 		{
@@ -282,64 +284,33 @@ class Class_post_manager_model extends CI_Model
 				$this->db->set($prop,$value);
 
 			$this->db
-				->where("post_id",$post_id)
-				->update($this->post_table_name);
+				->where("cp_id",$cp_id)
+				->update($this->class_post_table_name);
 		}
 
-		$props['categories']=$props_categories;
-
-		foreach($post_contents as $content)
+		foreach($text_props as $text)
 		{
-			$lang=$content['pc_lang_id'];
+			$lang=$text['cpt_lang_id'];
 
-			$content['pc_gallery']=json_encode($content['pc_gallery']);
-			$content=select_allowed_elements($content,$this->post_content_writable_props);
-			if(!$content)
+			$text['cpt_gallery']=json_encode($text['cpt_gallery']);
+			$text=select_allowed_elements($text,$this->class_post_text_writable_props);
+			if(!$text)
 				continue;
 
-			foreach($content as $prop => $value)
+			foreach($text as $prop => $value)
 			{
 				$this->db->set($prop,$value);
 				$props[$lang."_".$prop]=$value;
 			}
 
 			$this->db
-				->where("pc_post_id",$post_id)
-				->where("pc_lang_id",$lang)
-				->update($this->post_content_table_name);
+				->where("cpt_cp_id",$cp_id)
+				->where("cpt_lang_id",$lang)
+				->update($this->class_post_text_table_name);
 		}
-		
-		$this->log_manager_model->info("POST_CHANGE",$props);	
 
-		return;
-	}
-
-	public function change_category($old_category_id,$new_category_id)
-	{
-		$rows=$this->db
-			->where("pcat_category_id",$old_category_id)
-			->or_where("pcat_category_id",$new_category_id)
-			->group_by("pcat_post_id")
-			->get($this->post_category_table_name)
-			->result_array();
-
-		$post_ids=array();
-		foreach($rows as $row)
-			$post_ids[]=$row['pcat_post_id'];
-
-		if(!$post_ids)
-			return;
-
-		$this->db
-			->where("pcat_category_id",$old_category_id)
-			->or_where("pcat_category_id",$new_category_id)
-			->delete($this->post_category_table_name);
-
-		$ins=array();
-		foreach($post_ids as $post_id)
-			$ins[]=array("pcat_category_id"=>$new_category_id,"pcat_post_id"=>$post_id);
-
-		$this->db->insert_batch($this->post_category_table_name,$ins);
+		$this->customer_manager_model->add_customer_log($teacher_id,'CLASS_POST_CHANGE',$props);		
+		$this->log_manager_model->info("CLASS_POST_CHANGE",$props);	
 
 		return;
 	}

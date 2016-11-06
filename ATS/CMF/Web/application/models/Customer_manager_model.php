@@ -73,6 +73,7 @@ class Customer_manager_model extends CI_Model
 		,"QUESTION_COLLECTION_ADD"		=> 2101
 
 		,"CLASS_POST_ADD"					=> 2131
+		,"CLASS_POST_CHANGE"				=> 2132
 	);
 	
 	public function __construct()

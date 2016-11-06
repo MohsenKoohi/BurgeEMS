@@ -110,6 +110,7 @@ class Log_manager_model extends CI_Model
 		,"QUESTION_COLLECTION_DELETE"	=> 2102
 
 		,"CLASS_POST_ADD"					=> 2131
+		,"CLASS_POST_CHANGE"				=> 2132
 
 	);
 
