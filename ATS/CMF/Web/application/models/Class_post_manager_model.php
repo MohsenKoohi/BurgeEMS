@@ -336,4 +336,28 @@ class Class_post_manager_model extends CI_Model
 		return;
 
 	}
+
+	public function check_file_manager_access($module_part_id)
+	{
+		$this->load->model("customer_manager_model");
+		$customer_info=$this->customer_manager_model->get_logged_customer_info();
+		if(!$customer_info)
+			return FALSE;
+
+		if( "teacher" !== $customer_info['customer_type'] ) 
+			return FALSE;
+		
+		$res=$this->db
+			->select("*")
+			->from($this->class_post_table_name)
+			->where("cp_id",(int)$module_part_id)
+			->where("cp_teacher_id",$customer_info['customer_id'])
+			->get()
+			->row_array();
+		
+		if(!$res)
+			return FALSE;
+
+		return TRUE;
+	}
 }

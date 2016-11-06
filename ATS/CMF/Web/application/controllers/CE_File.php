@@ -1,72 +1,66 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class AE_File extends Burge_CMF_Controller {
+class CE_File extends Burge_CMF_Controller {
+	protected $hit_level=-1;
+
+	private $module;
+	private $module_part_id;
 
 	function __construct()
 	{
 		parent::__construct();
 
 		$this->load->model("file_manager_model");
-		$this->file_manager_model->set_root('upload');
 	}
 
-	public function index()
-	{
-		
-		$this->data['message']=get_message();
+	private function check_access($module,$module_part_id)
+	{	
+		$this->module=$module;
+		$this->module_part_id=$module_part_id;
 
-		$this->lang->load('ae_file',$this->selected_lang);
-	
-		$this->data['lang_pages']=get_lang_pages(get_link("admin_file",TRUE));
-		$this->data['header_title']=$this->lang->line("files");
-		
-		$this->send_admin_output("file");
-	
-		return;		
+		switch ($module)
+		{
+			case 'class_post':
+				$this->load->model("class_post_manager_model");
+				if($this->class_post_manager_model->check_file_manager_access($module_part_id))
+				{
+					$root=str_replace(HOME_URL."/", "",get_class_post_directory_url($this->module_part_id));
+					$this->file_manager_model->set_root($root);
+					return;
+				}
+				break;
+		}
+
+		exit();
 	}
+	
 
-	public function inline()
+	public function inline($module,$module_part_id)
 	{
+		$this->check_access($module,$module_part_id);
+
 		$this->load->library('parser');
 		$this->data["parent_function"]=$this->input->get("parent_function");
 		
-		$this->parser->parse($this->get_admin_view_file("file_inline"),$this->data);
-		
+		$this->parser->parse($this->get_customer_view_file("file_inline"),$this->data);
 	}
 
-	public function conf()
+	public function conf($module,$module_part_id)
 	{
+		$this->check_access($module,$module_part_id);
+		
+		$conf=$this->file_manager_model->get_conf();
+
 		$this->output->set_content_type('application/json');
-    	$this->output->set_output($this->file_manager_model->get_conf());
+    	$this->output->set_output($conf);
 
 		return;
 	}
 
-	private function lang($lang)
+	public function action($module,$module_part_id,$action)
 	{
-
-		echo file_get_contents(SCRIPTS_DIR."/roxy/lang/".$lang.".json");
-
-		return;
-	}
-
-	private function image($link1,$link2="",$link3="")
-	{
-		$path=SCRIPTS_DIR."/roxy/images/".$link1;
-		if($link2)
-			$path.="/".$link2;
-		if($link3)
-			$path.="/".$link3;
+		$this->check_access($module,$module_part_id);
 		
-		$extension=pathinfo($path, PATHINFO_EXTENSION);
-		$this->output->set_content_type($extension);
-		$this->output->set_output(file_get_contents($path));
-
-		return;
-	}
-
-	public function action($action)
-	{
 		$this->file_manager_model->initialize_roxy();
 
 		switch($action)
@@ -126,7 +120,11 @@ class AE_File extends Burge_CMF_Controller {
 		if($to_path)
 			$path['to_path']=$to_path;
 
-		$this->log_manager_model->info($type,$path);
+		$customer_id=$this->customer_manager_model->get_logged_customer_id();
+		$this->customer_manager_model->add_customer_log($customer_id,$type,$path);		
+
+		$path['customer_id']=$customer_id;
+		$this->log_manager_model->info($type,$path);	
 
 		return;
 	}
@@ -216,7 +214,7 @@ class AE_File extends Burge_CMF_Controller {
 		if($isAjax){
 		  if($errors || $errorsExt)
 		    $res = getErrorRes(t('E_UploadNotAll'));
-		  echo $res;
+		  //echo $res;
 		}
 		else{
 		  echo '

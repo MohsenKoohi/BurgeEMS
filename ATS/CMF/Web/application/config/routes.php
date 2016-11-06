@@ -112,7 +112,6 @@ $route['message/send']								= "CE_Message/send";
 $route['message/search/(.*)']						= "CE_Message/search/$1";
 $route['message/([^\/]*)']							= "CE_Message/details/$1";
 
-
 $route[ADMIN_URL_FOLDER."/time"]							= "AE_Time/index";
 
 $route[ADMIN_URL_FOLDER."/class"]						= "AE_Class/index";
@@ -146,6 +145,10 @@ $route["assignment/edit/(\d+)"]					= "CE_Class_Post/assignment_edit/$1";
 $route["discussion"]									= "CE_Class_Post/discussion";
 $route["discussion/(\d+)"]							= "CE_Class_Post/discussion_view/$1";
 $route["discussion/edit/(\d+)"]					= "CE_Class_Post/discussion_edit/$1";
+$route["class_post/(\d+)/file/inline"]					= "CE_File/inline/class_post/$1";
+$route["class_post/(\d+)/file/conf.json"]				= "CE_File/conf/class_post/$1";
+$route["class_post/(\d+)/file/([^\/]+)"]				= "CE_File/action/class_post/$1/$2";
+
 
 $route['(((:any)/)*:any)']="CE_Home/redirect";
 

@@ -2,6 +2,8 @@
 
 class File_manager_model extends CI_Model
 {
+	private $root=NULL;
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -25,11 +27,20 @@ class File_manager_model extends CI_Model
 		return;
 	}
 
+	public function set_root($root)
+	{
+		$this->root=$root;
+		return;
+	}
+
 	public function get_conf()
 	{
+		if(!$this->root)
+			return;
+		
 		return '
 			{
-				"FILES_ROOT":          "upload",
+				"FILES_ROOT":          "'.$this->root.'",
 				"RETURN_URL_PREFIX":   "",
 				"SESSION_PATH_KEY":    "",
 				"THUMBS_VIEW_WIDTH":   "140",

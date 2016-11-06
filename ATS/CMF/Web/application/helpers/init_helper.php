@@ -113,6 +113,7 @@ function &get_links($just_common=FALSE)
 			,'customer_class_post_discussion'						=> HOME_SURL_LANG."/discussion"
 			,'customer_class_post_discussion_view_format'		=> HOME_SURL_LANG."/discussion/discussion_id"
 			,'customer_class_post_discussion_edit_format'		=> HOME_SURL_LANG."/discussion/edit/discussion_id"
+			,'customer_class_post_file_format'						=> HOME_SURL_LANG."/class_post/cp_id/file/inline"
 		));
 	}
 
@@ -140,6 +141,12 @@ function get_class_post_directory_path($cp_id)
 function get_class_post_directory_url($cp_id)
 {
 	return CLASS_POST_URL."/".$cp_id;
+}
+
+function get_customer_class_post_file_link($cp_id)
+{
+	$format_link=get_link("customer_class_post_file_format");
+	return str_replace("cp_id",$cp_id, $format_link);	
 }
 
 function get_customer_class_post_discussion_edit_link($discussion_id,$do_not_set_lang=FALSE)
@@ -612,7 +619,7 @@ function validate_persian_date_time(&$date_time)
 		return false;
 	if(sizeof($parts)==1)
 		$date_time.=" 00:00:00";
-	
+
 	list($date,$time)=explode(" ", $date_time);
 	$ret=validate_persian_date($date);
 	$date_time=$date." ".$time;

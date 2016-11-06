@@ -70,15 +70,18 @@ class CE_Class_Post extends Burge_CMF_Controller {
 			,"allow_file"			=> $cp_info[0]['cp_allow_file']			
 		);
 
+		$this->data['file_manager_link']=get_customer_class_post_file_link($class_post_id);
+
 		$this->data['current_time']=get_current_time();
 		$this->data['teacher_classes']=$this->class_manager_model->get_teacher_classes_with_names($this->customer_info['customer_id']);
+		$this->data['raw_page_url']=get_customer_class_post_assignment_edit_link($class_post_id);
 
 		$this->data['message']=get_message();
 		$this->data['lang_pages']=get_lang_pages(get_customer_class_post_assignment_view_link($class_post_id,TRUE));
+		
 		$title=$this->data['cp_texts'][$this->selected_lang]['cpt_title'];
 		$this->data['header_title']=$this->lang->line("assignment")." ".$title;
 		$this->data['page_title']=$this->lang->line("assignment");
-		$this->data['raw_page_url']=get_customer_class_post_assignment_edit_link($class_post_id);
 		if($title)
 			$this->data['page_title'].=$this->lang->line("comma").$title;	
 

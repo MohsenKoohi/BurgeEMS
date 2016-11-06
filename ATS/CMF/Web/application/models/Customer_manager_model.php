@@ -54,6 +54,18 @@ class Customer_manager_model extends CI_Model
 	private $customer_log_types=array(
 		"UNKOWN"									=>0
 
+		,"FILE_DIR_CREATE"		=>201
+		,"FILE_DIR_DELETE"		=>202
+		,"FILE_DIR_COPY"			=>203
+		,"FILE_DIR_MOVE"			=>204
+		,"FILE_DIR_RENAME"		=>205
+		,"FILE_DIR_DOWNLOAD"		=>206		
+		,"FILE_FILE_UPLOAD"		=>207
+		,"FILE_FILE_DELETE"		=>208
+		,"FILE_FILE_COPY"			=>209
+		,"FILE_FILE_MOVE"			=>210
+		,"FILE_FILE_RENAME"		=>211
+
 		,"CUSTOMER_ADD"						=>1001
 		,"CUSTOMER_INFO_CHANGE"				=>1002
 		,"CUSTOMER_TASK_EXEC"				=>1003

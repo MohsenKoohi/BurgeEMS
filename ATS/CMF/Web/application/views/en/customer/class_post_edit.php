@@ -173,7 +173,6 @@
 										<input type="text" class="full-width" 
 											name="<?php echo $lang;?>[title]" 
 											value="<?php echo $cpt['cpt_title']; ?>"
-											onchange="trimTitle(this);"
 										/>
 									</div>
 								</div>
@@ -338,7 +337,7 @@
 
 				function RoxyFileBrowser(field_name, url, type, win)
 				{
-					var roxyFileman ="<?php echo get_link('admin_file_inline');?>";
+					var roxyFileman ="{file_manager_link}";
 
 					if (roxyFileman.indexOf("?") < 0) {     
 					 roxyFileman += "?type=" + type;   
@@ -350,6 +349,7 @@
 					if(tinyMCE.activeEditor.settings.language){
 					 roxyFileman += '&langCode=' + tinyMCE.activeEditor.settings.language;
 					}
+
 					tinyMCE.activeEditor.windowManager.open({
 					  file: roxyFileman,
 					  title: 'Roxy Fileman',
