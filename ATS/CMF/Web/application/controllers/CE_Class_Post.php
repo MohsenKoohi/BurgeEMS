@@ -29,12 +29,6 @@ class CE_Class_Post extends Burge_CMF_Controller {
 		if( ( "teacher" !== $customer_type ) || !$class_post_id )
 			return redirect(get_link("customer_class_post_assignment"));
 
-		if($this->input->post("post_type")==="edit_class_post")
-			return $this->edit_class_post($class_post_id);
-
-		if($this->input->post("post_type")==="delete_class_post")
-			return $this->delete_class_post($class_post_id);
-
 		$this->data['class_post_id']=$class_post_id;
 		$filters=array(
 			'class_post_type'=>"assignment"
@@ -44,7 +38,12 @@ class CE_Class_Post extends Burge_CMF_Controller {
 		$cp_info=$this->class_post_manager_model->get_class_post($class_post_id,$filters);
 		if(!$cp_info)
 			return redirect(get_link('customer_class_post_assignment'));
-		//bprint_r($cp_info);exit();
+
+		if($this->input->post("post_type")==="edit_class_post")
+			return $this->edit_class_post($class_post_id,"assignment");
+
+		if($this->input->post("post_type")==="delete_class_post")
+			return $this->delete_class_post($class_post_id,"assigment");
 
 		$this->data['langs']=$this->language->get_languages();
 
@@ -91,16 +90,19 @@ class CE_Class_Post extends Burge_CMF_Controller {
 	}
 
 
-	private function delete_post($post_id)
+	private function delete_class_post($cp_id,$cp_type)
 	{
-		$this->post_manager_model->delete_post($post_id);
+		$this->class_post_manager_model->delete_class_post($cp_id,$this->customer_info['customer_id']);
 
-		set_message($this->lang->line('post_deleted_successfully'));
-
-		return redirect(get_link("admin_post"));
+		set_message($this->lang->line('class_post_deleted_successfully'));
+		exit();
+		if($cp_type==='assignment')
+			return redirect(get_link("customer_class_post_assignment"));
+		else
+			return redirect(get_link("customer_class_post_discussion"));
 	}
 
-	private function edit_class_post($cp_id)
+	private function edit_class_post($cp_id,$cp_type)
 	{
 		$props=array();
 		
@@ -140,7 +142,10 @@ class CE_Class_Post extends Burge_CMF_Controller {
 		
 		set_message($this->lang->line("changes_saved_successfully"));
 
-		//return redirect(get_customer_class_post_assignment_view_link($class_post_id));
+		if($cp_type==='assignment')
+			return redirect(get_customer_class_post_assignment_view_link($cp_id));
+		else
+			return redirect(get_customer_class_post_discussion_view_link($cp_id));
 	}
 
 	private function get_class_post_gallery($cp_id, $lang)

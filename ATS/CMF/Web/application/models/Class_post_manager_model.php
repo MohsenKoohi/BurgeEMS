@@ -310,28 +310,32 @@ class Class_post_manager_model extends CI_Model
 		}
 
 		$this->customer_manager_model->add_customer_log($teacher_id,'CLASS_POST_CHANGE',$props);		
+		$props['teacher_id']=$teacher_id;
 		$this->log_manager_model->info("CLASS_POST_CHANGE",$props);	
 
 		return;
 	}
 
-	public function delete_post($post_id)
+	public function delete_class_post($cp_id,$teacher_id)
 	{
-		$props=array("post_id"=>$post_id);
+		$props=array("class_post_id"=>$cp_id);
 
 		$this->db
-			->where("post_id",$post_id)
-			->delete($this->post_table_name);
+			->where("cp_id",$cp_id)
+			->delete($this->class_post_table_name);
 
 		$this->db
-			->where("pc_post_id",$post_id)
-			->delete($this->post_content_table_name);
+			->where("cpt_cp_id",$cp_id)
+			->delete($this->class_post_text_table_name);
 
 		$this->db
-			->where("pcat_post_id",$post_id)
-			->delete($this->post_category_table_name);
+			->where("cpc_cp_id",$cp_id)
+			->delete($this->class_post_comment_table_name);
 		
-		$this->log_manager_model->info("POST_DELETE",$props);	
+		$this->customer_manager_model->add_customer_log($teacher_id,'CLASS_POST_DELETE',$props);
+
+		$props['teacher_id']=$teacher_id;
+		$this->log_manager_model->info("CLASS_POST_DELETE",$props);	
 
 		return;
 

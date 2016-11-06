@@ -27,7 +27,7 @@ $lang['delete_image']="حذف تصویر";
 
 $lang['delete_post']="حذف";
 $lang['are_you_sure_to_delete_this_post']="آیا از حذف این پست مطمئن هستید؟";
-$lang['post_deleted_successfully']="پست موردنظر حذف شد.";
+$lang['class_post_deleted_successfully']="پست کلاسی موردنظر حذف شد.";
 
 $lang['gallery']="مجموعه تصاویر";
 $lang['add_image']="افزودن تصویر";
@@ -53,7 +53,7 @@ $lang['please_select']="انتخاب نماید";
 $lang['submit']="ثبت";
 $lang['allow_submit_file']="ثبت فایل";
 $lang['allow_submit_response']="ثبت پاسخ";
-$lang['']="";
+$lang['are_you_sure']="آیا مطمئنید؟";
 $lang['']="";
 $lang['']="";
 $lang['']="";

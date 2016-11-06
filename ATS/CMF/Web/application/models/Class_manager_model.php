@@ -127,7 +127,7 @@ class Class_manager_model extends CI_Model
 	public function get_class_teachers($class_id_s)
 	{
 		$this->db
-			->select("customer_id,customer_name,customer_subject,ct_teacher_id")
+			->select("customer_id,customer_name,customer_address,customer_subject,ct_teacher_id")
 			->from("customer");
 
 		if(is_array($class_id_s))

@@ -258,8 +258,7 @@
 
 			<div style="display:none">
 				<?php echo form_open($raw_page_url,array("id"=>"delete")); ?>
-					<input type="hidden" name="post_type" value="delete_post"/>
-					<input type="hidden" name="post_id" value="{post_id}"/>
+					<input type="hidden" name="post_type" value="delete_class_post"/>
 				</form>
 
 				<script type="text/javascript">
@@ -382,7 +381,7 @@
 
            	function deletePost()
 				{
-					if(!confirm("{are_you_sure_to_delete_this_post_text}"))
+					if(!confirm("{are_you_sure_text}"))
 						return;
 
 					$("form#delete").submit();
