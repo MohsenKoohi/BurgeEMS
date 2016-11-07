@@ -157,6 +157,182 @@ class CE_Class_Post extends Burge_CMF_Controller {
 		return;
 	}
 
+
+	public function assignment()
+	{
+		$customer_type=$this->customer_info['customer_type'];
+		if( "teacher" === $customer_type )
+			if($this->input->post("post_type")==="add_class_post")
+				return $this->add_class_post("assignment");
+		
+		$this->set_class_posts_info("assignment");
+		$this->data['message']=get_message();
+		$this->data['customer_type']=$customer_type;
+		$this->data['add_text']=$this->lang->line("add_assignment");
+
+		$this->data['raw_page_url']=get_link("customer_class_post_assignment");
+		$this->data['lang_pages']=get_lang_pages(get_link("customer_class_post_assignment",TRUE));
+		$this->data['header_title']=$this->lang->line("assignments");
+		$this->data['header']=$this->lang->line("assignments");
+
+		$this->send_customer_output("class_post_list");
+
+		return;	 
+	}
+
+	public function discussion_view($class_post_id)
+	{
+		$class_post_id=(int)$class_post_id;
+		if( !$class_post_id )
+			return redirect(get_link("customer_class_post_discussion"));
+
+		$customer_type=$this->customer_info['customer_type'];
+		if( ( "student" !== $customer_type ) && ( "teacher" !== $customer_type ) )
+			return redirect(get_link("customer_class_post_discussion"));
+
+		$this->data['class_post_id']=$class_post_id;
+		$filters=array(
+			'lang'					=> $this->selected_lang
+			,'assignment'			=> 0
+		);
+
+		$this->initialize_filters($filters);
+
+		$cp_info=$this->class_post_manager_model->get_class_post($class_post_id,$filters);
+		if(!$cp_info)
+			return redirect(get_link('customer_class_post_assignment'));
+
+		$cp_info=$cp_info[0];
+		$this->data['cp_info']=$cp_info;
+		$this->data['customer_type']=$customer_type;
+		$this->data['add_comment']=0;
+
+		if('teacher' === $customer_type)
+		{
+			if(!$cp_info['cp_assignment'])
+				$this->data['add_comment']=1;
+
+			$this->data['edit_link']=get_customer_class_post_discussion_edit_link($class_post_id);
+		}
+
+		if('student' === $customer_type)
+		{
+			$current_time=get_current_time();
+			if($cp_info['cp_allow_comment'])
+				if( !$cp_info['cp_end_date'] || ($current_time < $cp_info['cp_end_date'] ) )
+					$this->data['add_comment']=1;
+		}
+
+		if($this->input->post("post_type")==="add_comment")
+			return $this->add_comment($class_post_id);
+
+		$this->data['comments']=$this->class_post_manager_model->get_all_comments($class_post_id);
+
+		$this->data['comment_value']=$this->session->flashdata("comment");
+		$this->data['raw_page_url']=get_customer_class_post_discussion_view_link($class_post_id);
+		$this->data['message']=get_message();
+		$this->data['lang_pages']=get_lang_pages(get_customer_class_post_discussion_view_link($class_post_id,TRUE));
+		
+		$title=$cp_info['cpt_title'];
+		$this->data['header_title']=$this->lang->line("discussion")." ".$title;
+		$this->data['page_title']=$this->lang->line("discussion");
+		if($title)
+			$this->data['page_title'].=$this->lang->line("comma").$title;	
+
+		$this->send_customer_output("class_post_view");
+
+		return;
+	}
+
+	public function discussion_edit($class_post_id)
+	{
+		$customer_type=$this->customer_info['customer_type'];
+		$class_post_id=(int)$class_post_id;
+		if( ( "teacher" !== $customer_type ) || !$class_post_id )
+			return redirect(get_link("customer_class_post_discussion"));
+
+		$this->data['class_post_id']=$class_post_id;
+		$filters=array(
+			"assignment"	=> 0
+		);
+		$this->initialize_filters($filters);
+
+		$cp_info=$this->class_post_manager_model->get_class_post($class_post_id,$filters);
+		if(!$cp_info)
+			return redirect(get_link('customer_class_post_discussion'));
+
+		if($this->input->post("post_type")==="edit_class_post")
+			return $this->edit_class_post($class_post_id,"discussion");
+
+		if($this->input->post("post_type")==="delete_class_post")
+			return $this->delete_class_post($class_post_id,"discussion");
+
+		$this->data['langs']=$this->language->get_languages();
+
+		$this->data['cp_texts']=array();
+		foreach($this->data['langs'] as $lang => $val)
+			foreach($cp_info as $pi)
+				if($pi['cpt_lang_id'] === $lang)
+				{
+					$this->data['cp_texts'][$lang]=$pi;
+					break;
+				}
+		//bprint_r($this->data['cp_texts']);exit();
+		$this->data['cp_info']=array(
+			"start_date"			=> str_replace("-","/",$cp_info[0]['cp_start_date'])
+			,"end_date"				=> str_replace("-","/",$cp_info[0]['cp_end_date'])
+			,"academic_year"		=> $cp_info[0]['academic_time']
+			,"class_id"				=> $cp_info[0]['cp_class_id']
+			,"teacher_name"		=> $cp_info[0]['teacher_name']
+			,"teacher_subject"	=> $cp_info[0]['teacher_subject']
+			,"active"				=> $cp_info[0]['cp_active']
+			,"assignment"			=> $cp_info[0]['cp_assignment']
+			,"allow_comment"		=> $cp_info[0]['cp_allow_comment']
+			,"allow_file"			=> $cp_info[0]['cp_allow_file']			
+		);
+
+		$this->data['file_manager_link']=get_customer_class_post_file_link($class_post_id);
+
+		$this->data['current_time']=get_current_time();
+		$this->data['teacher_classes']=$this->class_manager_model->get_teacher_classes_with_names($this->customer_info['customer_id']);
+		$this->data['raw_page_url']=get_customer_class_post_discussion_edit_link($class_post_id);
+
+		$this->data['message']=get_message();
+		$this->data['lang_pages']=get_lang_pages(get_customer_class_post_discussion_edit_link($class_post_id,TRUE));
+		
+		$title=$this->data['cp_texts'][$this->selected_lang]['cpt_title'];
+		$this->data['header_title']=$this->lang->line("discussion")." ".$title;
+		$this->data['page_title']=$this->lang->line("discussion");
+		if($title)
+			$this->data['page_title'].=$this->lang->line("comma").$title;	
+
+		$this->send_customer_output("class_post_edit");
+
+		return;
+	}
+	
+	public function discussion()
+	{
+		$customer_type=$this->customer_info['customer_type'];
+		if( "teacher" === $customer_type )
+			if($this->input->post("post_type")==="add_class_post")
+				return $this->add_class_post("discussion");
+		
+		$this->set_class_posts_info("discussion");
+		$this->data['message']=get_message();
+		$this->data['customer_type']=$customer_type;
+		$this->data['add_text']=$this->lang->line("add_discussion");
+
+		$this->data['raw_page_url']=get_link("customer_class_post_discussion");
+		$this->data['lang_pages']=get_lang_pages(get_link("customer_class_post_assignment",TRUE));
+		$this->data['header_title']=$this->lang->line("discussions");
+		$this->data['header']=$this->lang->line("discussions");
+
+		$this->send_customer_output("class_post_list");
+
+		return;	 
+	}
+
 	private function add_comment($class_post_id)
 	{
 		if($this->data['cp_info']['cp_assignment'])
@@ -381,27 +557,6 @@ class CE_Class_Post extends Burge_CMF_Controller {
 		}
 
 		return;
-	}
-
-	public function assignment()
-	{
-		$customer_type=$this->customer_info['customer_type'];
-		if( "teacher" === $customer_type )
-			if($this->input->post("post_type")==="add_class_post")
-				return $this->add_class_post("assignment");
-		
-		$this->set_class_posts_info("assignment");
-		$this->data['message']=get_message();
-		$this->data['customer_type']=$customer_type;
-
-		$this->data['raw_page_url']=get_link("customer_class_post_assignment");
-		$this->data['lang_pages']=get_lang_pages(get_link("customer_class_post_assignment",TRUE));
-		$this->data['header_title']=$this->lang->line("assignments");
-		$this->data['header']=$this->lang->line("assignments");
-
-		$this->send_customer_output("class_post_list");
-
-		return;	 
 	}
 
 	private function set_class_posts_info($class_post_type)

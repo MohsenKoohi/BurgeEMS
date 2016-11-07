@@ -71,9 +71,10 @@ $lang['no_title']="بدون عنوان";
 $lang['view']="مشاهده";
 $lang['are_you_sure_to_delete_this_class_post']="آیا از حذف این پست کلاسی مطمئن هستید؟";
 $lang['are_you_sure_to_submit_your_comment']="پاسخ شما ثبت شود؟";
-$lang['']="";
-$lang['']="";
-$lang['']="";
+
+$lang['discussions']="گفتگوهای درسی";
+$lang['add_discussion']="گفتگوی درسی جدید";
+$lang['discussion']="گفتگوی درسی";
 $lang['']="";
 
 

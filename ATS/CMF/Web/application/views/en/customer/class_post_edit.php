@@ -85,39 +85,31 @@
 						/>
 					</div>
 				</div>
-				<?php if($cp_info['assignment']){ ?>
-					<div class="row even-odd-bg" >
-						<div class="three columns">
+				
+				<div class="row even-odd-bg" >
+					<div class="three columns">
+						<?php if($cp_info['assignment']){ ?>
 							<span>{allow_submit_response_text}</span>
-						</div>
-						<div class="six columns">
-							<input type="checkbox" class="graphical" name="allow_comment"
-								<?php if($cp_info['allow_comment']) echo "checked"; ?>
-							/>
-						</div>
-					</div>
-					<div class="row even-odd-bg" >
-						<div class="three columns">
-							<span>{allow_submit_file_text}</span>
-						</div>
-						<div class="six columns">
-							<input type="checkbox" class="graphical" name="allow_file"
-								<?php if($cp_info['allow_file']) echo "checked"; ?>
-							/>
-						</div>
-					</div>
-				<?php } else { ?>
-					<div class="row even-odd-bg" >
-						<div class="three columns">
+						<?php } else { ?>
 							<span>{allow_comment_text}</span>
-						</div>
-						<div class="six columns">
-							<input type="checkbox" class="graphical" name="allow_comment"
-								<?php if($cp_info['allow_comment']) echo "checked"; ?>
-							/>
-						</div>
+						<?php } ?>
 					</div>
-				<?php } ?>
+					<div class="six columns">
+						<input type="checkbox" class="graphical" name="allow_comment"
+							<?php if($cp_info['allow_comment']) echo "checked"; ?>
+						/>
+					</div>
+				</div>
+				<div class="row even-odd-bg" >
+					<div class="three columns">
+						<span>{allow_submit_file_text}</span>
+					</div>
+					<div class="six columns">
+						<input type="checkbox" class="graphical" name="allow_file"
+							<?php if($cp_info['allow_file']) echo "checked"; ?>
+						/>
+					</div>
+				</div>			
 			
 				<div class="tab-container">
 					

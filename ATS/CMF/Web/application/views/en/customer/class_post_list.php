@@ -6,7 +6,7 @@
 				<div class="three columns">
 					<?php echo form_open($raw_page_url,array());?>
 						<input type="hidden" name="post_type" value="add_class_post"/>
-						<input type="submit" class="button button-primary full-width" value="{add_assignment_text}"/>
+						<input type="submit" class="button button-primary full-width" value="{add_text}"/>
 					</form>
 				</div>
 			</div>
