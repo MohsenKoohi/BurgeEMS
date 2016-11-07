@@ -66,6 +66,6 @@ $lang['only_jpeg_format_is_accepted']="تنها تصاویر با فرمت Jpeg 
 $lang['your_response_saved_successfully']="پاسخ شما با موفقیت ثبت شد.";
 $lang['your_comment_saved_successfully']="دیدگاه شما با موفقیت ثبت شد.";
 $lang['it_is_not_possible_to_send_comment_or_response']="امکان ثبت پاسخ وجود ندارد.";
-$lang['']="";
+$lang['attachment']="ضمیمه";
 $lang['']="";
 

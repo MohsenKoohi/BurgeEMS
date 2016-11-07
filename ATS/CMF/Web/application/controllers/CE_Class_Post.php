@@ -68,6 +68,12 @@ class CE_Class_Post extends Burge_CMF_Controller {
 		if($this->input->post("post_type")==="add_comment")
 			return $this->add_comment($class_post_id);
 
+		if('teacher' === $customer_type)
+			$this->data['comments']=$this->class_post_manager_model->get_all_comments($class_post_id);
+
+		if('student' === $customer_type)
+			$this->data['comments']=$this->class_post_manager_model->get_student_comments($class_post_id,$this->customer_info['customer_id']);
+
 		$this->data['comment_value']=$this->session->set_flashdata("comment");
 		$this->data['raw_page_url']=get_customer_class_post_assignment_view_link($class_post_id);
 		$this->data['message']=get_message();

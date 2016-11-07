@@ -164,6 +164,33 @@ class Class_post_manager_model extends CI_Model
 		return $comment_id;
 	}
 
+	public function get_all_comments($cp_id)
+	{
+		return $this->db
+			->select($this->class_post_comment_table_name.".*")
+			->select("customer_name")
+			->from($this->class_post_comment_table_name)
+			->join("customer","cpc_customer_id = customer_id","LEFT")
+			->where("cpc_cp_id",$cp_id)
+			->order_by("cpc_id ASC")
+			->get()
+			->result_array();
+	}
+
+	public function get_student_comments($cp_id,$student_id)
+	{
+		return $this->db
+			->select($this->class_post_comment_table_name.".*")
+			->select("customer_name")
+			->from($this->class_post_comment_table_name)
+			->join("customer","cpc_customer_id = customer_id","LEFT")
+			->where("cpc_cp_id",$cp_id)
+			->where("cpc_customer_id",$student_id)
+			->order_by("cpc_id ASC")
+			->get()
+			->result_array();
+	}
+
 	public function get_class_posts($filter)
 	{
 		return;

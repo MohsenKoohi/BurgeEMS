@@ -1,0 +1,48 @@
+.class-post
+{
+	.post-gallery
+	{
+		border-bottom: none;
+	}
+
+	.button
+	{
+		font-size: 1.3em;
+	}
+
+	.comments
+	{
+		label
+		{
+			margin-bottom: 10px;
+		}
+		.date
+		{
+			font-weight: normal;
+			font-size: 1em;
+		}
+
+		.comment
+		{
+			border:1px solid #ccc;
+			padding: 20px 30px;
+			border-radius: 5px;
+
+			@media (max-width: 600px)
+			{
+			
+					padding:10px;
+			}
+		}
+
+		.attachment
+		{
+			font-weight: bold;
+			margin-top:30px;
+			a
+			{
+				color:$secondary-color;
+			}
+		}
+	}
+}

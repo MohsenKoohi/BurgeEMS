@@ -909,9 +909,6 @@ body.customer-env .aclist > div {
   font-weight: normal;
   font-size: 1em; }
 
-.class-post .post-gallery {
-  border-bottom: none; }
-
 .classstudents .row img {
   float: right;
   vertical-align: middle;
@@ -1117,3 +1114,25 @@ ul.dash-ul li {
   background: linear-gradient(to bottom, #ccc, #fff); }
 .container.message-details .even-odd-bg:hover > .row:nth-child(3) {
   background: linear-gradient(to bottom, #fff, #ccc); }
+
+.class-post .post-gallery {
+  border-bottom: none; }
+.class-post .button {
+  font-size: 1.3em; }
+.class-post .comments label {
+  margin-bottom: 10px; }
+.class-post .comments .date {
+  font-weight: normal;
+  font-size: 1em; }
+.class-post .comments .comment {
+  border: 1px solid #ccc;
+  padding: 20px 30px;
+  border-radius: 5px; }
+  @media (max-width: 600px) {
+    .class-post .comments .comment {
+      padding: 10px; } }
+.class-post .comments .attachment {
+  font-weight: bold;
+  margin-top: 30px; }
+  .class-post .comments .attachment a {
+    color: #C63672; }

@@ -92,6 +92,36 @@
 			</div>
 		</div>
 
+		<?php if($comments) { ?>
+			<div class='row separated comments'>
+				<?php foreach($comments as $c){ ?>
+					<div class='row even-odd-bg dont-magnify'>
+						<div class="twelve columns">
+							<label>
+								<?php echo $c['customer_name']?>
+								<div class='date anti-float'>
+									<?php echo $c['cpc_date'];?>
+								</div>
+							</label>
+
+							<div class='row comment'>
+								<p class='align-justify'><?php echo $c['cpc_comment']?></p>
+							
+								<?php if($c['cpc_file']) { ?>
+									<div class="anti-float attachment">
+										<a target='_blank' 
+											href='<?php echo get_class_post_comment_file_url($class_post_id,$c['cpc_id'],$c['cpc_file']); ?>'
+										>
+											{attachment_text}
+										</a>
+									</div>
+								<?php } ?>
+							</div>
+						</div>
+					</div>
+				<?php } ?>
+			</div>
+		<?php } ?>
 		<?php if($add_comment) { ?>
 			<div class='row separated'>
 				<h5>
@@ -113,18 +143,18 @@
 					</div>
 					<?php if($cp_info['cp_allow_file']){ ?>
 						<div class='row'>
-							<div class='three columns'>
+							<div class='five columns'>
 								<label>{file_text}</label>
 								{images_up_to_2mb_text}
 							</div>
-							<div class='three columns' style=''>
-								<input type='file' class='anti-float' name='file' />
+							<div class='five columns' style=''>
+								<input type='file'  name='file' />
 							</div>
 						</div>
 					<?php } ?>
 					<div class='row'>
-						<div class='eight columns'> &nbsp;</div>
-						<div class='two columns'>
+						<div class='seven columns'> &nbsp;</div>
+						<div class='three columns'>
 							
 						<div class="full-width button sub-primary button-primary"
 							onclick="$('form#add-comment').submit()"
