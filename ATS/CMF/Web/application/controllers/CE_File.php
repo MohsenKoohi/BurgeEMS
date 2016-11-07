@@ -24,7 +24,8 @@ class CE_File extends Burge_CMF_Controller {
 				$this->load->model("class_post_manager_model");
 				if($this->class_post_manager_model->check_file_manager_access($module_part_id))
 				{
-					$root=str_replace(HOME_URL."/", "",get_class_post_directory_url($this->module_part_id));
+					$root_url=$this->class_post_manager_model->get_file_manager_root_url($module_part_id);
+					$root=str_replace(HOME_URL."/", "",$root_url);
 					$this->file_manager_model->set_root($root);
 					return;
 				}

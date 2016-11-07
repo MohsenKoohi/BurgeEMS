@@ -133,6 +133,16 @@ function get_class_post_gallery_image_url($cp_id,$img)
 	return CLASS_POST_URL."/".$cp_id."/gallery/".$img;
 }
 
+function get_class_post_content_path($cp_id)
+{
+	return CLASS_POST_DIR."/".$cp_id."/content";
+}
+
+function get_class_post_content_url($cp_id)
+{
+	return CLASS_POST_URL."/".$cp_id."/content";
+}
+
 function get_class_post_directory_path($cp_id)
 {
 	return CLASS_POST_DIR."/".$cp_id;

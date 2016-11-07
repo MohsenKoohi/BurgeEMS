@@ -364,4 +364,9 @@ class Class_post_manager_model extends CI_Model
 
 		return TRUE;
 	}
+
+	public function get_file_manager_root_url($class_post_id)
+	{
+		return get_class_post_content_url($class_post_id);
+	}
 }
