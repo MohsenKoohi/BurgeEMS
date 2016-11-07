@@ -5,7 +5,7 @@ $lang['class_posts']='پست‌های کلاسی';
 $lang['lesson_conversations']='گفتگوهای درسی';
 $lang['lesson_assignments']='تکالیف درسی';
 $lang['add_assignment']="تکلیف جدید";
-$lang['assignments']="تکالیف درسی";
+$lang['assignments']="تکالیف کلاسی";
 $lang['assignment']="تکلیف کلاسی";
 
 $lang['delete']="حذف";
@@ -66,6 +66,14 @@ $lang['only_jpeg_format_is_accepted']="تنها تصاویر با فرمت Jpeg 
 $lang['your_response_saved_successfully']="پاسخ شما با موفقیت ثبت شد.";
 $lang['your_comment_saved_successfully']="دیدگاه شما با موفقیت ثبت شد.";
 $lang['it_is_not_possible_to_send_comment_or_response']="امکان ثبت پاسخ وجود ندارد.";
-$lang['attachment']="ضمیمه";
+$lang['attachment']="فایل پیوست";
+$lang['no_title']="بدون عنوان";
+$lang['view']="مشاهده";
+$lang['are_you_sure_to_delete_this_class_post']="آیا از حذف این پست کلاسی مطمئن هستید؟";
+$lang['are_you_sure_to_submit_your_comment']="پاسخ شما ثبت شود؟";
 $lang['']="";
+$lang['']="";
+$lang['']="";
+$lang['']="";
+
 

@@ -1115,19 +1115,30 @@ ul.dash-ul li {
 .container.message-details .even-odd-bg:hover > .row:nth-child(3) {
   background: linear-gradient(to bottom, #fff, #ccc); }
 
+.class-post .class-post-content {
+  padding: 20px; }
+  .class-post .class-post-content img, .class-post .class-post-content video {
+    max-width: 100%; }
 .class-post .post-gallery {
   border-bottom: none; }
 .class-post .button {
   font-size: 1.3em; }
 .class-post .comments label {
-  margin-bottom: 10px; }
-.class-post .comments .date {
-  font-weight: normal;
-  font-size: 1em; }
+  margin-bottom: 10px;
+  font-size: 1.1em; }
+.class-post .comments .date-row {
+  width: 100%;
+  display: inline-block; }
+  .class-post .comments .date-row .date {
+    margin-top: -5px;
+    font-weight: normal;
+    font-size: .9em;
+    color: #0C7B77; }
 .class-post .comments .comment {
   border: 1px solid #ccc;
-  padding: 20px 30px;
-  border-radius: 5px; }
+  padding: 20px 20px;
+  border-radius: 5px;
+  margin-bottom: 20px; }
   @media (max-width: 600px) {
     .class-post .comments .comment {
       padding: 10px; } }

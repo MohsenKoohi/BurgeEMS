@@ -381,7 +381,7 @@
 
            	function deletePost()
 				{
-					if(!confirm("{are_you_sure_text}"))
+					if(!confirm("{are_you_sure_to_delete_this_class_post_text}"))
 						return;
 
 					$("form#delete").submit();

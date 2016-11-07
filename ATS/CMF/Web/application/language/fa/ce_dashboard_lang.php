@@ -13,5 +13,5 @@ $lang['message_inbox']="لیست پیام‌ها";
 $lang['send_message']="ارسال پیام";
 $lang['class_posts']='پست‌های کلاسی';
 $lang['lesson_discussions']='گفتگوهای درسی';
-$lang['lesson_assignments']='تکالیف درسی';
+$lang['lesson_assignments']='تکالیف کلاسی';
 $lang['']='';

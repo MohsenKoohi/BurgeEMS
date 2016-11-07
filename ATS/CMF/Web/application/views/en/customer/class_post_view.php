@@ -35,8 +35,8 @@
 				</a>
 			</div>
 		<?php } ?>
-		<div class="row separated">
-			<div class="twelve columns post-content ">
+		<div class="row separated class-post-content">
+			<div class="full-width">
 				<?php echo $cp_info['cpt_content'] ?>
 			</div>
 		
@@ -94,31 +94,55 @@
 
 		<?php if($comments) { ?>
 			<div class='row separated comments'>
-				<?php foreach($comments as $c){ ?>
-					<div class='row even-odd-bg dont-magnify'>
-						<div class="twelve columns">
-							<label>
-								<?php echo $c['customer_name']?>
-								<div class='date anti-float'>
-									<?php echo $c['cpc_date'];?>
-								</div>
-							</label>
+				<?php 
+					$i=0;
+					$count=sizeof($comments);
 
-							<div class='row comment'>
-								<p class='align-justify'><?php echo $c['cpc_comment']?></p>
-							
-								<?php if($c['cpc_file']) { ?>
-									<div class="anti-float attachment">
-										<a target='_blank' 
-											href='<?php echo get_class_post_comment_file_url($class_post_id,$c['cpc_id'],$c['cpc_file']); ?>'
-										>
-											{attachment_text}
-										</a>
+					for($i=0;$i<$count;$i++)
+					{ 
+						$c=$comments[$i];
+
+						$div_open=FALSE;
+						if( ($i==0) || ($comments[$i-1]['cpc_customer_id'] != $c['cpc_customer_id']))
+							$div_open=TRUE;
+
+						$div_close=FALSE;
+						if ( ($i==$count-1) || ($comments[$i+1]['cpc_customer_id'] != $c['cpc_customer_id']) )
+							$div_close=TRUE;
+				?>
+
+					<?php if($div_open) { ?>
+						<div class='row even-odd-bg dont-magnify'>
+							<div class="twelve columns">
+								<label>
+									<?php echo $c['customer_name']?>
+								</label>
+					<?php } ?>
+
+								<div class='row comment'>
+									<div class='date-row'>
+										<div class='date anti-float'>
+											<?php echo $c['cpc_date'];?>
+										</div>
 									</div>
-								<?php } ?>
+
+									<p class='align-justify'><?php echo $c['cpc_comment']?></p>
+								
+									<?php if($c['cpc_file']) { ?>
+										<div class="anti-float1 attachment">
+											<a target='_blank' 
+												href='<?php echo get_class_post_comment_file_url($class_post_id,$c['cpc_id'],$c['cpc_file']); ?>'
+											>
+												{attachment_text}
+											</a>
+										</div>
+									<?php } ?>
+								</div>
+
+					<?php if($div_close){ ?>
 							</div>
 						</div>
-					</div>
+					<?php } ?>
 				<?php } ?>
 			</div>
 		<?php } ?>
@@ -173,7 +197,7 @@
 								return false;
 							}
 
-							if(!confirm("{are_you_sure_text}"))
+							if(!confirm("{are_you_sure_to_submit_your_comment_text}"))
 								return false;
 
 							return true;

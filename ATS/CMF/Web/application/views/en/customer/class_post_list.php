@@ -134,26 +134,45 @@
 		<br>
 		<div class="container">
 			<?php 
-				$i=1;
-				if(isset($posts_info))
-					foreach($posts_info as $post)
+				$i=$posts_start;
+				if(isset($class_posts_info))
+					foreach($class_posts_info as $cp)
 					{ 
-			?>
-						<a target="_blank" href="<?php echo get_admin_post_details_link($post['post_id']);?>">
-							<div class="row even-odd-bg" >
-								<div class="nine columns">
-									<span>
-										<?php echo $post['post_id'];?>)
-										<?php 
-											if($post['pc_title']) 
-												echo $post['pc_title'];
-											else
-												echo $no_title_text;
-										?>
-									</span>
-								</div>
+						if($cp['cp_assignment'])
+							$link=get_customer_class_post_assignment_view_link($cp['cp_id']);
+						else
+							$link=get_customer_class_post_discussion_view_link($cp['cp_id']);
+	
+			?>		
+						<div class="row even-odd-bg" >
+							<div class="one column counter">
+								<?php echo $i++;?>
 							</div>
-						</a>
+
+							<div class="five columns">
+								<?php 
+									if($cp['cpt_title']) 
+										echo $cp['cpt_title'];
+									else
+										echo $no_title_text;
+								?>
+							</div>
+
+							<div class="two columns">
+								<?php echo $cp['class_name'];?>
+								<div class='date'><?php echo $cp['academic_time'];?></div>
+							</div>
+
+							<div class="two columns">
+								<?php echo $cp['teacher_name']." (".$cp['teacher_subject'].")";?>
+							</div>
+
+							<div class="two columns">
+								<a target="_blank" class="button button-primary sub-primary full-width" href="<?php echo $link;?>">
+									{view_text}
+								</a>
+							</div>
+						</div>
 			<?php
 					}
 			?>

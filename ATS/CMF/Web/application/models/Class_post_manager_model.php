@@ -164,15 +164,21 @@ class Class_post_manager_model extends CI_Model
 		return $comment_id;
 	}
 
-	public function get_all_comments($cp_id)
+	public function get_all_comments($cp_id,$order_by_students=FALSE)
 	{
-		return $this->db
+		 $this->db
 			->select($this->class_post_comment_table_name.".*")
 			->select("customer_name")
 			->from($this->class_post_comment_table_name)
 			->join("customer","cpc_customer_id = customer_id","LEFT")
-			->where("cpc_cp_id",$cp_id)
-			->order_by("cpc_id ASC")
+			->where("cpc_cp_id",$cp_id);
+
+		if($order_by_students)
+			$this->db->order_by("customer_order ASC, cpc_date ASC");
+		else
+			$this->db->order_by("cpc_date ASC");
+
+		return $this->db			
 			->get()
 			->result_array();
 	}
@@ -193,39 +199,44 @@ class Class_post_manager_model extends CI_Model
 
 	public function get_class_posts($filter)
 	{
-		return;
-		$this->db->from($this->post_table_name);
-		$this->db->join($this->post_content_table_name,"post_id = pc_post_id","left");
-		$this->db->join($this->post_category_table_name,"post_id = pcat_post_id","left");
+		$this->db
+			->select($this->class_post_table_name.".* ")
+			->select($this->class_post_text_table_name.".* ")
+			->select("time.time_name as academic_time")
+			->select("customer_name as teacher_name, customer_subject as teacher_subject")
+			->select("class_name")
+			->from($this->class_post_table_name)
+			->join($this->class_post_text_table_name,"cpt_cp_id = cp_id","LEFT")
+			->join("customer","cp_teacher_id = customer_id","LEFT")
+			->join("time","cp_academic_time_id = time_id","LEFT")
+			->join("class","cp_class_id = class_id","LEFT");
 		
-		$this->set_post_query_filter($filter);
+		$this->set_class_post_query_filter($filter);
 
 		$results=$this->db->get();
 
 		$rows=$results->result_array();
 		foreach($rows as &$row)
-			$row['pc_gallery']=json_decode($row['pc_gallery'],TRUE);
+			$row['cpt_gallery']=json_decode($row['cpt_gallery'],TRUE);
 		
 		return $rows;
 	}
 
 	public function get_class_posts_total($filter)
 	{
-		return 0;
-
-		$this->db->select("COUNT( DISTINCT post_id ) as count");
-		$this->db->from($this->post_table_name);
-		$this->db->join($this->post_content_table_name,"post_id = pc_post_id","left");
-		$this->db->join($this->post_category_table_name,"post_id = pcat_post_id","left");
-		
-		$this->set_post_query_filter($filter);
-		
+		$this->db
+			->select("COUNT( cp_id ) as count")
+			->from($this->class_post_table_name);
+			
+		unset($filter['lang']);
+		$this->set_class_post_query_filter($filter);
+	
 		$row=$this->db->get()->row_array();
 
 		return $row['count'];
 	}
 
-	private function set_post_query_filter($filter)
+	private function set_class_post_query_filter($filter)
 	{
 		if(isset($filter['lang']))
 			$this->db->where("cpt_lang_id",$filter['lang']);
@@ -251,6 +262,14 @@ class Class_post_manager_model extends CI_Model
 		if(isset($filter['academic_time']))
 			$this->db->where("cp_academic_time_id",(int)$filter['academic_time']);
 
+		if(isset($filter['order_by']))
+			$this->db->order_by($filter['order_by']);
+		else
+			$this->db->order_by("cp_id DESC");	
+
+		if(isset($filter['start']))
+			$this->db->limit($filter['count'],$filter['start']);
+
 		return;
 
 		if(isset($filter['category_id']))
@@ -263,33 +282,6 @@ class Class_post_manager_model extends CI_Model
 			$this->db->where("( `pc_title` LIKE '$title')");
 		}
 
-		if(isset($filter['active']))
-			$this->db->where(array(
-				"post_active"=>$filter['active']
-				,"pc_active"=>$filter['active']
-			));
-
-		if(isset($filter['post_date_le']))
-			$this->db->where("post_date <=",$filter['post_date_le']);
-
-		if(isset($filter['post_date_ge']))
-			$this->db->where("post_date >=",$filter['post_date_ge']);
-
-		if(isset($filter['order_by']))
-		{
-			if($filter['order_by']==="random")
-				$this->db->order_by("post_id","random");
-			else
-				$this->db->order_by($filter['order_by']);
-		}
-		else
-			$this->db->order_by("post_id DESC");	
-
-		if(isset($filter['start']))
-			$this->db->limit($filter['count'],$filter['start']);
-
-		if(isset($filter['group_by']))
-			$this->db->group_by($filter['group_by']);
 	
 		return;
 	}
@@ -309,7 +301,7 @@ class Class_post_manager_model extends CI_Model
 			->join("class","cp_class_id = class_id","left")
 			->where("cp_id",$class_post_id);
 
-		$this->set_post_query_filter($filter);
+		$this->set_class_post_query_filter($filter);
 
 		$results=$this->db
 			->get()

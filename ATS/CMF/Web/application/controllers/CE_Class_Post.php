@@ -35,7 +35,7 @@ class CE_Class_Post extends Burge_CMF_Controller {
 		$this->data['class_post_id']=$class_post_id;
 		$filters=array(
 			'lang'					=> $this->selected_lang
-			,'class_post_type'	=>"assignment"
+			,'assignment'			=> 1
 		);
 
 		$this->initialize_filters($filters);
@@ -69,12 +69,12 @@ class CE_Class_Post extends Burge_CMF_Controller {
 			return $this->add_comment($class_post_id);
 
 		if('teacher' === $customer_type)
-			$this->data['comments']=$this->class_post_manager_model->get_all_comments($class_post_id);
+			$this->data['comments']=$this->class_post_manager_model->get_all_comments($class_post_id,TRUE);
 
 		if('student' === $customer_type)
 			$this->data['comments']=$this->class_post_manager_model->get_student_comments($class_post_id,$this->customer_info['customer_id']);
 
-		$this->data['comment_value']=$this->session->set_flashdata("comment");
+		$this->data['comment_value']=$this->session->flashdata("comment");
 		$this->data['raw_page_url']=get_customer_class_post_assignment_view_link($class_post_id);
 		$this->data['message']=get_message();
 		$this->data['lang_pages']=get_lang_pages(get_customer_class_post_assignment_view_link($class_post_id,TRUE));
@@ -99,7 +99,7 @@ class CE_Class_Post extends Burge_CMF_Controller {
 
 		$this->data['class_post_id']=$class_post_id;
 		$filters=array(
-			'class_post_type'=>"assignment"
+			"assignment"	=> 1
 		);
 		$this->initialize_filters($filters);
 
@@ -228,7 +228,6 @@ class CE_Class_Post extends Burge_CMF_Controller {
 
 		return redirect($link);
 	}
-
 
 	private function delete_class_post($cp_id,$cp_type)
 	{
@@ -361,26 +360,24 @@ class CE_Class_Post extends Burge_CMF_Controller {
 		return $gallery;
 	}
 
-	private function check_resize_image($img)
+	private function check_resize_image($img,$max_width=1600,$max_height=1600)
 	{
 		$this->load->library("image_lib");
 
 		list($w,$h)=getimagesize($img);
 		
-		if(($w>1600) || ($h>1600))
+		if( ($w>$max_width) || ($h>$max_height) )
 		{
 			$config=array();
 			$config['source_image'] = $img;
 			$config['maintain_ratio'] = TRUE;
 		
-			$config['height'] = 1600;	
-			$config['width'] = 1600;
+			$config['height'] = $max_height;	
+			$config['width'] = $max_width;
 
 			$this->image_lib->clear();			
 			$this->image_lib->initialize($config);
 			$this->image_lib->resize();
-
-			echo $img;
 		}
 
 		return;
@@ -410,7 +407,8 @@ class CE_Class_Post extends Burge_CMF_Controller {
 	private function set_class_posts_info($class_post_type)
 	{
 		$filters=array(
-			'class_post_type'=>$class_post_type
+			'assignment'		=> (int)('assignment' === $class_post_type)
+			,'lang'				=>	$this->selected_lang
 		);
 
 		$this->initialize_filters($filters);
@@ -423,22 +421,21 @@ class CE_Class_Post extends Burge_CMF_Controller {
 			if($this->input->get("page"))
 				$page=(int)$this->input->get("page");
 
+			$total_pages=ceil($total/$per_page);
+			if($page>$total_pages)
+				$page=$total_pages;
+
 			$start=($page-1)*$per_page;
 
-			$filters['group_by']="post_id";
 			$filters['start']=$start;
 			$filters['count']=$per_page;
 			
-			$this->data['posts_info']=$this->post_manager_model->get_class_posts($filters);
+			$this->data['class_posts_info']=$this->class_post_manager_model->get_class_posts($filters);
 			
-			$end=$start+sizeof($this->data['posts_info'])-1;
-
-			unset($filters['start']);
-			unset($filters['count']);
-			unset($filters['group_by']);
+			$end=$start+sizeof($this->data['class_posts_info'])-1;
 
 			$this->data['posts_current_page']=$page;
-			$this->data['posts_total_pages']=ceil($total/$per_page);
+			$this->data['posts_total_pages']=$total_pages;
 			$this->data['posts_total']=$total;
 			$this->data['posts_start']=$start+1;
 			$this->data['posts_end']=$end+1;		
@@ -454,14 +451,18 @@ class CE_Class_Post extends Burge_CMF_Controller {
 
 		unset(
 			$filters['assignment']
-			,$filters['class_post_type']
+
 			,$filters['acadmic_time']
 			,$filters['class_id']
 			,$filters['teacher_id_in']
 			,$filters['lang']
 			,$filters['active']
 			,$filters['start_date']
+
 			,$filters['teacher_id']
+
+			,$filters['start']
+			,$filters['count']
 		);
 
 		$this->data['filter']=$filters;
@@ -486,20 +487,18 @@ class CE_Class_Post extends Burge_CMF_Controller {
 				$teachers[]=$c['customer_id'];
 			$filters['teacher_id_in']=$teachers;
 			
-			$filters['lang']=$this->selected_lang;
 			$filters['active']=1;
 
 			$time=get_current_time();
 			$filters['start_date']=$time;
+			$filters['order_by']="cp_start_date DESC";
 		}
 
 		if('teacher' === $customer_type)
+		{
 			$filters['teacher_id']=$this->customer_info['customer_id'];
-			
-		if('assignment' === $filters['class_post_type'])
-			$filters['assignment']=1;
-		else
-			$filters['assignment']=0;
+			$filters['order_by']="cp_academic_time_id DESC, cp_id DESC";
+		}
 
 		return;
 
