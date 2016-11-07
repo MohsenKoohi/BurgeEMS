@@ -22,6 +22,68 @@ class CE_Class_Post extends Burge_CMF_Controller {
 			return redirect(get_link("customer_dashboard"));
 	}
 
+	public function assignment_view($class_post_id)
+	{
+		$class_post_id=(int)$class_post_id;
+		if( !$class_post_id )
+			return redirect(get_link("customer_class_post_assignment"));
+
+		$customer_type=$this->customer_info['customer_type'];
+		if( ( "student" !== $customer_type ) && ( "teacher" !== $customer_type ) )
+			return redirect(get_link("customer_class_post_assignment"));
+
+		$this->data['class_post_id']=$class_post_id;
+		$filters=array(
+			'lang'					=> $this->selected_lang
+			,'class_post_type'	=>"assignment"
+		);
+
+		$this->initialize_filters($filters);
+
+		$cp_info=$this->class_post_manager_model->get_class_post($class_post_id,$filters);
+		if(!$cp_info)
+			return redirect(get_link('customer_class_post_assignment'));
+
+		$cp_info=$cp_info[0];
+		$this->data['cp_info']=$cp_info;
+		$this->data['customer_type']=$customer_type;
+		$this->data['add_comment']=0;
+
+		if('teacher' === $customer_type)
+		{
+			if(!$cp_info['cp_assignment'])
+				$this->data['add_comment']=1;
+
+			$this->data['edit_link']=get_customer_class_post_assignment_edit_link($class_post_id);
+		}
+
+		if('student' === $customer_type)
+		{
+			$current_time=get_current_time();
+			if($cp_info['cp_allow_comment'])
+				if( !$cp_info['cp_end_date'] || ($current_time < $cp_info['cp_end_date'] ) )
+					$this->data['add_comment']=1;
+		}
+
+		if($this->input->post("post_type")==="add_comment")
+			return $this->add_comment($class_post_id);
+
+		$this->data['comment_value']=$this->session->set_flashdata("comment");
+		$this->data['raw_page_url']=get_customer_class_post_assignment_view_link($class_post_id);
+		$this->data['message']=get_message();
+		$this->data['lang_pages']=get_lang_pages(get_customer_class_post_assignment_view_link($class_post_id,TRUE));
+		
+		$title=$cp_info['cpt_title'];
+		$this->data['header_title']=$this->lang->line("assignment")." ".$title;
+		$this->data['page_title']=$this->lang->line("assignment");
+		if($title)
+			$this->data['page_title'].=$this->lang->line("comma").$title;	
+
+		$this->send_customer_output("class_post_view");
+
+		return;
+	}
+
 	public function assignment_edit($class_post_id)
 	{
 		$customer_type=$this->customer_info['customer_type'];
@@ -43,7 +105,7 @@ class CE_Class_Post extends Burge_CMF_Controller {
 			return $this->edit_class_post($class_post_id,"assignment");
 
 		if($this->input->post("post_type")==="delete_class_post")
-			return $this->delete_class_post($class_post_id,"assigment");
+			return $this->delete_class_post($class_post_id,"assignment");
 
 		$this->data['langs']=$this->language->get_languages();
 
@@ -76,7 +138,7 @@ class CE_Class_Post extends Burge_CMF_Controller {
 		$this->data['raw_page_url']=get_customer_class_post_assignment_edit_link($class_post_id);
 
 		$this->data['message']=get_message();
-		$this->data['lang_pages']=get_lang_pages(get_customer_class_post_assignment_view_link($class_post_id,TRUE));
+		$this->data['lang_pages']=get_lang_pages(get_customer_class_post_assignment_edit_link($class_post_id,TRUE));
 		
 		$title=$this->data['cp_texts'][$this->selected_lang]['cpt_title'];
 		$this->data['header_title']=$this->lang->line("assignment")." ".$title;
@@ -87,6 +149,78 @@ class CE_Class_Post extends Burge_CMF_Controller {
 		$this->send_customer_output("class_post_edit");
 
 		return;
+	}
+
+	private function add_comment($class_post_id)
+	{
+		if($this->data['cp_info']['cp_assignment'])
+			$link=get_customer_class_post_assignment_view_link($class_post_id);
+		else
+			$link=get_customer_class_post_discussion_view_link($class_post_id);
+
+		if(!$this->data['add_comment'])
+		{
+			set_message($this->lang->line("it_is_not_possible_to_send_comment_or_response"));
+			return redirect($link);
+		}
+
+		$comment=$this->input->post('comment');
+		$this->session->set_flashdata("comment",$comment);
+
+		$file='';
+
+		if($this->data['cp_info']['cp_allow_file'])
+		{
+			$file_name=$_FILES['file']['name'];
+			$file_tmp_name=$_FILES['file']['tmp_name'];
+			$file_error=$_FILES['file']['error'];
+			$file_size=$_FILES['file']['size'];
+
+			if($file_error !=  UPLOAD_ERR_NO_FILE)
+			{
+			
+				if($file_error)
+				{
+					set_message($this->lang->line("the_received_file_is_erroneous"));
+					return redirect($link);
+				}
+
+				if($file_size > 3 * 1024 * 1024 )
+				{
+					set_message($this->lang->line("the_file_size_is_larger_than"));
+					return redirect($link);
+				}
+
+				$extension=pathinfo($file_name, PATHINFO_EXTENSION);
+				if(!in_array($extension,array("jpg","jpeg","JPG","JPEG")))
+				{
+					set_message($this->lang->line("only_jpeg_format_is_accepted"));
+					return redirect($link);
+				}
+
+				$this->check_resize_image($file_tmp_name);
+
+				$file=get_random_word(5).".".$extension;
+			}
+		}
+
+		$customer_id=$this->customer_info['customer_id'];
+		$comment_id=$this->class_post_manager_model->add_comment($class_post_id,$customer_id,$comment,$file);
+
+		if($file)
+		{
+			$file_dest=get_class_post_comment_file_path($class_post_id,$comment_id,$file);
+			move_uploaded_file($file_tmp_name, $file_dest);
+		}	
+
+		$this->session->set_flashdata("comment","");
+
+		if($this->data['cp_info']['cp_assignment'])
+			set_message($this->lang->line("your_response_saved_successfully"));
+		else
+			set_message($this->lang->line("your_comment_saved_successfully"));
+
+		return redirect($link);
 	}
 
 
@@ -255,6 +389,7 @@ class CE_Class_Post extends Burge_CMF_Controller {
 		
 		$this->set_class_posts_info("assignment");
 		$this->data['message']=get_message();
+		$this->data['customer_type']=$customer_type;
 
 		$this->data['raw_page_url']=get_link("customer_class_post_assignment");
 		$this->data['lang_pages']=get_lang_pages(get_link("customer_class_post_assignment",TRUE));
@@ -311,12 +446,17 @@ class CE_Class_Post extends Burge_CMF_Controller {
 			$this->data['posts_end']=0;
 		}
 
-		unset($filters['assignment'],$filters['class_post_type']);
-		$customer_type=$this->customer_info['customer_type'];
-		if('student' === $customer_type)
-			unset($filters['class_id'],$filters['teacher_id_in'],$filters['lang'],$filters['active']);
-		if('teacher' === $customer_type)
-			unset($filters['teacher_id']);
+		unset(
+			$filters['assignment']
+			,$filters['class_post_type']
+			,$filters['acadmic_time']
+			,$filters['class_id']
+			,$filters['teacher_id_in']
+			,$filters['lang']
+			,$filters['active']
+			,$filters['start_date']
+			,$filters['teacher_id']
+		);
 
 		$this->data['filter']=$filters;
 
@@ -328,13 +468,23 @@ class CE_Class_Post extends Burge_CMF_Controller {
 		$customer_type=$this->customer_info['customer_type'];
 		if('student' === $customer_type)
 		{
-			$filters['class_id']=$this->customer_info['customer_class_id'];
-			////////////
-			$filters['acadmic_time']=1;
-			$filters['teacher_id_in']=array();
-			////////////
-			$filters['lang']=$this->language->get();
+			$class_id=$this->customer_info['customer_class_id'];
+			$filters['class_id']=$class_id;
+
+			$this->load->model("time_manager_model");
+			$filters['acadmic_time']=$this->time_manager_model->get_current_academic_time_id();
+
+			$classes=$this->class_manager_model->get_class_teachers($class_id);
+			$teachers=array();
+			foreach($classes as $c)
+				$teachers[]=$c['customer_id'];
+			$filters['teacher_id_in']=$teachers;
+			
+			$filters['lang']=$this->selected_lang;
 			$filters['active']=1;
+
+			$time=get_current_time();
+			$filters['start_date']=$time;
 		}
 
 		if('teacher' === $customer_type)

@@ -1,15 +1,17 @@
 <div class="main">
 	<div class="container">
 		<h1>{header}</h1>
-		<div class="row general-buttons">
-			<div class="three columns">
-				<?php echo form_open($raw_page_url,array());?>
-					<input type="hidden" name="post_type" value="add_class_post"/>
-					<input type="submit" class="button button-primary full-width" value="{add_assignment_text}"/>
-				</form>
+		<?php if($customer_type === 'teacher'){ ?>
+			<div class="row general-buttons">
+				<div class="three columns">
+					<?php echo form_open($raw_page_url,array());?>
+						<input type="hidden" name="post_type" value="add_class_post"/>
+						<input type="submit" class="button button-primary full-width" value="{add_assignment_text}"/>
+					</form>
+				</div>
 			</div>
-		</div>
-		<br><br>
+			<br><br>
+		<?php } ?>
 		<div class="container separated">
 			<?php if(0) { ?>
 				<div class="row filter">

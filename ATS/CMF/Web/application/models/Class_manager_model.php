@@ -141,8 +141,8 @@ class Class_manager_model extends CI_Model
 		$result=$this->db
 			->where("customer_type","teacher")
 			->where("customer_active",1)
-			->order_by("customer_order ASC")
 			->group_by("customer_id")
+			->order_by("customer_order ASC")
 			->get();
 		
 		return $result->result_array();

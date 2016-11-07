@@ -77,6 +77,12 @@ class Time_manager_model extends CI_Model
 		return $time['time_name'];
 	}
 
+	public function get_current_academic_time_id()
+	{
+		$time=$this->get_current_academic_time();
+		return $time['time_id'];
+	}
+
 	public function get_all_times()
 	{
 		$result=$this->db

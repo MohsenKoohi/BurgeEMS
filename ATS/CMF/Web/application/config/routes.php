@@ -149,7 +149,6 @@ $route["class_post/(\d+)/file/inline"]					= "CE_File/inline/class_post/$1";
 $route["class_post/(\d+)/file/conf.json"]				= "CE_File/conf/class_post/$1";
 $route["class_post/(\d+)/file/([^\/]+)"]				= "CE_File/action/class_post/$1/$2";
 
-
 $route['(((:any)/)*:any)']="CE_Home/redirect";
 
 /* End of file routes.php */

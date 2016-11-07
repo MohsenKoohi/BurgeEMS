@@ -123,6 +123,21 @@ function &get_links($just_common=FALSE)
 	return $LINKS;
 }
 
+function get_class_post_comment_file_path($cp_id,$comment_id,$file)
+{
+	return CLASS_POST_DIR."/".$cp_id."/comment/".$comment_id."_".$file;
+}
+
+function get_class_post_comment_file_url($cp_id,$comment_id,$file)
+{
+	return CLASS_POST_URL."/".$cp_id."/comment/".$comment_id."_".$file;
+}
+
+function get_class_post_comment_path($cp_id)
+{
+	return CLASS_POST_DIR."/".$cp_id."/comment";
+}
+
 function get_class_post_gallery_image_path($cp_id,$img)
 {
 	return CLASS_POST_DIR."/".$cp_id."/gallery/".$img;

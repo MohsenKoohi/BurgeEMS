@@ -60,6 +60,7 @@ class Class_post_manager_model extends CI_Model
 				,`cpc_comment` TEXT
 				,`cpc_active` BIT(1) NOT NULL DEFAULT 1
 				,`cpc_file` CHAR(10) DEFAULT NULL
+				,`cpc_date` CHAR(20)
 				,PRIMARY KEY (cpc_id)	
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8"
 		);
@@ -132,10 +133,35 @@ class Class_post_manager_model extends CI_Model
 			);
 		$this->db->insert_batch($this->class_post_text_table_name,$post_texts);
 
+		//creating directories
 		@mkdir(get_class_post_directory_path($new_class_post_id),0777);
 		@mkdir(get_class_post_gallery_image_path($new_class_post_id,''),0777);
-
+		@mkdir(get_class_post_content_path($new_class_post_id),0777);
+		@mkdir(get_class_post_comment_path($new_class_post_id),0777);
+		
+		
 		return $new_class_post_id;
+	}
+
+	public function add_comment($cp_id,$customer_id,$comment,$file)
+	{
+		$ins=array(
+			"cpc_cp_id"				=> $cp_id
+			,"cpc_customer_id"	=> $customer_id
+			,"cpc_comment"			=> $comment
+			,"cpc_file"				=> $file
+			,"cpc_date"				=> get_current_time()
+		);
+
+		$this->db->insert($this->class_post_comment_table_name,$ins);
+
+		$comment_id=$this->db->insert_id();
+		$ins['comment_id']=$comment_id;
+
+		$this->log_manager_model->info("CLASS_POST_COMMENT",$ins);	
+		$this->customer_manager_model->add_customer_log($customer_id,'CLASS_POST_COMMENT',$ins);
+
+		return $comment_id;
 	}
 
 	public function get_class_posts($filter)
@@ -180,6 +206,9 @@ class Class_post_manager_model extends CI_Model
 		if(isset($filter['teacher_id']))
 			$this->db->where("cp_teacher_id",(int)$filter['teacher_id']);
 
+		if(isset($filter['teacher_id_in']))
+			$this->db->where_in("cp_teacher_id",$filter['teacher_id_in']);
+
 		if(isset($filter['class_id']))
 			$this->db->where("cp_class_id",(int)$filter['class_id']);
 
@@ -188,6 +217,12 @@ class Class_post_manager_model extends CI_Model
 
 		if(isset($filter['active']))
 			$this->db->where("cp_active",(int)$filter['active']);
+
+		if(isset($filter['start_date']))
+			$this->db->where("cp_start_date <=",$filter['start_date']);
+
+		if(isset($filter['academic_time']))
+			$this->db->where("cp_academic_time_id",(int)$filter['academic_time']);
 
 		return;
 
@@ -239,10 +274,12 @@ class Class_post_manager_model extends CI_Model
 			->select($this->class_post_text_table_name.".* ")
 			->select("time.time_name as academic_time")
 			->select("customer_name as teacher_name, customer_subject as teacher_subject")
+			->select("class_name")
 			->from($this->class_post_table_name)
 			->join($this->class_post_text_table_name,"cpt_cp_id = cp_id","left")
 			->join("customer","cp_teacher_id = customer_id","left")
 			->join("time","cp_academic_time_id = time_id","left")
+			->join("class","cp_class_id = class_id","left")
 			->where("cp_id",$class_post_id);
 
 		$this->set_post_query_filter($filter);

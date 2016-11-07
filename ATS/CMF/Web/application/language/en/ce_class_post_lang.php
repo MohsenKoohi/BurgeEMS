@@ -59,13 +59,15 @@ $lang['submit_response']="ثبت پاسخ";
 $lang['submit_comment']="ثبت دیدگاه";
 $lang['please_fill_all_fields']="لطفا فیلدها را تکمیل نمایید.";
 $lang['file']="فایل";
-$lang['images_up_to_2mb']="تصویر با فرمت Jpeg و حجم حداکثر ۲ مگابایت";
-$lang['the_received_file_is_erroneous']="ارسال فیال با خطا همراه شده است. لطفا مجددا ارسال نمایید.";
-$lang['the_file_size_is_larger_than']="حجم فایل ارسال شده بیشتر از ۲ مگابایت است.";
-$lang['only_jpeg_format_is_accepted']="تنها تصاویر با فرمت Jpeg امکان ارسال دارند.";
-$lang['your_response_saved_successfully']="پاسخ شما با موفقیت ثبت شد.";
-$lang['your_comment_saved_successfully']="دیدگاه شما با موفقیت ثبت شد.";
-$lang['it_is_not_possible_to_send_comment_or_response']="امکان ثبت پاسخ وجود ندارد.";
+$lang['']="";
+$lang['']="";
+$lang['']="";
+
+$lang['']="";
+$lang['']="";
+
+$lang['']="";
+$lang['']="";
 $lang['']="";
 $lang['']="";
 
