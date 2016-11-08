@@ -23,3 +23,5 @@ $lang['task_status_canceled']="لغو شده";
 $lang['customer_event_has_news']="اخبار جدید";
 $lang['customer_event_verification']="تایید";
 $lang['customer_event_has_message']="پیام";
+
+$lang['from']="از";
