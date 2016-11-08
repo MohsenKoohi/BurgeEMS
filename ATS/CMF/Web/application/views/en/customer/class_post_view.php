@@ -161,7 +161,7 @@
 			</div>
 		<?php } ?>
 
-		<?php if($can_verify_comments) { ?>
+		<?php if($comments && $can_verify_comments) { ?>
 			<br><br>
 			<?php echo form_open($raw_page_url,array("id"=>"verify","onsubmit"=>"return verifyFormSubmit();")); ?>
 				<input type="hidden" name="post_type" value="verify_comments"/>

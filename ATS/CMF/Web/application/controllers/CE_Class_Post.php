@@ -76,7 +76,8 @@ class CE_Class_Post extends Burge_CMF_Controller {
 			$comments_filters['customer_id']=$this->customer_info['customer_id'];
 
 		$this->data['comments']=$this->class_post_manager_model->get_comments($class_post_id,$comments_filters);
-
+		$this->data['can_verify_comments']=0;
+		
 		$this->data['comment_value']=$this->session->flashdata("comment");
 		$this->data['raw_page_url']=get_customer_class_post_assignment_view_link($class_post_id);
 		$this->data['message']=get_message();

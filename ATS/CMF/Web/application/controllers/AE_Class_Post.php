@@ -18,73 +18,43 @@ class AE_Class_Post extends Burge_CMF_Controller {
 	{
 		$class_post_id=(int)$class_post_id;
 		if( !$class_post_id )
-			return redirect(get_link("customer_class_post_discussion"));
-
-		$customer_type=$this->customer_info['customer_type'];
-		if( ( "student" !== $customer_type ) && ( "teacher" !== $customer_type ) )
-			return redirect(get_link("customer_class_post_discussion"));
+			return redirect(get_link("admin_class_post"));
 
 		$this->data['class_post_id']=$class_post_id;
 		$filters=array(
 			'lang'					=> $this->selected_lang
-			,'assignment'			=> 0
 		);
-
-		$this->initialize_filters($filters);
 
 		$cp_info=$this->class_post_manager_model->get_class_post($class_post_id,$filters);
 		if(!$cp_info)
-			return redirect(get_link('customer_class_post_assignment'));
-
-		if('teacher' === $customer_type)
-			if($this->input->post("post_type")==="verify_comments")
-				return $this->verify_comments($class_post_id);
+			return redirect(get_link('admin_class_post'));
 
 		$cp_info=$cp_info[0];
 		$this->data['cp_info']=$cp_info;
-		$this->data['customer_type']=$customer_type;
-		$this->data['add_comment']=0;
 
-		$this->data['can_verify_comments']=(!$cp_info['cp_assignment']) && ('teacher' === $customer_type);
-
-		if('teacher' === $customer_type)
-		{
-			if(!$cp_info['cp_assignment'])
-				$this->data['add_comment']=1;
-
-			$this->data['edit_link']=get_customer_class_post_discussion_edit_link($class_post_id);
-		}
-
-		if('student' === $customer_type)
-		{
-			$current_time=get_current_time();
-			if($cp_info['cp_allow_comment'])
-				if( !$cp_info['cp_end_date'] || ($current_time < $cp_info['cp_end_date'] ) )
-					$this->data['add_comment']=1;
-		}
-
-		if($this->input->post("post_type")==="add_comment")
-			return $this->add_comment($class_post_id);
-		
 		$comments_filters=array();
-		$comments_filters['order_by']="cpc_id ASC";
-		if('student' === $customer_type)
-			$comments_filters['active']=1;
+		if($cp_info['cp_assignment'])
+		{
+			$comments_filters['order_by']="customer_order ASC, cpc_id ASC";
+			$class_post_type_name=$this->lang->line("assignment");
+		}
+		else
+		{
+			$comments_filters['order_by']="cpc_id ASC";
+			$class_post_type_name=$this->lang->line("discussion");
+		}
 
 		$this->data['comments']=$this->class_post_manager_model->get_comments($class_post_id,$comments_filters);
-
-		$this->data['comment_value']=$this->session->flashdata("comment");
-		$this->data['raw_page_url']=get_customer_class_post_discussion_view_link($class_post_id);
 		$this->data['message']=get_message();
-		$this->data['lang_pages']=get_lang_pages(get_customer_class_post_discussion_view_link($class_post_id,TRUE));
+		$this->data['lang_pages']=get_lang_pages(get_admin_class_post_details_link($class_post_id,TRUE));
 		
 		$title=$cp_info['cpt_title'];
-		$this->data['header_title']=$this->lang->line("discussion")." ".$title;
-		$this->data['page_title']=$this->lang->line("discussion");
+		$this->data['header_title']=$class_post_type_name." ".$title;
+		$this->data['page_title']=$class_post_type_name;
 		if($title)
 			$this->data['page_title'].=$this->lang->line("comma").$title;	
 
-		$this->send_customer_output("class_post_view");
+		$this->send_admin_output("class_post_details");
 
 		return;
 	}
