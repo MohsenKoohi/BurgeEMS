@@ -12,5 +12,5 @@ $lang['questions_collection_list']="List of questions collection";
 $lang['message_inbox']="Inbox";
 $lang['send_message']="Send message";
 $lang['class_posts']='Class posts';
-$lang['lesson_discussions']='Lesson discussions';
-$lang['lesson_assignments']='Lesson assignments';
+$lang['lesson_discussions']='Discussions';
+$lang['lesson_assignments']='Assignments';
