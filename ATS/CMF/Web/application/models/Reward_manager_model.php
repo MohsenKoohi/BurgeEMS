@@ -62,6 +62,7 @@ class Reward_manager_model extends CI_Model
 			->join("class","reward_class_id = class_id","LEFT")
 			->where("reward_is_prize",0)
 			->group_by("reward_class_id")
+			->order_by("class_order")
 			->get()
 			->result_array();
 

@@ -99,6 +99,7 @@ class Class_post_manager_model extends CI_Model
 			->join("class","class_id = cp_class_id","LEFT")
 			->where("!ISNULL(cp_class_id) AND cp_class_id")
 			->group_by("cp_class_id")
+			->order_by("class_order")
 			->get()
 			->result_array();
 	}
