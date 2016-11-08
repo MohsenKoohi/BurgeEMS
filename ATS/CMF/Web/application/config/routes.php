@@ -139,6 +139,7 @@ $route["question_collection/submit"]							= "CE_Question_Collection/teacher_sub
 $route["question_collection/list"]								= "CE_Question_Collection/teacher_list";
 
 $route[ADMIN_URL_FOLDER."/class_post"]			= "AE_Class_Post";
+$route[ADMIN_URL_FOLDER."/class_post/(\d+)"]	= "AE_Class_Post/details/$1";
 $route["assignment"]									= "CE_Class_Post/assignment";
 $route["assignment/(\d+)"]							= "CE_Class_Post/assignment_view/$1";
 $route["assignment/edit/(\d+)"]					= "CE_Class_Post/assignment_edit/$1";

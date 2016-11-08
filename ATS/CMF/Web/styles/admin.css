@@ -14,7 +14,7 @@ body {
 .ltr {
   direction: ltr; }
 
-.ltr-inb {
+.ltr-inb, .date {
   direction: ltr;
   display: inline-block; }
 
@@ -965,3 +965,46 @@ body.ltr .category-div li {
     display: inline-block;
     color: #555;
     margin: 0 -40px 0 40px; } }
+.class-post .class-post-content {
+  padding: 20px; }
+  .class-post .class-post-content p {
+    font-size: 1.2em; }
+  .class-post .class-post-content img, .class-post .class-post-content video {
+    max-width: 100%; }
+.class-post .post-gallery {
+  border-bottom: none; }
+.class-post .button {
+  font-size: 1.3em; }
+.class-post .comments label {
+  margin-bottom: 10px;
+  font-size: 1.1em; }
+.class-post .comments .date-row {
+  width: 100%;
+  display: inline-block; }
+  .class-post .comments .date-row .date {
+    margin-top: -5px;
+    font-weight: normal;
+    font-size: .9em;
+    color: #0C7B77; }
+.class-post .comments .comment {
+  border: 1px solid #ccc;
+  padding: 20px 20px;
+  border-radius: 5px;
+  margin-bottom: 20px; }
+  @media (max-width: 600px) {
+    .class-post .comments .comment {
+      padding: 10px; } }
+  .class-post .comments .comment .last-row {
+    display: inline-block;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: -20px; }
+    .class-post .comments .comment .last-row .active {
+      margin: 0 20px;
+      display: inline-block; }
+    .class-post .comments .comment .last-row .checkbox-holder label {
+      font-size: .9em; }
+    .class-post .comments .comment .last-row .attachment {
+      font-weight: bold; }
+      .class-post .comments .comment .last-row .attachment a {
+        color: #C63672; }

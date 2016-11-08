@@ -107,6 +107,7 @@ function &get_links($just_common=FALSE)
 			,"customer_question_collection_teacher_list"		=> HOME_SURL_LANG."/question_collection/list"
 
 			,'admin_class_post'											=> ADMIN_SURL_LANG."/class_post"
+			,'admin_class_post_details_format'						=> ADMIN_SURL_LANG."/class_post/class_post_id"
 			,'customer_class_post_assignment'						=> HOME_SURL_LANG."/assignment"
 			,'customer_class_post_assignment_view_format'		=> HOME_SURL_LANG."/assignment/assignment_id"
 			,'customer_class_post_assignment_edit_format'		=> HOME_SURL_LANG."/assignment/edit/assignment_id"
@@ -196,6 +197,12 @@ function get_customer_class_post_assignment_view_link($assignment_id,$do_not_set
 {
 	$format_link=get_link("customer_class_post_assignment_view_format",$do_not_set_lang);
 	return str_replace("assignment_id",$assignment_id, $format_link);	
+}
+
+function get_admin_class_post_details_link($class_post_id,$do_not_set_lang=FALSE)
+{
+	$format_link=get_link("admin_class_post_details_format",$do_not_set_lang);
+	return str_replace("class_post_id",$class_post_id, $format_link);	
 }
 
 function get_customer_question_collection_details_link($grade_id,$course_id,$qc_id,$do_not_set_lang=FALSE)
