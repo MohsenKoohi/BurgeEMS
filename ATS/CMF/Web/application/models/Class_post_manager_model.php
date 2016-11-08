@@ -82,27 +82,25 @@ class Class_post_manager_model extends CI_Model
 	{
 		$CI=& get_instance();
 		$lang=$CI->language->get();
-
-		$CI->lang->load('ae_class_post',$lang);
-			
-		$data=$this->get_statistics();
+	
+		$data['classes']=$this->get_statistics();
 
 		$CI->load->library('parser');
-		$ret=$CI->parser->parse($CI->get_admin_view_file("post_dashboard"),$data,TRUE);
+		$ret=$CI->parser->parse($CI->get_admin_view_file("class_post_dashboard"),$data,TRUE);
 		
 		return $ret;		
 	}
 
 	private function get_statistics()
 	{
-		return array();
-		$tb=$this->db->dbprefix($this->cpost_table_name);
-
-		return $this->db->query("
-			SELECT 
-				(SELECT COUNT(*) FROM $tb) as total, 
-				(SELECT COUNT(*) FROM $tb WHERE post_active) as active
-			")->row_array();
+		return $this->db
+			->select("count(*) as count ,class_name")
+			->from($this->class_post_table_name)
+			->join("class","class_id = cp_class_id","LEFT")
+			->where("!ISNULL(cp_class_id) AND cp_class_id")
+			->group_by("cp_class_id")
+			->get()
+			->result_array();
 	}
 
 	public function add_class_post($ins)
