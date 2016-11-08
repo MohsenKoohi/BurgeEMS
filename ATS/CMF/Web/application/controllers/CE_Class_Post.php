@@ -68,11 +68,14 @@ class CE_Class_Post extends Burge_CMF_Controller {
 		if($this->input->post("post_type")==="add_comment")
 			return $this->add_comment($class_post_id);
 
+		$comments_filters=array();
 		if('teacher' === $customer_type)
-			$this->data['comments']=$this->class_post_manager_model->get_all_comments($class_post_id,TRUE);
+			$comments_filters['order_by']="customer_order ASC, cpc_id ASC";
 
 		if('student' === $customer_type)
-			$this->data['comments']=$this->class_post_manager_model->get_student_comments($class_post_id,$this->customer_info['customer_id']);
+			$comments_filters['customer_id']=$this->customer_info['customer_id'];
+
+		$this->data['comments']=$this->class_post_manager_model->get_comments($class_post_id,$comments_filters);
 
 		$this->data['comment_value']=$this->session->flashdata("comment");
 		$this->data['raw_page_url']=get_customer_class_post_assignment_view_link($class_post_id);
@@ -202,10 +205,16 @@ class CE_Class_Post extends Burge_CMF_Controller {
 		if(!$cp_info)
 			return redirect(get_link('customer_class_post_assignment'));
 
+		if('teacher' === $customer_type)
+			if($this->input->post("post_type")==="verify_comments")
+				return $this->verify_comments($class_post_id);
+
 		$cp_info=$cp_info[0];
 		$this->data['cp_info']=$cp_info;
 		$this->data['customer_type']=$customer_type;
 		$this->data['add_comment']=0;
+
+		$this->data['can_verify_comments']=(!$cp_info['cp_assignment']) && ('teacher' === $customer_type);
 
 		if('teacher' === $customer_type)
 		{
@@ -225,8 +234,13 @@ class CE_Class_Post extends Burge_CMF_Controller {
 
 		if($this->input->post("post_type")==="add_comment")
 			return $this->add_comment($class_post_id);
+		
+		$comments_filters=array();
+		$comments_filters['order_by']="cpc_id ASC";
+		if('student' === $customer_type)
+			$comments_filters['active']=1;
 
-		$this->data['comments']=$this->class_post_manager_model->get_all_comments($class_post_id);
+		$this->data['comments']=$this->class_post_manager_model->get_comments($class_post_id,$comments_filters);
 
 		$this->data['comment_value']=$this->session->flashdata("comment");
 		$this->data['raw_page_url']=get_customer_class_post_discussion_view_link($class_post_id);
@@ -331,6 +345,18 @@ class CE_Class_Post extends Burge_CMF_Controller {
 		$this->send_customer_output("class_post_list");
 
 		return;	 
+	}
+
+	private function verify_comments($class_post_id)
+	{
+		$actives=$this->input->post("actives");
+		$deactives=$this->input->post("deactives");
+		$teacher_id=$this->customer_info['customer_id'];
+		$this->class_post_manager_model->verify_comments($class_post_id, $actives, $deactives,$teacher_id);
+
+		set_message($this->lang->line("changes_saved_successfully"));
+
+		return redirect(get_customer_class_post_discussion_view_link($class_post_id));
 	}
 
 	private function add_comment($class_post_id)

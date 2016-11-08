@@ -75,6 +75,14 @@ $lang['are_you_sure_to_submit_your_comment']="پاسخ شما ثبت شود؟";
 $lang['discussions']="گفتگوهای درسی";
 $lang['add_discussion']="گفتگوی درسی جدید";
 $lang['discussion']="گفتگوی درسی";
+$lang['verify_comments']="ثبت";
+$lang['no_comment_has_been_changed']="وضعیت هیچ دیدگاهی تغییر نکرده است.";
 $lang['']="";
+$lang['']="";
+$lang['']="";
+$lang['']="";
+$lang['']="";
+$lang['']="";
+
 
 

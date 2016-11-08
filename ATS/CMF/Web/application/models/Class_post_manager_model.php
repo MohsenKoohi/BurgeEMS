@@ -164,37 +164,58 @@ class Class_post_manager_model extends CI_Model
 		return $comment_id;
 	}
 
-	public function get_all_comments($cp_id,$order_by_students=FALSE)
+	public function get_comments($cp_id,$filter)
 	{
-		 $this->db
+		$this->db
 			->select($this->class_post_comment_table_name.".*")
 			->select("customer_name")
 			->from($this->class_post_comment_table_name)
 			->join("customer","cpc_customer_id = customer_id","LEFT")
 			->where("cpc_cp_id",$cp_id);
 
-		if($order_by_students)
-			$this->db->order_by("customer_order ASC, cpc_date ASC");
+		if(isset($filter['customer_id']))
+			$this->db->where("cpc_customer_id",$filter['customer_id']);
+
+		if(isset($filter['active']))
+			$this->db->where("cpc_active",1);
+
+		if(isset($filter['order_by']))
+			$this->db->order_by($filter['order_by']);
 		else
-			$this->db->order_by("cpc_date ASC");
+			$this->db->order_by("cpc_id ASC");
 
 		return $this->db			
 			->get()
-			->result_array();
+			->result_array();	
 	}
 
-	public function get_student_comments($cp_id,$student_id)
+	public function verify_comments($cp_id,$acts,$inacts,$teacher_id)
 	{
-		return $this->db
-			->select($this->class_post_comment_table_name.".*")
-			->select("customer_name")
-			->from($this->class_post_comment_table_name)
-			->join("customer","cpc_customer_id = customer_id","LEFT")
-			->where("cpc_cp_id",$cp_id)
-			->where("cpc_customer_id",$student_id)
-			->order_by("cpc_id ASC")
-			->get()
-			->result_array();
+		if($acts)
+			$this->db
+				->set("cpc_active",1)
+				->where("cpc_id IN ($acts)")
+				->where('cpc_cp_id',$cp_id)
+				->update($this->class_post_comment_table_name);
+
+		if($inacts)
+			$this->db
+				->set("cpc_active",0)
+				->where("cpc_id IN ($inacts)")
+				->where('cpc_cp_id',$cp_id)
+				->update($this->class_post_comment_table_name);
+
+		$props=array(
+			'cp_id' => $cp_id
+			,'actives'=>$acts
+			,'inactives'=>$inacts
+			,'teacher_id'=>$teacher_id
+		);
+
+		$this->customer_manager_model->add_customer_log($teacher_id,'CLASS_POST_VERIFY',$props);		
+		$this->log_manager_model->info("CLASS_POST_VERIFY",$props);	
+
+		return;
 	}
 
 	public function get_class_posts($filter)

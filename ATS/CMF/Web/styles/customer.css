@@ -909,6 +909,10 @@ body.customer-env .aclist > div {
   font-weight: normal;
   font-size: 1em; }
 
+.row.even-odd-bg .counter.normal-font-size {
+  font-size: 1em;
+  font-weight: bold; }
+
 .classstudents .row img {
   float: right;
   vertical-align: middle;
@@ -1117,6 +1121,8 @@ ul.dash-ul li {
 
 .class-post .class-post-content {
   padding: 20px; }
+  .class-post .class-post-content p {
+    font-size: 1.2em; }
   .class-post .class-post-content img, .class-post .class-post-content video {
     max-width: 100%; }
 .class-post .post-gallery {
@@ -1142,8 +1148,17 @@ ul.dash-ul li {
   @media (max-width: 600px) {
     .class-post .comments .comment {
       padding: 10px; } }
-.class-post .comments .attachment {
-  font-weight: bold;
-  margin-top: 30px; }
-  .class-post .comments .attachment a {
-    color: #C63672; }
+  .class-post .comments .comment .last-row {
+    display: inline-block;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: -20px; }
+    .class-post .comments .comment .last-row .active {
+      margin: 0 20px;
+      display: inline-block; }
+    .class-post .comments .comment .last-row .checkbox-holder label {
+      font-size: .9em; }
+    .class-post .comments .comment .last-row .attachment {
+      font-weight: bold; }
+      .class-post .comments .comment .last-row .attachment a {
+        color: #C63672; }

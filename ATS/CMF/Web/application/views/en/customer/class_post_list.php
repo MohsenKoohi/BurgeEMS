@@ -145,7 +145,7 @@
 	
 			?>		
 						<div class="row even-odd-bg" >
-							<div class="one column counter">
+							<div class="one column counter normal-font-size">
 								<?php echo $i++;?>
 							</div>
 
@@ -158,13 +158,21 @@
 								?>
 							</div>
 
-							<div class="two columns">
-								<?php echo $cp['class_name'];?>
-								<div class='date'><?php echo $cp['academic_time'];?></div>
-							</div>
+							<?php if($customer_type == 'teacher') { ?>
+								<div class="two columns">
+									<?php echo $cp['class_name'];?>
+									<div class='date'><?php echo $cp['academic_time'];?></div>
+								</div>
+							<?php } ?>
+
+							<?php if($customer_type == 'student') { ?>
+								<div class="two columns">
+									<?php echo $cp['teacher_name']." (".$cp['teacher_subject'].")";?>
+								</div>
+							<?php } ?>
 
 							<div class="two columns">
-								<?php echo $cp['teacher_name']." (".$cp['teacher_subject'].")";?>
+									<div class='date'><?php echo $cp['cp_start_date'];?></div>
 							</div>
 
 							<div class="two columns">

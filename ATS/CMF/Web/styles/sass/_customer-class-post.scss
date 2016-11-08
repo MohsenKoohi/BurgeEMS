@@ -4,6 +4,11 @@
 	{
 		padding:20px;
 
+		p
+		{
+			font-size: 1.2em;
+		}
+
 		img,video
 		{
 			max-width: 100%;
@@ -51,15 +56,37 @@
 			{
 				padding:10px;
 			}
-		}
 
-		.attachment
-		{
-			font-weight: bold;
-			margin-top:30px;
-			a
+			.last-row
 			{
-				color:$secondary-color;
+				display: inline-block;
+				width: 100%;
+				margin-top:10px;
+				margin-bottom: -20px;
+
+				.active
+				{
+					margin:0 20px;
+					display: inline-block;
+				}
+
+				.checkbox-holder
+				{
+					label
+					{
+						font-size: .9em;
+					}
+				}
+			
+
+				.attachment
+				{
+					font-weight: bold;
+					a
+					{
+						color:$secondary-color;
+					}
+				}
 			}
 		}
 	}

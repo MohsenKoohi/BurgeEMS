@@ -126,17 +126,31 @@
 										</div>
 									</div>
 
-									<p class='align-justify'><?php echo $c['cpc_comment']?></p>
-								
-									<?php if($c['cpc_file']) { ?>
-										<div class="anti-float1 attachment">
-											<a target='_blank' 
-												href='<?php echo get_class_post_comment_file_url($class_post_id,$c['cpc_id'],$c['cpc_file']); ?>'
-											>
-												{attachment_text}
-											</a>
-										</div>
-									<?php } ?>
+									<p class='align-justify'><?php echo nl2br($c['cpc_comment'])?></p>
+									
+									<div class='last-row'>
+										<?php if($c['cpc_file']) { ?>
+											<div class="attachment same-float">
+												<a target='_blank' 
+													href='<?php echo get_class_post_comment_file_url($class_post_id,$c['cpc_id'],$c['cpc_file']); ?>'
+												>
+													{attachment_text}
+												</a>
+											</div>
+										<?php } ?>
+
+										<?php if($can_verify_comments) { ?>
+											<div class="verify-comment anti-float">
+												<div class='active'>
+														{active_text}
+												</div>
+												<input type='checkbox' class='graphical'
+													<?php if($c['cpc_active']) echo 'checked' ?>
+													onchange="verifyComment(this,<?php echo $c['cpc_id'];?>);"
+												/>
+											</div>
+										<?php } ?>
+									</div>
 								</div>
 
 					<?php if($div_close){ ?>
@@ -146,6 +160,55 @@
 				<?php } ?>
 			</div>
 		<?php } ?>
+
+		<?php if($can_verify_comments) { ?>
+			<br><br>
+			<?php echo form_open($raw_page_url,array("id"=>"verify","onsubmit"=>"return verifyFormSubmit();")); ?>
+				<input type="hidden" name="post_type" value="verify_comments"/>
+				<input type='hidden' name='actives'/>
+				<input type='hidden' name='deactives'/>
+				<div class="row">
+						<div class="nine columns">&nbsp;</div>
+						<input type="submit" class="button button-primary sub-primary three columns" value="{verify_comments_text}"/>
+				</div>
+
+				<script type="text/javascript">
+					var comments=[];
+
+					function verifyComment(el,commentId)
+					{
+						comments[''+commentId]=$(el).prop("checked");
+					}
+
+					function verifyFormSubmit()
+					{
+						if(!comments.length)
+						{
+							alert("{no_comment_has_been_changed_text}");
+							return false;
+						}
+
+						if(!confirm("{are_you_sure_to_submit_text}"))
+							return false;
+
+						var actives=[];
+						var deactives=[];
+
+						for(i in comments)
+							if(comments[i])
+								actives.push(i);
+							else
+								deactives.push(i);
+
+						$("form#verify input[name=actives]").val(actives.join(','));
+						$("form#verify input[name=deactives]").val(deactives.join(','));
+
+						return true;
+					}
+				</script>
+			</form>
+		<?php } ?>
+
 		<?php if($add_comment) { ?>
 			<div class='row separated'>
 				<h5>
@@ -206,5 +269,7 @@
 				</form>
 			</div>
 		<?php } ?>
+
+
 	</div>
 </div>
