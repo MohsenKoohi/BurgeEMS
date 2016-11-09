@@ -30,7 +30,7 @@ $lang['academic_affairs']="امور آموزشی";
 $lang['curriculum']="برنامه درسی";
 $lang['teachers']="معلمان";
 $lang['students']="دانش‌آموزان";
-$lang['questions_collection']="گنیجینه سوالات";
+$lang['questions_collection']="گنجینه سوالات";
 
 $lang['rewards']="امتیاز‌ها";
 
