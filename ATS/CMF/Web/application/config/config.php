@@ -443,7 +443,7 @@ $config['csrf_expire'] = 60*60;
 $config['csrf_regenerate'] = TRUE;
 $config['csrf_exclude_uris'] = array(
 	ADMIN_URL_FOLDER."/file/.*"
-	"class_post/(\d+)/file/.*"
+	,"class_post/(\d+)/file/.*"
 );
 
 /*
