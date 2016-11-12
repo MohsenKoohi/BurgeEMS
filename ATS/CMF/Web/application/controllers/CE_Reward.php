@@ -231,7 +231,7 @@ class CE_Reward extends Burge_CMF_Controller {
 		$filter=array(
 				"teacher_id"=>$teacher_id
 				,"class_id"=>$class_id
-				,"order_by"=>"reward_date ASC"
+				,"order_by"=>"reward_date DESC"
 			);
 		$this->data['rewards_list']=$this->reward_manager_model->get_rewards($filter);
 
@@ -339,7 +339,8 @@ class CE_Reward extends Burge_CMF_Controller {
 			$sid=$st['customer_id'];
 			if(isset($rewards[$sid]) && $rewards[$sid])
 			{
-				$reward=intval(persian_normalize_word($rewards[$sid]));
+				$reward=str_replace("_", "-", $rewards[$sid]);
+				$reward=intval(persian_normalize_word($reward));
 				if(!$reward)
 					continue;
 
