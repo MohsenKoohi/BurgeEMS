@@ -3,29 +3,123 @@
   
 <div class="main">
 	<div class="container class-post">
-		<h1><?php echo $page_title;?></h1>			
-		<div class="post-date" style="font-weight:bold">
-			<?php 
-				echo str_replace("-","/",$cp_info['cp_start_date']);
-				if($cp_info['cp_end_date'])
-					echo "<span style='display:inline-block;width:50px;text-align:center'> - </span>".str_replace("-","/",$cp_info['cp_end_date']);
-			?>
-		</div>
+		<h1><?php echo $page_title;?></h1>
+
 		<div class="row">
-			<b>
+			<div class="three columns">
+				{academic_year_text}:
+			</div>
+			<div class="six columns post-date">
 				<?php 
-					echo $teacher_text.": ".$cp_info['teacher_name']." (".$cp_info['teacher_subject'].")";
+					echo $cp_info['academic_time'];
 				?>
-			</b>
-		</div>
+			</div>
+		</div>		
+
 		<div class="row">
-			<b>
+			<div class="three columns">
+				{class_text}:
+			</div>
+			<div class="six columns ">
 				<?php 
-					echo $academic_year_text." <span class='ltr' style='display:inline-block'>".$cp_info['academic_time']."</span>"
-						.$comma_text." ".$cp_info['class_name'];
+					echo $cp_info['class_name'];
 				?>
-			</b>
+			</div>
 		</div>
+
+		<div class="row">
+			<div class="three columns">
+				{teacher_text}:
+			</div>
+			<div class="six columns">
+				<?php 
+					echo $cp_info['teacher_name']." (".$cp_info['teacher_subject'].")";
+				?>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="three columns">
+				{type_text}:
+			</div>
+			<div class="six columns">
+				<?php 
+					if($cp_info['cp_assignment']) 
+						echo $assignment_text; 
+					else 
+						echo $discussion_text;
+				?>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="three columns">
+				{start_date_text}:
+			</div>
+			<div class="six columns">
+				<div class="date">
+					<?php 
+						echo str_replace("-","/",$cp_info['cp_start_date']);
+					?>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="three columns">
+				{end_date_text}:
+			</div>
+			<div class="six columns">
+				<div class="date">
+					<?php 
+						echo str_replace("-","/",$cp_info['cp_end_date']);
+					?>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="three columns">
+				{active_text}:
+			</div>
+			<div class="six columns">
+				<?php 
+					if($cp_info['cp_active']) 
+						echo $yes_text; 
+					else 
+						echo $no_text;
+				?>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="three columns">
+				{allow_submit_response_text}:
+			</div>
+			<div class="six columns">
+				<?php 
+					if($cp_info['cp_allow_comment']) 
+						echo $yes_text; 
+					else 
+						echo $no_text;
+				?>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="three columns">
+				{allow_submit_file_text}:
+			</div>
+			<div class="six columns">
+				<?php 
+					if($cp_info['cp_allow_file']) 
+						echo $yes_text; 
+					else 
+						echo $no_text;
+				?>
+			</div>
+		</div>
+
 		<div class="row separated class-post-content">
 			<div class="full-width">
 				<?php echo $cp_info['cpt_content'] ?>

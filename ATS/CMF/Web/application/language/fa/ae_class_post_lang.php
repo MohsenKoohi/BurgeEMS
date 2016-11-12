@@ -78,9 +78,9 @@ $lang['discussion']="گفتگوی درسی";
 $lang['verify_comments']="ثبت";
 $lang['no_comment_has_been_changed']="وضعیت هیچ دیدگاهی تغییر نکرده است.";
 $lang['inactive']="غیرفعال";
-$lang['']="";
-$lang['']="";
-$lang['']="";
+$lang['yes']="بله";
+$lang['no']="خیر";
+$lang['type']="نوع";
 $lang['']="";
 $lang['']="";
 
