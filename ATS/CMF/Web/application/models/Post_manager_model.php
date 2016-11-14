@@ -126,6 +126,13 @@ class Post_manager_model extends CI_Model
 
 	public function get_posts($filter)
 	{
+		$cat_query=$this->db
+			->select("GROUP_CONCAT(pcat_category_id)")
+			->from($this->post_category_table_name)
+			->where("pcat_post_id = post_id")
+			->get_compiled_select();
+
+		$this->db->select("* , (".$cat_query.") as categories");
 		$this->db->from($this->post_table_name);
 		$this->db->join($this->post_content_table_name,"post_id = pc_post_id","left");
 		$this->db->join($this->post_category_table_name,"post_id = pcat_post_id","left");
@@ -177,10 +184,10 @@ class Post_manager_model extends CI_Model
 			));
 
 		if(isset($filter['post_date_le']))
-			$this->db->where("post_date <=",$filter['post_date_le']);
+			$this->db->where("post_date <=",str_replace("/","-",$filter['post_date_le']));
 
 		if(isset($filter['post_date_ge']))
-			$this->db->where("post_date >=",$filter['post_date_ge']);
+			$this->db->where("post_date >=",str_replace("/","-",$filter['post_date_ge']));
 
 		if(isset($filter['order_by']))
 		{
