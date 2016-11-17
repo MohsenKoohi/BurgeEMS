@@ -4,7 +4,7 @@
 			.even-odd-bg
 			{
 				margin-bottom: 20px;
-				font-size: 1.2em;
+				//font-size: 1.2em;
 			}
 			div.two.columns
 			{
@@ -94,7 +94,7 @@
 								else
 									$lang="en";
 							?>
-							<div class="content twelve columns lang-<?php echo $lang;?>">
+							<div class="twelve columns lang-<?php echo $lang;?>">
 								<span>
 									<?php echo nl2br($info['message_content']);?>
 								</span>

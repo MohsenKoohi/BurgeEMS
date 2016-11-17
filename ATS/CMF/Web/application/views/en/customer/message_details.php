@@ -93,7 +93,7 @@
 								else
 									$lang="en";
 							?>
-							<div class="content twelve columns lang-<?php echo $lang;?>">
+							<div class="twelve columns lang-<?php echo $lang;?>">
 								<span>
 									<?php echo nl2br($info['message_content']);?>
 								</span>
