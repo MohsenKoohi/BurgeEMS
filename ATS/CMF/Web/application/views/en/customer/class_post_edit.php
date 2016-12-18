@@ -312,10 +312,10 @@
 					+"Verdana=verdana,geneva;"
 					+"Webdings=webdings;"
 					+"Wingdings=wingdings,zapf dingbats";
-				var tinyMCEPlugins="directionality textcolor link image hr emoticons2 lineheight colorpicker media code";
+				var tinyMCEPlugins="directionality textcolor link image hr emoticons2 lineheight colorpicker media code table";
 				var tinyMCEToolbar=[
 				   "link image media hr bold italic underline strikethrough alignleft aligncenter alignright alignjustify styleselect formatselect fontselect fontsizeselect  emoticons2",
-				   "cut copy paste bullist numlist outdent indent forecolor backcolor removeformat  ltr rtl lineheightselect code "
+				   "cut copy paste bullist numlist outdent indent forecolor backcolor removeformat  ltr rtl lineheightselect code table"
 				];
 
 				function formSubmit()
