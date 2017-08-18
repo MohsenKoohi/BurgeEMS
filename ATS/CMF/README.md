@@ -1,11 +1,11 @@
-#[BurgeCMF](http://burge.ir/category-3/BurgeCMF)
-##	[An Open Source MVC Content Management Framework based on CodeIgniter](http://burge.ir/category-3/BurgeCMF)
+[BurgeCMF](http://burge.pro/category-3/BurgeCMF)
+##	[An Open Source MVC Content Management Framework based on CodeIgniter](http://burge.pro/category-3/BurgeCMF)
 
-![BurgCMF Logo](http://burge.ir/upload/cat-3-BurgeCMF/logo_back_white.jpg)
+![BurgCMF Logo](http://burge.pro/upload/cat-3-BurgeCMF/logo_back_white.jpg)
 
 ##Features
 * Multi-language admin and customer environments
-* Multi-user admin environments with ability to set access level for each user
+* Multi-user admin environments with ability to set access level for each user, and also to create user groups and manage access level using user groups
 * Default view files for different languages (Default lanaguages are Persian, and English) and different devices to support fast developing of new modules
 * Module manager
 * Visiting counter module 

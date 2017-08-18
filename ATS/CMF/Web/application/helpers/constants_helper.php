@@ -34,6 +34,7 @@ define("DATE_FUNCTION","jdate");
 
 
 define("DEFAULT_TIMEZONE","Asia/Tehran");
+date_default_timezone_set(DEFAULT_TIMEZONE);
 
 
 //session expiration for admin users in seconds
@@ -90,6 +91,9 @@ define ('UPLOAD_DIR', HOME_DIR."/upload");
 define ('UPLOAD_URL', HOME_URL."/upload");
 
 define ('CATEGORY_CACHE_DIR', HOME_DIR."/application/cache/category");
+
+define ('MESSAGE_ATTACHMENT_DIR', UPLOAD_DIR."/message");
+define ('MESSAGE_ATTACHMENT_URL', UPLOAD_URL."/message");
 
 //settings for BurgeATS
 define ('CUSTOMER_SESSION_EXPIRATION',60*60*3);

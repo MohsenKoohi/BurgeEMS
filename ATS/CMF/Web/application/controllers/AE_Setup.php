@@ -97,6 +97,8 @@ class AE_Setup extends CI_Controller {
 
 		$this->module_manager_model->install_module("contact_us_manager");
 
+		$this->module_manager_model->install_module("footer_link_manager");
+
 		$this->module_manager_model->install_module("customer_manager");
 
 		$this->module_manager_model->install_module("task_manager");
@@ -121,7 +123,7 @@ class AE_Setup extends CI_Controller {
 		foreach($modules_info as $md)
 			$modules[]=$md['module_id'];
 		$this->load->model("access_manager_model");
-		$this->access_manager_model->set_allowed_modules_for_user($user->get_id(),$modules);
+		$this->access_manager_model->set_modules(-$user->get_id(),$modules);
 
 		return;
 	}

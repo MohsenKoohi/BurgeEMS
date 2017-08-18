@@ -47,12 +47,14 @@ if(ENVIRONMENT==='development')
 
 $route[ADMIN_URL_FOLDER]							="AE_Dashboard";
 $route[ADMIN_URL_FOLDER."/dashboard"]			="AE_Dashboard";
-$route[ADMIN_URL_FOLDER."/user"]					="AE_Users";
+$route[ADMIN_URL_FOLDER."/user"]					="AE_Users/index/0";
+$route[ADMIN_URL_FOLDER."/user/(\d+)"]			="AE_Users/index/$1";
 $route[ADMIN_URL_FOLDER."/user/search/(.*)"]	="AE_Users/search/$1";
 $route[ADMIN_URL_FOLDER."/login"]				="AE_Login";
 $route[ADMIN_URL_FOLDER."/change_pass"]		="AE_Change_Pass";
 $route[ADMIN_URL_FOLDER."/logout"]				="AE_Logout";
-$route[ADMIN_URL_FOLDER."/access"]				="AE_Access";
+$route[ADMIN_URL_FOLDER."/access"]				="AE_Access/index/0";
+$route[ADMIN_URL_FOLDER."/access/(\-?\d+)"]	="AE_Access/index/$1";
 $route[ADMIN_URL_FOLDER."/module"]				="AE_Module";
 $route[ADMIN_URL_FOLDER."/hit_counter"]		="AE_Hit_Counter";
 $route[ADMIN_URL_FOLDER."/log"]					="AE_Log";
@@ -79,6 +81,8 @@ $route[ADMIN_URL_FOLDER."/contact_us"]				="AE_Contact_Us";
 $route[ADMIN_URL_FOLDER."/contact_us/send_new"]	="AE_Contact_Us/send_new";
 $route[ADMIN_URL_FOLDER."/contact_us/(\d+)"]		="AE_Contact_Us/details/$1";
 $route["contact_us"]										="CE_Contact_Us";
+
+$route[ADMIN_URL_FOLDER."/footer_link"]			="AE_Footer_Link";
 
 $route["retry"]="retry";
 $route["watermark"]="CE_Watermark";

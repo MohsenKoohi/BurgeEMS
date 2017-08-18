@@ -3,9 +3,14 @@ class User_manager_model extends CI_Model
 {
 	private $user_info=NULL;
 	private $user_info_initialized=FALSE;
-	private $user_props_can_be_written=array("user_email","user_name","user_code","user_pass");
-	private $user_props_can_be_read=array("user_id","user_email","user_name","user_code");
-	private $user_props_can_be_modified_directly=array("user_name","user_code");
+	private $user_props_can_be_written=array("user_email","user_name","user_code","user_pass","user_group_id");
+	private $user_props_can_be_read=array("user_id","user_email","user_name","user_code","user_group_id");
+	private $user_props_can_be_modified_directly=array("user_name","user_code","user_group_id");
+
+	private $ug_props_can_be_written=array("ug_name");
+	private $ug_props_can_be_read=array("ug_id","ug_name");
+	private $ug_props_can_be_modified_directly=array("ug_name");
+
 
 	public function __construct()
 	{
@@ -21,13 +26,23 @@ class User_manager_model extends CI_Model
 		$user_table=$this->db->dbprefix('user'); 
 		$this->db->query(
 			"CREATE TABLE IF NOT EXISTS $user_table (
-				`user_id` int AUTO_INCREMENT NOT NULL,
-				`user_email` char(100) NOT NULL UNIQUE,
-				`user_name` char(100),
-				`user_code` char(20),
-				`user_pass` char(32) DEFAULT NULL,
-				`user_salt` char(32) NOT NULL,
-				PRIMARY KEY (user_id)	
+				`user_id` INT AUTO_INCREMENT NOT NULL
+				,`user_email` CHAR(100) NOT NULL UNIQUE
+				,`user_name` CHAR(100)
+				,`user_code` CHAR(20)
+				,`user_group_id` INT DEFAULT 0
+				,`user_pass` CHAR(32) DEFAULT NULL
+				,`user_salt` CHAR(32) NOT NULL
+				,PRIMARY KEY (user_id)	
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8"
+		);
+
+		$user_group_table=$this->db->dbprefix('user_group'); 
+		$this->db->query(
+			"CREATE TABLE IF NOT EXISTS $user_group_table (
+				`ug_id` INT AUTO_INCREMENT NOT NULL
+				,`ug_name` CHAR(100) NOT NULL 
+				,PRIMARY KEY (ug_id)	
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8"
 		);
 
@@ -94,10 +109,40 @@ class User_manager_model extends CI_Model
 	{
 		$this->db->select($this->user_props_can_be_read);
 		$this->db->from("user");
-		$this->db->order_by("user_id","DESC");
+		$this->db->order_by("user_id","ASC");
 		$results=$this->db->get();
 
 		return $results->result_array();
+	}
+
+	public function get_user($user_id)
+	{
+		$this->db->select($this->user_props_can_be_read);
+		$this->db->from("user");
+		$this->db->where("user_id",(int)$user_id);
+		$results=$this->db->get();
+
+		return $results->row_array();
+	}
+
+	public function get_user_group($ug_id)
+	{
+		$this->db->select($this->ug_props_can_be_read);
+		$this->db->from("user_group");
+		$this->db->where("ug_id",(int)$ug_id);
+		$results=$this->db->get();
+
+		return $results->row_array();
+	}
+
+	public function get_all_user_groups()
+	{
+		return $this->db
+			->select($this->ug_props_can_be_read)
+			->from("user_group")
+			->order_by("ug_id","ASC")
+			->get()
+			->result_array();
 	}
 
 	public function add_if_not_exist($user_props)
@@ -113,7 +158,7 @@ class User_manager_model extends CI_Model
 			"user_email"=>$email
 			,"result"=>0
 			));
-			return TRUE;
+			return FALSE;
 		}
 
 		$salt=random_string("alnum",32);
@@ -121,16 +166,30 @@ class User_manager_model extends CI_Model
 		$props['user_pass']=$this->getPass($props['user_pass'],$salt);
 		$this->db->insert("user",$props);
 
-		$props['user_id']=$this->db->insert_id();
+		$user_id=$this->db->insert_id();
+		$props['user_id']=$user_id;
 		$props['result']=1;
 		unset($props['user_pass'],$props['user_salt']);
 
 		$this->log_manager_model->info("USER_ADD",$props);
 
-		return FALSE;
+		return $user_id;
 	}
 
-	public function delete_user($user_id,$user_email)
+	public function add_user_group($ug_props)
+	{
+		$props=select_allowed_elements($ug_props,$this->ug_props_can_be_written);
+
+		$this->db->insert("user_group",$props);
+
+		$user_group_id=$this->db->insert_id();
+		$props['new_user_group_id']=$user_group_id;
+		$this->log_manager_model->info("USER_GROUP_ADD",$props);
+
+		return $user_group_id;
+	}
+
+	public function delete_user($user_id)
 	{
 		//there is a note here
 		//when you delete a user, if he has been logged into the system befor his deletion
@@ -139,16 +198,33 @@ class User_manager_model extends CI_Model
 		//who checks all accesses and after deletion,
 		//even previous pages can't post new info to the system.
 
-		$this->db->where(array("user_id"=>$user_id,"user_email"=>$user_email));
+		$this->db->where(array("user_id"=>$user_id));
 		$this->db->delete("user");
 
 		$this->load->model("access_manager_model");
-		$this->access_manager_model->unset_user_access($user_id);
-
+		$this->access_manager_model->unset_all_modules(-$user_id);
 		
 		$this->log_manager_model->info("USER_DELETE",array(
 			"user_id"=>$user_id
-			,"user_email"=>$user_email		
+		));
+
+		return;
+	}
+
+	public function delete_user_group($ug_id)
+	{
+		$this->db->where(array("ug_id"=>$ug_id));
+		$this->db->delete("user_group");
+
+		$this->db->set("user_group_id",0);
+		$this->db->where("user_group_id",$ug_id);
+		$this->db->update('user');
+
+		$this->load->model("access_manager_model");
+		$this->access_manager_model->unset_all_modules($ug_id);
+
+		$this->log_manager_model->info("USER_GROUP_DELETE",array(
+			"ug_id"=>$ug_id
 		));
 
 		return;
@@ -203,6 +279,22 @@ class User_manager_model extends CI_Model
 		$props['user_id']=$user_id;
 		
 		$this->log_manager_model->info("USER_CHANGE_PROPS",$props);
+
+		return TRUE;		
+	}
+
+	public function change_user_group_props($ug_id,$ug_props)
+	{
+		$props=select_allowed_elements($ug_props,$this->ug_props_can_be_modified_directly);
+		
+		$this->db->set($props);
+		$this->db->where("ug_id",$ug_id);
+		$this->db->limit(1);
+		$this->db->update('user_group');
+
+		$props['ug_id']=$ug_id;
+		
+		$this->log_manager_model->info("USER_GROUP_CHANGE_PROPS",$props);
 
 		return TRUE;		
 	}
@@ -358,6 +450,7 @@ class User_manager_model extends CI_Model
 		$data=array();
 		$data['users']=$this->get_all_users_info();
 		$data['total_text']=$CI->lang->line("total");
+		$data['user_groups']=$this->get_all_user_groups();
 		
 		$CI->load->library('parser');
 		$ret=$CI->parser->parse($CI->get_admin_view_file("user_dashboard"),$data,TRUE);

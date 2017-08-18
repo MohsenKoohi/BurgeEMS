@@ -24,6 +24,9 @@ body {
 .align-left {
   text-align: left; }
 
+.align-center {
+  text-align: center; }
+
 .align-right {
   text-align: right; }
 
@@ -134,6 +137,23 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
 
 .no-display {
   display: none; }
+
+.primary-color {
+  color: #0C7B77; }
+
+.secondary-color {
+  color: #C63672; }
+
+.comment, .even-odd-bg .comment {
+  color: #C63672;
+  font-size: .9em;
+  text-align: justify;
+  font-weight: 500;
+  display: inline-block; }
+
+img.clips {
+  width: 48px;
+  vertical-align: middle; }
 
 .header {
   display: block;
@@ -521,6 +541,8 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 1.1em; }
   .even-odd-bg a:not(.button) {
     color: black; }
+  .even-odd-bg .checkbox-holder label i {
+    box-shadow: none; }
 
 .even-odd-bg:nth-child(2n + 1) {
   background-color: #eee; }
@@ -897,6 +919,7 @@ body.ltr .category-div li {
   vertical-align: middle;
   cursor: pointer; }
 
+<<<<<<< HEAD
 .customer-img {
   max-width: 45px;
   max-height: 60px;
@@ -1067,3 +1090,26 @@ body.post-page #cboxTitle {
   text-overflow: ellipsis; }
 body.post-page #cboxCurrent {
   bottom: 0px; }
+=======
+div.link-pagination {
+  direction: ltr; }
+  div.link-pagination a {
+    display: inline-block;
+    width: 34px;
+    height: 34px;
+    text-align: center;
+    margin: 2px;
+    border-radius: 50%;
+    background: #0C7B77;
+    color: white;
+    font-weight: bold;
+    font-size: 1.5em;
+    transition: background 0.3s; }
+  div.link-pagination a:hover
+  , div.link-pagination .ctag a {
+    color: white !important;
+    background: #C63672;
+    transition: background 0.3s; }
+  div.link-pagination .ctag a {
+    cursor: default; }
+>>>>>>> 67e33e299f9a1f205d7e7112616e504541e5bdd4

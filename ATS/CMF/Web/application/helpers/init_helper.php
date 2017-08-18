@@ -32,7 +32,9 @@ function &get_links($just_common=FALSE)
 			,'admin_dashboard'		=> ADMIN_SURL_LANG."/dashboard"
 			,'admin_change_pass'		=> ADMIN_SURL_LANG."/change_pass"
 			,'admin_access'			=> ADMIN_SURL_LANG."/access"
+			,'admin_access_details'	=> ADMIN_SURL_LANG."/access/access_id"
 			,'admin_user'				=> ADMIN_SURL_LANG."/user"
+			,'admin_user_details'	=> ADMIN_SURL_LANG."/user/user_id"
 			,'admin_user_search'		=> ADMIN_SURL_LANG."/user/search"
 			,'admin_module'			=> ADMIN_SURL_LANG."/module"
 			,'admin_hit_counter'		=> ADMIN_SURL_LANG."/hit_counter"
@@ -53,7 +55,10 @@ function &get_links($just_common=FALSE)
 			,'admin_contact_us'									=> ADMIN_SURL_LANG."/contact_us"
 			,'admin_contact_us_send_new'						=> ADMIN_SURL_LANG."/contact_us/send_new"
 			,'admin_contact_us_message_details_format'	=> ADMIN_SURL_LANG."/contact_us/message_id"
-			,'customer_contact_us'								=> HOME_SURL_LANG."/contact_us"
+
+			,'customer_contact_us'								=> HOME_URL_LANG."/contact_us"
+
+			,'admin_footer_link'									=> ADMIN_SURL_LANG."/footer_link"
 
 			,'admin_customer'						=> ADMIN_SURL_LANG."/customer"
 			,'admin_customer_password'			=> ADMIN_SURL_LANG."/customer/password"
@@ -115,6 +120,7 @@ function &get_links($just_common=FALSE)
 			,'customer_class_post_discussion_view_format'		=> HOME_SURL_LANG."/discussion/discussion_id"
 			,'customer_class_post_discussion_edit_format'		=> HOME_SURL_LANG."/discussion/edit/discussion_id"
 			,'customer_class_post_file_format'						=> HOME_SURL_LANG."/class_post/cp_id/file/inline"
+
 		));
 	}
 
@@ -441,6 +447,15 @@ function get_customer_image_url($customer_id,$hash)
 	return CUSTOMER_IMAGES_URL."/".$customer_id."_".$hash.".jpg";
 }
 
+function get_admin_access_details_link($access_id,$do_not_set_lang=FALSE)
+{
+	return str_replace("access_id",$access_id,get_link("admin_access_details",$do_not_set_lang));	
+}
+
+function get_admin_user_details_link($user_id,$do_not_set_lang=FALSE)
+{
+	return str_replace("user_id",$user_id,get_link("admin_user_details",$do_not_set_lang));	
+}
 
 //we have created an initialization for data array sent to parser
 //so if we wanted to add an index, we can do it without changing all controller. 
@@ -563,6 +578,10 @@ function get_message()
 
 function price_separator($val)
 {
+	$fl="";
+	if(strpos($val,"."))
+		list($val,$fl)=explode(".", $val);
+
 	$val="".$val;
 	$newVal="";
 	$j=0;
@@ -572,6 +591,9 @@ function price_separator($val)
 		if($j%3==2 && $j!=(strlen($val)-1))
 			$newVal=",".$newVal;
 	}
+
+	if($fl)
+		$newVal.=".".$fl;
 
 	return $newVal;
 }
@@ -1178,6 +1200,67 @@ function burge_cmf_watermark(
 		unlink($watermark_temp);
 
 	return $result;
+}
+
+/* 
+$settings is an array of
+- total_pages 
+- current_page
+- base_url
+- page_text //translation of Page
+*/
+
+function get_select_pagination($settings)
+{
+	$ret="<select class='full-width' onchange='document.location=$(this).val();'>";
+
+	$page_text=$settings['page_text'];
+	for($i=1;$i<=$settings['total_pages'];$i++)
+	{
+		$sel="";
+		if($i==$settings['current_page'])
+			$sel="selected";
+		$link=str_replace("page_number",$i,$settings['base_url']);
+		$ret.="<option $sel value='$link'>$page_text $i</option>\n";
+	}
+	$ret.="</select>";
+
+	return $ret;
+}
+
+function get_link_pagination($settings)
+{
+	$CI=&get_instance();
+
+	$CI->load->library('pagination');
+	$config=array(
+		'base_url'					=> $settings['base_url']
+		,'total_rows'				=> $settings['total_pages']
+		,'per_page'					=> 1
+		,'cur_page'					=> $settings['current_page']
+		,'num_links'				=> 2
+		,'data_page_attr'			=> 'page'
+		,'use_page_numbers'		=> TRUE
+		,'page_query_string'		=> TRUE
+		,'first_link'				=> '&#171;'
+		,'last_link'				=> '&#187;'
+		,'next_link'				=> '&#8250;'
+		,'prev_link'				=> '&#8249;'
+		,'query_string_segment'	=> 'page'
+		,'prev_tag_open'			=> "<span class='ntag'>"
+		,'prev_tag_close'			=> "</span>"
+		,'next_tag_open'			=> "<span class='ptag'>"
+		,'next_tag_close'			=> "</span>"
+		,'first_tag_open'			=> "<span class='ftag'>"
+		,'first_tag_close'		=> "</span>"
+		,'last_tag_open'			=> "<span class='ltag'>"
+		,'last_tag_close'			=> "</span>"
+		,'cur_tag_open'			=> "<span class='ctag'><a>"
+		,'cur_tag_close'			=> "</span></a>"
+	);
+	$CI->pagination->initialize($config);
+	
+	return $CI->pagination->create_links();
 }
 
 function burge_cmf_send_mail($receiver,$subject,$message)

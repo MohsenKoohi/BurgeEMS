@@ -30,9 +30,8 @@ class Log_manager_model extends CI_Model
 		,"MODULE_ADD_NAME"		=>54
 		,"MODULE_RESORT"			=>55
 
-		,"ACCESS_ALLOW_USER"		=>81
-		,"ACCESS_UNSET_USER"		=>82
-		,"ACCESS_UNSET_MODULE"	=>83
+		,"ACCESS_SET"				=>81
+		,"ACCESS_UNSET"			=>82
 		,"ACCESS_CHECK"			=>84
 
 		,"USER_ADD"					=>101
@@ -41,6 +40,10 @@ class Log_manager_model extends CI_Model
 		,"USER_LOGIN"				=>104
 		,"USER_LOGOUT"				=>105
 		,"USER_CHANGE_PROPS"		=>106
+		,"USER_GROUP_ADD"				=>107
+		,"USER_GROUP_DELETE"			=>108
+		,"USER_GROUP_CHANGE_PROPS"	=>109
+		
 
 		,"CONSTANT_SET"			=>131
 		,"CONSTANT_UNSET"			=>132		

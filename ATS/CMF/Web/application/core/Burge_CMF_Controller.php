@@ -52,7 +52,7 @@ class Burge_CMF_Controller extends CI_Controller{
 				//and the connection starter should be able to intrepret it
 				//and redirect the main page to the home_url
 				
-				redirect(get_link("home_url"));
+				redirect(get_link("home_url")."#");
 				return;
 			}
 
@@ -128,7 +128,7 @@ class Burge_CMF_Controller extends CI_Controller{
 		$this->load->model("module_manager_model");
 		
 		if($this->user)
-			$modules=$this->module_manager_model->get_user_modules_names($this->user->get_id());
+			$modules=$this->module_manager_model->get_user_modules_names($this->user);
 		else
 			$modules=array();
 
