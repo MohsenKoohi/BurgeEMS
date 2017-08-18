@@ -944,7 +944,28 @@ body.post-page #cboxCurrent {
   vertical-align: middle;
   cursor: pointer; }
 
-<<<<<<< HEAD
+div.link-pagination {
+  direction: ltr; }
+  div.link-pagination a {
+    display: inline-block;
+    width: 34px;
+    height: 34px;
+    text-align: center;
+    margin: 2px;
+    border-radius: 50%;
+    background: #0C7B77;
+    color: white;
+    font-weight: bold;
+    font-size: 1.5em;
+    transition: background 0.3s; }
+  div.link-pagination a:hover
+  , div.link-pagination .ctag a {
+    color: white !important;
+    background: #C63672;
+    transition: background 0.3s; }
+  div.link-pagination .ctag a {
+    cursor: default; }
+
 body.customer-env .row.even-odd-bg {
   font-size: 1.2em; }
 
@@ -1205,26 +1226,3 @@ ul.dash-ul li {
       font-weight: bold; }
       .class-post .comments .comment .last-row .attachment a {
         color: #C63672; }
-=======
-div.link-pagination {
-  direction: ltr; }
-  div.link-pagination a {
-    display: inline-block;
-    width: 34px;
-    height: 34px;
-    text-align: center;
-    margin: 2px;
-    border-radius: 50%;
-    background: #0C7B77;
-    color: white;
-    font-weight: bold;
-    font-size: 1.5em;
-    transition: background 0.3s; }
-  div.link-pagination a:hover
-  , div.link-pagination .ctag a {
-    color: white !important;
-    background: #C63672;
-    transition: background 0.3s; }
-  div.link-pagination .ctag a {
-    cursor: default; }
->>>>>>> 67e33e299f9a1f205d7e7112616e504541e5bdd4
