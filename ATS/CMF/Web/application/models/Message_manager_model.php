@@ -9,7 +9,7 @@ We have two types of groups:
 We have different types of message senders:
 1)Student: can send message to its teachers and additional groups
 2)Teachers: can send message to its students, and classes
-3)Additional groups: can send message to students, and classes 
+3)Additional groups: can send message to students, and  Parents classes 
 4)Students Class: to receive a message by students of a class
 5)Parents Class: to receive a message by students' parents of a class
 
@@ -23,9 +23,15 @@ class Message_manager_model extends CI_Model
 		1=>"parents_community"
 	);
 
+	private $academic_time_id;
+
 	public function __construct()
 	{
 		parent::__construct();
+
+		$this->load->model("time_manager_model");
+		$atime=$this->time_manager_model->get_current_academic_time();
+		$this->academic_time_id=$atime['time_id'];
 		
 		return;
 	}
@@ -40,6 +46,7 @@ class Message_manager_model extends CI_Model
 				,`message_sender_id` BIGINT UNSIGNED
 				,`message_receiver_type` ENUM ('student','student_class','parent','parent_class','teacher','group')
 				,`message_receiver_id` BIGINT 
+				,`message_time_id` INT 
 				,`message_date` CHAR(20)
 				,`message_subject` VARCHAR(255)
 				,`message_content` TEXT
@@ -173,6 +180,8 @@ class Message_manager_model extends CI_Model
 		$props['message_content']=$in_props['content'];
 		$props['message_subject']=$in_props['subject'];
 
+		$props['message_time_id']=$this->academic_time_id;
+
 		$this->db->insert($this->message_table_name,$props);
 		$id=$this->db->insert_id();
 		
@@ -231,7 +240,9 @@ class Message_manager_model extends CI_Model
 			->join("customer s","message_sender_id = s.customer_id","LEFT")
 			->join("customer r","message_receiver_id = r.customer_id","LEFT")
 			->order_by("message_date ASC")
-			->where("( $where )");
+			->where("( $where )")
+			->where("message_time_id", $this->academic_time_id);
+		;
 		
 		return $this->db
 			->get()
@@ -277,6 +288,8 @@ class Message_manager_model extends CI_Model
 		$customer_type=$filter['customer_type'];
 		$customer_id=$filter['customer_id'];
 		$class_id=$filter['class_id'];
+
+		$this->db->where("message_time_id", $this->academic_time_id);
 
 		if('student'===$customer_type)
 			$where="
@@ -418,6 +431,9 @@ class Message_manager_model extends CI_Model
 
 	private function set_admin_search_where_clause($filter)
 	{
+		if(isset($filter['time_id']))
+			$this->db->where("message_time_id",(int)$filter['time_id']);
+
 		if(isset($filter['customer_id']))
 		{
 			$cid=(int)$filter['customer_id'];
