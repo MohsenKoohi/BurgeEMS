@@ -111,6 +111,9 @@ class AE_Message extends Burge_CMF_Controller {
 		$this->set_groups();
 
 		$this->data['message']=get_message();
+
+		$this->load->model("time_manager_model");
+		$this->data['academic_times']=$this->time_manager_model->get_all_times();
 		
 		$this->data['lang_pages']=get_lang_pages(get_link("admin_message",TRUE));
 		$this->data['header_title']=$this->lang->line("messages");
@@ -155,7 +158,6 @@ class AE_Message extends Burge_CMF_Controller {
 
 	private function set_messages()
 	{
-
 		$this->load->model("class_manager_model");
 		$this->data['class_names']=$this->class_manager_model->get_classes_names();
 
@@ -164,6 +166,8 @@ class AE_Message extends Burge_CMF_Controller {
 		
 		if($this->input->get('customer_id'))
 			$filters['customer_id']=(int)$this->input->get('customer_id');
+
+		$this->initialize_filters($filters);
 		
 		$total=$this->message_manager_model->get_admin_total_messages($filters);
 		if($total)
@@ -223,58 +227,23 @@ class AE_Message extends Burge_CMF_Controller {
 		return get_admin_message_details_link($p1."_".$p2);
 	}
 
-	//in this function we set limitations for messages based on 
-	//filters the user has choosed
-	//access for each message is considered based on $access in model 
-	private function initialize_filters(&$filters,$access)
+	private function initialize_filters(&$filters)
 	{
 		$fields=array(
-			"start_date","end_date"
-			,"status","verified","active"
-			,"receiver_type","sender_type"
-			,"sender_department","sender_user","sender_customer"
-			,"receiver_department","receiver_user","receiver_customer"
+			"start_date"
+			,"end_date"
+			,"time_id"
 		);
 
 		foreach($fields as $field)
 		{
+			if($this->input->get($field)===NULL)
+				continue;
 			$filters[$field]=$this->input->get($field);
 			$filters[$field]=persian_normalize($filters[$field]);		
 		}
+
 		
-		$op_access=$access['op_access'];
-
-		if(!$op_access['users'])
-			$filters['active']="yes";
-
-		$filters['message_types']=array();
-
-		if(($filters['sender_type']!=="department") && 
-			($filters['sender_type']!=="customer")   &&
-			($filters['receiver_type']!=="department") && 
-			($filters['receiver_type']!=="customer"))
-				$this->set_user_message_types($filters);
-
-		if(($filters['sender_type']!=="department") && 
-			($filters['sender_type']!=="user") &&
-			($filters['sender_type']!=="me") &&
-			($filters['receiver_type']!=="department") && 
-			($filters['receiver_type']!=="user") &&
-			($filters['receiver_type']!=="me")
-			)
-				$this->set_customer_message_types($filters);
-		
-		if(($filters['sender_type']!=="user") &&			
-			($filters['sender_type']!=="me") &&
-			($filters['receiver_type']!=="user") && 
-			($filters['receiver_type']!=="me") && 
-			!(($filters['receiver_type']==="customer") && ($filters['sender_type']==="customer"))
-			)
-				$this->set_departments_message_types($filters);
-
-		//bprint_r($op_access);
-		//bprint_r($filters['message_types']);
-
 		return;
 	}
 }

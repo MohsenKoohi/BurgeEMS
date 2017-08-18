@@ -88,7 +88,7 @@ class Time_manager_model extends CI_Model
 		$result=$this->db
 			->from($this->time_table_name)
 			->select("*")
-			->order_by("time_id ASC")
+			->order_by("time_id DESC")
 			->get();
 
 		return $result->result_array();

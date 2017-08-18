@@ -94,10 +94,10 @@ $lang['count']="تعداد";
 $lang['messages_of']="پیام‌های";
 $lang['and']="و";
 
-$lang['']="";
-$lang['']="";
-$lang['']="";
-$lang['']="";
-
 $lang['students_of']="دانش آموزان";
 $lang['parents_of']="والدین";
+
+$lang['academic_year']="سال تحصیلی";
+$lang['']="";
+$lang['']="";
+$lang['']="";

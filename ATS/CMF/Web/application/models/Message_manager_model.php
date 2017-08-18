@@ -434,6 +434,12 @@ class Message_manager_model extends CI_Model
 		if(isset($filter['time_id']))
 			$this->db->where("message_time_id",(int)$filter['time_id']);
 
+		if(isset($filter['start_date']))
+			$this->db->where("message_date >=",$filter['start_date']." 00:00:00");
+
+		if(isset($filter['end_date']))
+			$this->db->where("message_date <=",(int)$filter['end_date']." 23:59:59");
+
 		if(isset($filter['customer_id']))
 		{
 			$cid=(int)$filter['customer_id'];

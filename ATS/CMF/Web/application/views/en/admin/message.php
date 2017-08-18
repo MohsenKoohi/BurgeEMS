@@ -65,7 +65,7 @@
 				</style>
 
 				<div class="container separated">
-					<?php if(0) { ?>
+					
 					<div class="row filter half-col-margin-children">				
 						<div class="three columns">
 							<label>{start_date_text}</label>
@@ -76,123 +76,25 @@
 							<label>{end_date_text}</label>
 							<input class="full-width ltr" name="end_date">
 						</div>
-					
-						<div class="three columns ">
-							<label>{status_text}</label>
-							<select class="full-width" name="status">
-								<option>&nbsp;</option>
-								<option value="changing">{changing_text}</option>
-								<option value="complete">{complete_text}</option>
-							</select>
-						</div>
-						
+
 						<div class="three columns">
-							<label>{verification_status_of_last_message_text}</label>
-							<select class="full-width" name="verified">
-								<option>&nbsp;</option>
-								<option value="yes">{verified_text}</option>
-								<option value="no">{not_verified_text}</option>
-							</select>
-						</div>
-						
-						<div class="three columns">
-							<label>{sender_text}</label>
-							<select class="full-width" name="sender_type" onchange="setSender(this);">
-								<option>&nbsp;</option>
-								<option value="me">{me_text}</option>
+							<label>{academic_year_text}</label>
+							<select  class="full-width ltr" name="time_id">
+								<option value=''>&nbsp;</option>
 								<?php 
-									echo "<option value='user'>{user_text}</option>";
-									echo "<option value='department'>{department_text}</option>";
-									echo "<option value='customer'>{customer_text}</option>";							
+									foreach($academic_times as $t)
+										echo "<option value='".$t['time_id']."'>".$t['time_name']."</option>";
 								?>
 							</select>
-
-							<div class="no-display">
-								
-								<div class="three columns" id="sender-departments">
-									<label>{sender_department_text}</label>
-									<select name="sender_department" class="full-width">
-										<option value="">&nbsp;</option>
-										<?php
-											foreach($departments as $id => $name)
-												if($id)
-													echo "<option value='$id'>".${"department_".$name."_text"}."</option>\n";
-										?>
-									</select>
-								</div>
-							
-								<div class="three columns" id="sender-users">
-									<label>{sender_user_name_or_id_text}</label>
-									<input name="sender_user" type="text" class="full-width">
-								</div>
-
-
-								<div class="three columns" id="sender-customers">
-									<label>{sender_customer_name_or_id_text}</label>
-									<input name="sender_customer" type="text" class="full-width">
-								</div>
-							
-
-							</div>
-						</div>
-						
-						<div class="three columns">
-							<label>{receiver_text}</label>
-							<select class="full-width" name="receiver_type" onchange="setReceiver(this);">
-								<option>&nbsp;</option>
-								<option value="me">{me_text}</option>
-								<?php 
-									echo "<option value='user'>{user_text}</option>";
-									echo "<option value='department'>{department_text}</option>";
-									echo "<option value='customer'>{customer_text}</option>";							
-								?>
-							</select>
-
-							<div class="no-display">
-								<div class="three columns" id="receiver-departments">
-									<label>{receiver_department_text}</label>
-									<select name="receiver_department" class="full-width">
-										<option value="">&nbsp;</option>
-										<?php
-											foreach($departments as $id => $name)
-												if($id)
-													echo "<option value='$id'>".${"department_".$name."_text"}."</option>\n";
-										?>
-									</select>
-								</div>
-							
-
-								<div class="three columns " id="receiver-users">
-									<label>{receiver_user_name_or_id_text}</label>
-									<input name="receiver_user" type="text" class="full-width">
-								</div>
-
-								
-								<div class="three columns " id="receiver-customers">
-									<label>{receiver_customer_name_or_id_text}</label>
-									<input name="receiver_customer" type="text" class="full-width">
-								</div>
-							
-							</div>
 						</div>
 
-						<?php if($op_access['users']) {?>
-							<div class="three columns">
-								<label>{active_text}</label>
-								<select class="full-width" name="active">
-									<option>&nbsp;</option>
-									<option value="yes">{active_text}</option>
-									<option value="no">{inactive_text}</option>
-								</select>
-							</div>				
-						<?php }?>
 						<div class="two columns results-search-again ">
 							<label></label>
 							<input type="button" onclick="searchAgain()" value="{search_again_text}" class="full-width button-primary" />
 						</div>				
 						
 					</div>
-					<?php } ?>
+					
 
 					<div class="row results-count" >
 						<div class="six columns">
@@ -217,43 +119,6 @@
 					</div>
 
 					<script type="text/javascript">
-						function setSender(el)
-						{
-							el=$(el);
-							par=el.parent();
-							newVal=el.val();
-							$("#sender-departments, #sender-users, #sender-customers").each(function(index,elem){
-								elem=$(elem);
-								$("input,select",elem).addClass("inactive");
-								$(".no-display",par).append(elem);
-							});
-
-							if(!newVal || newVal=="me")
-								return;
-
-							el.parent().after($("#sender-"+newVal+"s"));
-							$("input,select",$("#sender-"+newVal+"s")).removeClass("inactive");
-						}
-
-						function setReceiver(el)
-						{
-							el=$(el);
-							par=el.parent();
-							newVal=el.val();
-							$("#receiver-departments, #receiver-users, #receiver-customers").each(function(index,elem){
-								elem=$(elem);
-								$("input,select",elem).addClass("inactive");
-								$(".no-display",par).append(elem);
-							});
-
-							if(!newVal || newVal=="me")
-								return;
-
-							el.parent().after($("#receiver-"+newVal+"s"));
-							$("input,select",$("#receiver-"+newVal+"s")).removeClass("inactive");
-						}
-
-
 						var initialFilters=[];
 						<?php
 							foreach($filters as $key => $val)
@@ -274,9 +139,6 @@
 
 							for(i in initialFilters)
 								$(".filter [name='"+i+"']").val(initialFilters[i]);
-
-							setSender($("select[name=sender_type]")[0]);
-							setReceiver($("select[name=receiver_type]")[0]);
 						});
 
 						function searchAgain()
