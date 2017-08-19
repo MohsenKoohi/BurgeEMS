@@ -104,9 +104,12 @@ class CE_Class_Post extends Burge_CMF_Controller {
 		if( ( "teacher" !== $customer_type ) || !$class_post_id )
 			return redirect(get_link("customer_class_post_assignment"));
 
+		$this->load->model("time_manager_model");
+
 		$this->data['class_post_id']=$class_post_id;
 		$filters=array(
 			"assignment"	=> 1
+			,"academic_time"	=> $this->time_manager_model->get_current_academic_time_id()
 		);
 		$this->initialize_filters($filters);
 
@@ -163,7 +166,6 @@ class CE_Class_Post extends Burge_CMF_Controller {
 
 		return;
 	}
-
 
 	public function assignment()
 	{
@@ -276,10 +278,14 @@ class CE_Class_Post extends Burge_CMF_Controller {
 		if( ( "teacher" !== $customer_type ) || !$class_post_id )
 			return redirect(get_link("customer_class_post_discussion"));
 
+		$this->load->model("time_manager_model");
+
 		$this->data['class_post_id']=$class_post_id;
 		$filters=array(
 			"assignment"	=> 0
+			,"academic_time"	=> $this->time_manager_model->get_current_academic_time_id()
 		);
+		
 		$this->initialize_filters($filters);
 
 		$cp_info=$this->class_post_manager_model->get_class_post($class_post_id,$filters);
