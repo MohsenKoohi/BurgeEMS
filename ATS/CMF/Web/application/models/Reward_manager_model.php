@@ -87,11 +87,45 @@ class Reward_manager_model extends CI_Model
 		return $this->db
 			->select("SUM(rv_value) as sum")
 			->from($this->reward_value_table_name)
+			->join($this->reward_table_name,"rv_reward_id = reward_id ","LEFT")
 			->where("rv_student_id",$student_id)
 			->where("reward_time_id", $this->current_academic_time_id)
 			->group_by("rv_student_id")
 			->get()
 			->row_array()['sum'];
+	}
+
+	public function start_new_time($old_time,$new_time)
+	{
+		$new_tid=$new_time['time_id'];
+		$old_tid=$old_time['time_id'];
+		$this->load->model("class_manager_model");
+		$classes=$this->class_manager_model->get_all_classes();
+
+		$subject="<<";
+		foreach($classes as $c)
+		{
+			$class_id=$c['class_id'];
+			$rewards=array();
+			foreach($this->get_class_students_with_total_rewards($class_id, $old_tid) as $r)
+				$rewards[]=array(
+					'student_id'	=> $r['customer_id']
+					,"value"			=> $r['total_rewards']
+					,"description"	=> ''
+				);
+
+			$this->add_rewards_with_time_id(0,$class_id,$subject,$rewards,0,$new_tid);
+		}
+
+		$log=array(
+			"new_time_id"		=> $new_tid
+			,"prev_time_id"	=> $old_tid
+		);
+
+		$this->log_manager_model->info("REWARD_MOVING_PREVIOUS_YEAR",$log);	
+
+		
+		return;
 	}
 
 	public function get_student_rewards($student_id)
@@ -110,12 +144,18 @@ class Reward_manager_model extends CI_Model
 
 	public function add_rewards($teacher_id,$class_id,$subject,$rewards,$is_prize)
 	{
+		$time_id=$this->current_academic_time_id;
+		return $this->add_rewards_with_time_id($teacher_id,$class_id,$subject,$rewards,$is_prize,$time_id);
+	}
+
+	private function add_rewards_with_time_id($teacher_id,$class_id,$subject,$rewards,$is_prize,$time_id)
+	{
 		$date=get_current_time();
 		$log=array();
 
 		$this->db->insert($this->reward_table_name,array(
 			"reward_teacher_id"	=> $teacher_id
-			,"reward_time_id"		=> $this->current_academic_time_id
+			,"reward_time_id"		=> $time_id
 			,"reward_class_id"	=> $class_id
 			,"reward_date"			=> $date
 			,"reward_subject"		=> $subject
@@ -128,7 +168,7 @@ class Reward_manager_model extends CI_Model
 		$log['reward_id']=$reward_id;
 		$log['reward_date']=$date;
 		$log['reward_is_prize']=$is_prize;
-		$log['reward_time_id']=$this->current_academic_time_id;
+		$log['reward_time_id']=$time_id;
 
 		$ins=array();
 		foreach($rewards as $reward)
@@ -185,13 +225,16 @@ class Reward_manager_model extends CI_Model
 		return FALSE;
 	}
 
-	public function get_class_students_with_total_rewards($class_id)
+	public function get_class_students_with_total_rewards($class_id,$time_id=0)
 	{
+		if(!$time_id)
+			$time_id= $this->current_academic_time_id;
+
 		$sub_query=$this->db
 			->select("SUM(rv_value)")
 			->from($this->reward_value_table_name)
 			->join($this->reward_table_name,"reward_id = rv_reward_id","LEFT")
-			->where("reward_time_id", $this->current_academic_time_id)
+			->where("reward_time_id",$time_id)
 			->where("rv_student_id = customer_id")
 			->group_by("rv_student_id")
 			->get_compiled_select();

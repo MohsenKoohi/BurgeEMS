@@ -360,10 +360,10 @@ class Class_manager_model extends CI_Model
 			->delete($this->class_teacher_table_name);
 
 		$log=array(
-			"new_time_id"=>$new_time['time_id']
-			,"new_time_name"=>$new_time['time_name']
-			,"prev_time_id"=>$prev_time['time_id']
-			,"prev_time_name"=>$prev_time['time_name']
+			"new_time_id"		=> $new_time['time_id']
+			,"new_time_name"	=> $new_time['time_name']
+			,"prev_time_id"	=> $prev_time['time_id']
+			,"prev_time_name"	=> $prev_time['time_name']
 		);
 
 		$this->log_manager_model->info("CLASS_TEACHER_RESET",$log);	

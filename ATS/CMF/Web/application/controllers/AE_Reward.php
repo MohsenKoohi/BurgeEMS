@@ -111,7 +111,8 @@ class AE_Reward extends Burge_CMF_Controller {
 		$this->data['message']=get_message();
 
 		$this->data['lang_pages']=get_lang_pages(get_admin_reward_details_link($reward_id,TRUE));
-		$this->data['header_title']=$info['reward_subject'];
+		$s=$this->lang->line("header_separator");
+		$this->data['header_title']=$this->lang->line("rewards").$s.$reward_id.$s.$info['reward_subject'];
 
 		$this->send_admin_output("reward_details");
 	}
