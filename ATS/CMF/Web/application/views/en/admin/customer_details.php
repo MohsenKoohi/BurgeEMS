@@ -790,7 +790,14 @@
 									<?php echo $r['customer_name'];?>
 								</div>
 								<div class="three columns" >
-									<b><?php echo $r['reward_subject']." ".$r['rv_description'];?></b>
+									<b>
+										<?php 
+											if(!$r['customer_name'])
+												echo $previous_year_rewards_text;
+											else
+												echo $r['reward_subject']." ".$r['rv_description'];
+										?>
+									</b>
 								</div>
 								<div class="two columns">
 									<div class="ltr-inb"><?php echo $r['rv_value'];?></div> {reward_text}

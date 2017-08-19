@@ -1,7 +1,15 @@
 <div class="main">
 	<div class="container">
 		<h1>{rewards_text}</h1>
-		<h2><?php echo $info['class_name'].$comma_text." ".$info['reward_subject'];?></h2>
+		<h2>
+			<?php 
+				echo $info['class_name'].$comma_text." ";
+				if(!$info['reward_teacher_id'])
+					echo $previous_year_rewards_text;
+				else
+					echo $info['reward_subject'];	
+			?>
+		</h2>
 		<div class="row even-odd-bg">
 			<div class="four columns name">
 				{date_text}

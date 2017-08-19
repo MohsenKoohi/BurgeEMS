@@ -116,3 +116,4 @@ $lang['reward']="امتیاز";
 $lang['view']="مشاهده";
 $lang['total']="مجموع";
 $lang['messages']="پیام‌ها";
+$lang['previous_year_rewards']='امتیازهای سال قبل';

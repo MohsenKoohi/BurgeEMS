@@ -113,3 +113,4 @@ $lang['reward']="Reward";
 $lang['view']="View";
 $lang['total']="Total";
 $lang['messages']="Messages";
+$lang['previous_year_rewards']='Previous year rewards';
