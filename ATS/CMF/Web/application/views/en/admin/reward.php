@@ -200,8 +200,7 @@
 									if(!$reward['reward_teacher_id'])
 										echo $previous_year_rewards_text;
 									else
-										echo $reward['reward_subject'];
-									
+										echo $reward['reward_subject'];		
 								?>
 							</b>
 						</div>

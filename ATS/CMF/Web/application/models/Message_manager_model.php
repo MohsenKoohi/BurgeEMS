@@ -151,14 +151,17 @@ class Message_manager_model extends CI_Model
 			->where("mgm_group_id",$group_id)
 			->delete();
 
-		$ins=array();
-		foreach($member_ids as $cid)
-			$ins[]=array(
-				"mgm_group_id"=>$group_id
-				,"mgm_customer_id"=>$cid
-			);
+		if($member_ids)
+		{
+			$ins=array();
+			foreach($member_ids as $cid)
+				$ins[]=array(
+					"mgm_group_id"=>$group_id
+					,"mgm_customer_id"=>$cid
+				);
 
-		$this->db->insert_batch($this->message_group_member_table_name,$ins);
+			$this->db->insert_batch($this->message_group_member_table_name,$ins);
+		}
 
 		$log=array("members"=>$members,"group_id"=>$group_id);
 		$this->log_manager_model->info("MESSAGE_GROUP_SET",$log);
@@ -166,6 +169,16 @@ class Message_manager_model extends CI_Model
 		return TRUE;
 	}
 
+	public function start_new_time($old_time,$new_time)
+	{
+		$new_tid=$new_time['time_id'];
+		$old_tid=$old_time['time_id'];
+		
+		foreach($this->additional_groups as $gid => $gname)
+			$this->set_group_members($gid,'');
+
+		return;
+	}
 
 	public function add_message($in_props)
 	{

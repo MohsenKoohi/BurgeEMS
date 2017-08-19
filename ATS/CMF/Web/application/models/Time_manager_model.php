@@ -118,6 +118,10 @@ class Time_manager_model extends CI_Model
 		$this->load->model("reward_manager_model");
 		$this->reward_manager_model->start_new_time($prev_time, $new_time);
 
+		$this->load->model("message_manager_model");
+		$this->message_manager_model->start_new_time($prev_time, $new_time);
+
+
 		return;
 	}
 
