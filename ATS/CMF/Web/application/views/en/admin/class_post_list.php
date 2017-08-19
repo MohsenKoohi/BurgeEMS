@@ -2,40 +2,25 @@
 	<div class="container">
 		<h1>{header}</h1>
 		<div class="container separated">
-			<?php if(0) { ?>
-				<div class="row filter">
-					<div class="three columns">
-						<label>{title_text}</label>
-						<input name="title" type="text" class="full-width" value=""/>
-					</div>
-					<div class="three columns half-col-margin">
-						<label>{start_date_text}</label>
-						<input name="post_date_ge" type="text" class="full-width ltr" value=""/>
-					</div>
-					<div class="three columns half-col-margin">
-						<label>{end_date_text}</label>
-						<input name="post_date_le" type="text" class="full-width ltr" value=""/>
-					</div>
-					<div class="three columns">
-						<label>{category_text}</label>
-						<select name="category_id" type="text" class="full-width">
-							<option value="">&nbsp;</option>
-							<?php
-								foreach($categories as $category)
-									if($category['id'])
-										echo "<option value='".$category['id']."'>".$category['names'][$selected_lang]."</option>\n";
-									else
-										echo "<option value='".$category['id']."'>".$root_text."</option>\n";
-							?>
-						</select>
-					</div>
-					
-					<div class="two columns results-search-again half-col-margin">
-						<label></label>
-						<input type="button" onclick="searchAgain()" value="{search_again_text}" class="full-width button-primary" />
-					</div>			
+			
+			<div class="row filter">
+				<div class="three columns">
+					<label>{academic_year_text}</label>
+					<select  class="full-width" name="academic_time">
+						<option value=''>&nbsp;</option>
+						<?php 
+							foreach($academic_times as $t)
+								echo "<option value='".$t['time_id']."'>".$t['time_name']."</option>";
+						?>
+					</select>
 				</div>
-			<?php } ?>
+				
+				<div class="two columns results-search-again half-col-margin">
+					<label></label>
+					<input type="button" onclick="searchAgain()" value="{search_again_text}" class="full-width button-primary" />
+				</div>			
+			</div>
+
 			<div class="row results-count" >
 				<div class="six columns">
 					<label>

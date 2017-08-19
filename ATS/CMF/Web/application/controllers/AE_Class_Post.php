@@ -63,11 +63,17 @@ class AE_Class_Post extends Burge_CMF_Controller {
 	public function index()
 	{
 		$this->set_class_posts_info();
+
 		$this->data['message']=get_message();
+		
+		$this->load->model("time_manager_model");
+		$this->data['academic_times']=$this->time_manager_model->get_all_times();
+	
 		$this->data['lang_pages']=get_lang_pages(get_link("admin_class_post",TRUE));
 		$this->data['header_title']=$this->lang->line("class_posts");
 		$this->data['raw_page_url']=get_link("admin_class_post");
 		$this->data['header']=$this->lang->line("class_posts");
+		
 		$this->send_admin_output("class_post_list");
 
 		return;	 
@@ -129,6 +135,9 @@ class AE_Class_Post extends Burge_CMF_Controller {
 
 	private function initialize_filters(&$filters)
 	{
+		if($this->input->get("academic_time"))
+			$filters['academic_time']=$this->input->get("academic_time");
+
 		if($this->input->get("title"))
 			$filters['title']=$this->input->get("title");
 

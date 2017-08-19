@@ -79,7 +79,7 @@
 
 						<div class="three columns">
 							<label>{academic_year_text}</label>
-							<select  class="full-width ltr" name="time_id">
+							<select  class="full-width " name="time_id">
 								<option value=''>&nbsp;</option>
 								<?php 
 									foreach($academic_times as $t)

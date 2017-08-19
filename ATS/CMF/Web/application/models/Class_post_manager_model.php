@@ -290,16 +290,11 @@ class Class_post_manager_model extends CI_Model
 		if(isset($filter['start']))
 			$this->db->limit($filter['count'],$filter['start']);
 
-		return;
-
-		if(isset($filter['category_id']))
-			$this->db->where("pcat_category_id",$filter['category_id']);
-
 		if(isset($filter['title']))
 		{
 			$title=trim($filter['title']);
 			$title="%".str_replace(" ","%",$title)."%";
-			$this->db->where("( `pc_title` LIKE '$title')");
+			$this->db->where("( `cpt_title` LIKE '$title')");
 		}
 
 	

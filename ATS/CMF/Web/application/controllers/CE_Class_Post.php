@@ -51,10 +51,13 @@ class CE_Class_Post extends Burge_CMF_Controller {
 
 		if('teacher' === $customer_type)
 		{
-			if(!$cp_info['cp_assignment'])
-				$this->data['add_comment']=1;
-
-			$this->data['edit_link']=get_customer_class_post_assignment_edit_link($class_post_id);
+			$this->load->model("time_manager_model");
+			if($cp_info['cp_academic_time_id'] == $this->time_manager_model->get_current_academic_time_id())	
+			{
+				$this->data['edit_link']=get_customer_class_post_assignment_edit_link($class_post_id);
+				if(!$cp_info['cp_assignment'])
+					$this->data['add_comment']=1;
+			}
 		}
 
 		if('student' === $customer_type)
@@ -65,7 +68,7 @@ class CE_Class_Post extends Burge_CMF_Controller {
 					$this->data['add_comment']=1;
 		}
 
-		if($this->input->post("post_type")==="add_comment")
+		if($this->input->post("post_type")==="add_comment" && $this->data['add_comment'])
 			return $this->add_comment($class_post_id);
 
 		$comments_filters=array();
@@ -168,9 +171,13 @@ class CE_Class_Post extends Burge_CMF_Controller {
 		if( "teacher" === $customer_type )
 			if($this->input->post("post_type")==="add_class_post")
 				return $this->add_class_post("assignment");
+
+		$this->load->model("time_manager_model");
+		$this->data['academic_times']=$this->time_manager_model->get_all_times();
 		
 		$this->set_class_posts_info("assignment");
 		$this->data['message']=get_message();
+
 		$this->data['customer_type']=$customer_type;
 		$this->data['add_text']=$this->lang->line("add_assignment");
 
@@ -219,10 +226,13 @@ class CE_Class_Post extends Burge_CMF_Controller {
 
 		if('teacher' === $customer_type)
 		{
-			if(!$cp_info['cp_assignment'])
-				$this->data['add_comment']=1;
-
-			$this->data['edit_link']=get_customer_class_post_discussion_edit_link($class_post_id);
+			$this->load->model("time_manager_model");
+			if($cp_info['cp_academic_time_id'] == $this->time_manager_model->get_current_academic_time_id())
+			{
+				$this->data['edit_link']=get_customer_class_post_discussion_edit_link($class_post_id);
+				if(!$cp_info['cp_assignment'])
+					$this->data['add_comment']=1;
+			}
 		}
 
 		if('student' === $customer_type)
@@ -233,7 +243,7 @@ class CE_Class_Post extends Burge_CMF_Controller {
 					$this->data['add_comment']=1;
 		}
 
-		if($this->input->post("post_type")==="add_comment")
+		if($this->input->post("post_type")==="add_comment" && $this->data['add_comment'])
 			return $this->add_comment($class_post_id);
 		
 		$comments_filters=array();
@@ -333,7 +343,11 @@ class CE_Class_Post extends Burge_CMF_Controller {
 			if($this->input->post("post_type")==="add_class_post")
 				return $this->add_class_post("discussion");
 		
+		$this->load->model("time_manager_model");
+		$this->data['academic_times']=$this->time_manager_model->get_all_times();
+		
 		$this->set_class_posts_info("discussion");
+		
 		$this->data['message']=get_message();
 		$this->data['customer_type']=$customer_type;
 		$this->data['add_text']=$this->lang->line("add_discussion");
@@ -537,7 +551,7 @@ class CE_Class_Post extends Burge_CMF_Controller {
 						continue;
 
 					$extension=pathinfo($file_names[$findex], PATHINFO_EXTENSION);
-					if(!in_array($extension,array("jpg","jpeg","JPG","JPEG")))
+					if(!in_array($extension,array("jpg","jpeg","JPG","JPEG","png","PNG")))
 						continue;
 
 					$img_name=$lang."_".$last_index."_".get_random_word(5).".".$extension;
@@ -634,7 +648,6 @@ class CE_Class_Post extends Burge_CMF_Controller {
 		unset(
 			$filters['assignment']
 
-			,$filters['acadmic_time']
 			,$filters['class_id']
 			,$filters['teacher_id_in']
 			,$filters['lang']
@@ -661,7 +674,7 @@ class CE_Class_Post extends Burge_CMF_Controller {
 			$filters['class_id']=$class_id;
 
 			$this->load->model("time_manager_model");
-			$filters['acadmic_time']=$this->time_manager_model->get_current_academic_time_id();
+			$filters['academic_time']=$this->time_manager_model->get_current_academic_time_id();
 
 			$classes=$this->class_manager_model->get_class_teachers($class_id);
 			$teachers=array();
@@ -678,38 +691,18 @@ class CE_Class_Post extends Burge_CMF_Controller {
 
 		if('teacher' === $customer_type)
 		{
+			if(!isset($this->data['class_post_id']))
+				if($this->input->get("academic_time"))
+					$filters['academic_time']=$this->input->get("academic_time");
+				else
+				{
+					$this->load->model("time_manager_model");
+					$filters['academic_time']=$this->time_manager_model->get_current_academic_time_id();
+				}
+
 			$filters['teacher_id']=$this->customer_info['customer_id'];
 			$filters['order_by']="cp_academic_time_id DESC, cp_id DESC";
 		}
-
-		return;
-
-
-		if($this->input->get("title"))
-			$filters['title']=$this->input->get("title");
-
-		if($this->input->get("post_date_le"))
-		{	
-			$le=$this->input->get("post_date_le");
-			if(sizeof(explode(" ",$le))==1)
-				$le.=" 23:59:59";
-
-			$filters['post_date_le']=$le;
-		}
-
-		if($this->input->get("post_date_ge"))
-		{
-			$ge=$this->input->get("post_date_ge");
-			if(sizeof(explode(" ",$ge))==1)
-				$ge.=" 00:00:00";
-
-			$filters['post_date_ge']=$ge;
-		}
-
-		if($this->input->get("category_id")!==NULL)
-			$filters['category_id']=(int)$this->input->get("category_id");
-
-		persian_normalize($filters);
 
 		return;
 	}

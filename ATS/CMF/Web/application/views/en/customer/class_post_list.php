@@ -13,30 +13,14 @@
 			<br><br>
 		<?php } ?>
 		<div class="container separated">
-			<?php if(0) { ?>
+			<?php if($customer_type === 'teacher') { ?>
 				<div class="row filter">
 					<div class="three columns">
-						<label>{title_text}</label>
-						<input name="title" type="text" class="full-width" value=""/>
-					</div>
-					<div class="three columns half-col-margin">
-						<label>{start_date_text}</label>
-						<input name="post_date_ge" type="text" class="full-width ltr" value=""/>
-					</div>
-					<div class="three columns half-col-margin">
-						<label>{end_date_text}</label>
-						<input name="post_date_le" type="text" class="full-width ltr" value=""/>
-					</div>
-					<div class="three columns">
-						<label>{category_text}</label>
-						<select name="category_id" type="text" class="full-width">
-							<option value="">&nbsp;</option>
-							<?php
-								foreach($categories as $category)
-									if($category['id'])
-										echo "<option value='".$category['id']."'>".$category['names'][$selected_lang]."</option>\n";
-									else
-										echo "<option value='".$category['id']."'>".$root_text."</option>\n";
+						<label>{academic_year_text}</label>
+						<select  class="full-width" name="academic_time">
+							<?php 
+								foreach($academic_times as $t)
+									echo "<option value='".$t['time_id']."'>".$t['time_name']."</option>";
 							?>
 						</select>
 					</div>

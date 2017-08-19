@@ -27,13 +27,15 @@
 					?>
 				</b>
 			</div>
-			<div class="row general-buttons">
-				<a  class="two columns"  href='{edit_link}'>
-					<div class="full-width button sub-primary button-type1">
-						{edit_text}
-					</div>
-				</a>
-			</div>
+			<?php if(isset($edit_link)){ ?>
+				<div class="row general-buttons">
+					<a  class="two columns"  href='{edit_link}'>
+						<div class="full-width button sub-primary button-type1">
+							{edit_text}
+						</div>
+					</a>
+				</div>
+			<?php } ?>
 		<?php } ?>
 		<div class="row separated class-post-content">
 			<div class="full-width">
