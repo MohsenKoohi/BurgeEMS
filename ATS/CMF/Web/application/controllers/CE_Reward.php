@@ -230,6 +230,7 @@ class CE_Reward extends Burge_CMF_Controller {
 		$this->data['class_id']=$class_id;
 		$filter=array(
 				"teacher_id"=>$teacher_id
+				,"this_year"=>1
 				,"class_id"=>$class_id
 				,"order_by"=>"reward_date DESC"
 			);
@@ -245,7 +246,7 @@ class CE_Reward extends Burge_CMF_Controller {
 
 	private function reward_teacher_values($teacher_id,$class_id,$reward_id)
 	{
-		$reward_info=$this->reward_manager_model->get_reward_info($reward_id);
+		$reward_info=$this->reward_manager_model->get_teacher_reward_info($reward_id);
 		
 		if(
 			!$reward_info 
@@ -285,7 +286,7 @@ class CE_Reward extends Burge_CMF_Controller {
 			return redirect(get_link("customer_dashboard"));
 
 		$teacher_id=$customer_info['customer_id'];
-		$reward_info=$this->reward_manager_model->get_reward_info($reward_id);
+		$reward_info=$this->reward_manager_model->get_teacher_reward_info($reward_id);
 		if(
 				!$reward_info 
 				|| !$reward_info['reward_editable'] 

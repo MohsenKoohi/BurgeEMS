@@ -26,3 +26,4 @@ $lang['total_results']="تعداد کل";
 $lang['page']="صفحه";
 $lang['to']="تا";
 $lang['']="";
+$lang['academic_year']="سال تحصیلی";

@@ -26,6 +26,7 @@
 			.value
 			{
 				direction:ltr;
+				text-align: center;
 			}
 
 			.checkbox-holder

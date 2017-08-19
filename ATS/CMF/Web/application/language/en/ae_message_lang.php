@@ -101,3 +101,4 @@ $lang['']="";
 
 $lang['students_of']="Students of";
 $lang['parents_of']="Parents of";
+$lang['academic_year']="Academic year";

@@ -29,6 +29,7 @@ class AE_Reward extends Burge_CMF_Controller {
 		$this->set_rewareds();
 		
 		$this->data['message']=get_message();
+		$this->data['academic_times']=$this->time_manager_model->get_all_times();
 
 		$this->data['raw_page_url']=get_link("admin_reward");
 		$this->data['lang_pages']=get_lang_pages(get_link("admin_reward",TRUE));
@@ -49,7 +50,7 @@ class AE_Reward extends Burge_CMF_Controller {
 
 		$filter=array();
 
-		$pfnames=array("teacher_id","class_id","start_date","end_date","is_prize","subject");
+		$pfnames=array("time_id","teacher_id","class_id","start_date","end_date","is_prize","subject");
 		foreach($pfnames as $pfname)
 			if($this->input->get($pfname)!==NULL)
 				$filter[$pfname]=$this->input->get($pfname);	

@@ -5,10 +5,16 @@ class Reward_manager_model extends CI_Model
 	private $reward_value_table_name="reward_value";
 	private $reward_edit_time=84400; //24*60*60 one day
 
+	private $current_academic_time_id;
+
 	public function __construct()
 	{
 		parent::__construct();
-	
+
+		$this->load->model("time_manager_model");
+		$atime=$this->time_manager_model->get_current_academic_time();
+		$this->current_academic_time_id=$atime['time_id'];
+
 		return;
 	}
 
@@ -18,6 +24,7 @@ class Reward_manager_model extends CI_Model
 		$this->db->query(
 			"CREATE TABLE IF NOT EXISTS $table (
 				`reward_id` INT AUTO_INCREMENT NOT NULL
+				,`reward_time_id` INT NOT NULL
 				,`reward_class_id` INT NOT NULL
 				,`reward_teacher_id` INT NOT NULL
 				,`reward_date` CHAR(19) 
@@ -61,6 +68,7 @@ class Reward_manager_model extends CI_Model
 			->from($this->reward_table_name)
 			->join("class","reward_class_id = class_id","LEFT")
 			->where("reward_is_prize",0)
+			->where("reward_time_id", $this->current_academic_time_id)
 			->group_by("reward_class_id")
 			->order_by("class_order")
 			->get()
@@ -80,6 +88,7 @@ class Reward_manager_model extends CI_Model
 			->select("SUM(rv_value) as sum")
 			->from($this->reward_value_table_name)
 			->where("rv_student_id",$student_id)
+			->where("reward_time_id", $this->current_academic_time_id)
 			->group_by("rv_student_id")
 			->get()
 			->row_array()['sum'];
@@ -93,6 +102,7 @@ class Reward_manager_model extends CI_Model
 			->join($this->reward_table_name,"rv_reward_id = reward_id ","LEFT")
 			->join("customer","reward_teacher_id = customer_id ","LEFT")
 			->where("rv_student_id",$student_id)
+			->where("reward_time_id", $this->current_academic_time_id)
 			->order_by("reward_date ASC")
 			->get()
 			->result_array();
@@ -104,12 +114,13 @@ class Reward_manager_model extends CI_Model
 		$log=array();
 
 		$this->db->insert($this->reward_table_name,array(
-			"reward_teacher_id"=>$teacher_id
-			,"reward_class_id"=>$class_id
-			,"reward_date"=>$date
-			,"reward_subject"=>$subject
-			,"reward_is_prize"=>$is_prize
-			));
+			"reward_teacher_id"	=> $teacher_id
+			,"reward_time_id"		=> $this->current_academic_time_id
+			,"reward_class_id"	=> $class_id
+			,"reward_date"			=> $date
+			,"reward_subject"		=> $subject
+			,"reward_is_prize"	=> $is_prize
+		));
 
 		$reward_id=$this->db->insert_id();
 
@@ -117,6 +128,7 @@ class Reward_manager_model extends CI_Model
 		$log['reward_id']=$reward_id;
 		$log['reward_date']=$date;
 		$log['reward_is_prize']=$is_prize;
+		$log['reward_time_id']=$this->current_academic_time_id;
 
 		$ins=array();
 		foreach($rewards as $reward)
@@ -178,6 +190,8 @@ class Reward_manager_model extends CI_Model
 		$sub_query=$this->db
 			->select("SUM(rv_value)")
 			->from($this->reward_value_table_name)
+			->join($this->reward_table_name,"reward_id = rv_reward_id","LEFT")
+			->where("reward_time_id", $this->current_academic_time_id)
 			->where("rv_student_id = customer_id")
 			->group_by("rv_student_id")
 			->get_compiled_select();
@@ -229,6 +243,14 @@ class Reward_manager_model extends CI_Model
 			$this->db->where("reward_subject LIKE '%".str_replace(' ', '%', $filter['subject'])."%'");
 		}
 
+		if(isset($filter['time_id']))
+		{
+			$this->db->where("reward_time_id",$filter['time_id']);
+		}
+
+		if(isset($filter['this_year']))
+			$this->db->where("reward_time_id",$this->current_academic_time_id);
+
 		if(isset($filter['start_date']))
 		{
 			$filter['start_date']=persian_normalize($filter['start_date']);
@@ -251,6 +273,7 @@ class Reward_manager_model extends CI_Model
 		if(isset($filter['class_id']))
 		{
 			$this->db->where("reward_class_id",(int)$filter['class_id']);
+			$this->db->where("reward_time_id",$this->current_academic_time_id);
 		}
 
 		if(isset($filter['is_prize']))
@@ -274,10 +297,27 @@ class Reward_manager_model extends CI_Model
 		$date=$date("Y/m/d H:i:s",time()-$this->reward_edit_time);
 
 		return $this->db
-			->select("r.* , (reward_date > '$date') as reward_editable, class_name,customer_name as teacher_name")
+			->select("r.* , (reward_date > '$date') as reward_editable, class_name,customer_name as teacher_name, time_name")
 			->from($this->reward_table_name." r")
 			->join("class","reward_class_id = class_id","LEFT")
 			->join("customer","reward_teacher_id = customer_id","LEFT")
+			->join("time","reward_time_id = time_id","LEFT")
+			->where("reward_id",$reward_id)
+			->get()
+			->row_array();
+	}
+
+	public function get_teacher_reward_info($reward_id)
+	{
+		$date=DATE_FUNCTION;
+		$date=$date("Y/m/d H:i:s",time()-$this->reward_edit_time);
+
+		return $this->db
+			->select("r.* , (reward_date > '$date') as reward_editable, class_name,customer_name as teacher_name, time_name")
+			->from($this->reward_table_name." r")
+			->join("class","reward_class_id = class_id","LEFT")
+			->join("customer","reward_teacher_id = customer_id","LEFT")
+			->where("reward_time_id", $this->current_academic_time_id)
 			->where("reward_id",$reward_id)
 			->get()
 			->row_array();
