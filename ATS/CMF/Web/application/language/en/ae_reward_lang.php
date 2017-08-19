@@ -26,3 +26,5 @@ $lang['total_results']="Total results";
 $lang['page']="Page";
 $lang['to']="To";
 $lang['']="";
+$lang['academic_year']="Academic year";
+$lang['previous_year_rewards']='Previous year rewards';

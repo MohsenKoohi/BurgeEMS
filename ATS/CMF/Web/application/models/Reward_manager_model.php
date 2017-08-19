@@ -108,11 +108,12 @@ class Reward_manager_model extends CI_Model
 			$class_id=$c['class_id'];
 			$rewards=array();
 			foreach($this->get_class_students_with_total_rewards($class_id, $old_tid) as $r)
-				$rewards[]=array(
-					'student_id'	=> $r['customer_id']
-					,"value"			=> $r['total_rewards']
-					,"description"	=> ''
-				);
+				if($r['total_rewards'])
+					$rewards[]=array(
+						'student_id'	=> $r['customer_id']
+						,"value"			=> $r['total_rewards']
+						,"description"	=> ''
+					);
 
 			$this->add_rewards_with_time_id(0,$class_id,$subject,$rewards,0,$new_tid);
 		}
@@ -356,7 +357,7 @@ class Reward_manager_model extends CI_Model
 		$date=$date("Y/m/d H:i:s",time()-$this->reward_edit_time);
 
 		return $this->db
-			->select("r.* , (reward_date > '$date') as reward_editable, class_name,customer_name as teacher_name, time_name")
+			->select("r.* , (reward_date > '$date') as reward_editable, class_name,customer_name as teacher_name")
 			->from($this->reward_table_name." r")
 			->join("class","reward_class_id = class_id","LEFT")
 			->join("customer","reward_teacher_id = customer_id","LEFT")

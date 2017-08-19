@@ -15,9 +15,14 @@
 						</div>
 						<div class="desc same-float" >
 							<?php 
-								echo $r['reward_subject'];
-								if($r['rv_description'])
-									echo $comma_text." ".$r['rv_description'];
+								if(!$r['customer_name'])
+									echo $previous_year_rewards_text;
+								else
+								{
+									echo $r['reward_subject'];
+									if($r['rv_description'])
+										echo $comma_text." ".$r['rv_description'];
+								}
 							?>
 						</div>
 					</div>

@@ -195,10 +195,21 @@
 							</span>
 						</div>
 						<div class="three columns">
-							<b><?php echo $reward['reward_subject'];?></b>
+							<b>
+								<?php
+									if(!$reward['reward_teacher_id'])
+										echo $previous_year_rewards_text;
+									else
+										echo $reward['reward_subject'];
+									
+								?>
+							</b>
 						</div>
 						<div class="two columns">
-							<?php echo $reward['customer_name']." (".$reward['customer_subject'].")";?> 
+							<?php
+								if($reward['reward_teacher_id']) 
+									echo $reward['customer_name']." (".$reward['customer_subject'].")"
+							;?> 
 						</div>
 						<div class="two columns">
 							<a href="<?php echo get_admin_reward_details_link($reward['reward_id']); ?>"

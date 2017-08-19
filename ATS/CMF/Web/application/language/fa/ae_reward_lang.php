@@ -27,3 +27,4 @@ $lang['page']="صفحه";
 $lang['to']="تا";
 $lang['']="";
 $lang['academic_year']="سال تحصیلی";
+$lang['previous_year_rewards']='امتیازهای سال قبل';

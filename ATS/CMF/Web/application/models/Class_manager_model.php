@@ -356,7 +356,7 @@ class Class_manager_model extends CI_Model
 	public function start_new_time($prev_time,$new_time)
 	{
 		$this->db
-			->where("1")
+			->where("!ISNULL(ct_class_id)")
 			->delete($this->class_teacher_table_name);
 
 		$log=array(
