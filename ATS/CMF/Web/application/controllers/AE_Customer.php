@@ -10,7 +10,7 @@ class AE_Customer extends Burge_CMF_Controller {
 		$this->load->model("class_manager_model");
 	}
 
-	public function search($name)
+	public function search($search_value)
 	{
 		$max_count=5;
 		$filter=array(
@@ -19,13 +19,12 @@ class AE_Customer extends Burge_CMF_Controller {
 		);
 
 		$search_for=$this->input->get("for");
-		if('name' == $search_for)
-		{
-			$name=urldecode($name);
-			$name=persian_normalize($name);
-			$filter['name']=$name;
-		}
-
+		$search_value=urldecode($search_value);
+		$search_value=persian_normalize($search_value);
+		
+		if('name' != $search_for && 'code' != $search_for)
+			return;
+		$filter[$search_for]=$search_value;
 
 		if($this->input->get("type"))
 			$filter['type']=$this->input->get("type");
@@ -40,6 +39,7 @@ class AE_Customer extends Burge_CMF_Controller {
 			$ret[]=array(
 				"id"=>$res['customer_id']
 				,"name"=>$res['customer_name']
+				,"code"=>$res['customer_code']
 			);
 
 		$this->output->set_content_type('application/json');
@@ -319,6 +319,7 @@ class AE_Customer extends Burge_CMF_Controller {
 
 		}
 		
+		$this->data['parents_search_url']=get_link("admin_customer_search");
 		$this->data['new_pass_link']=get_link("admin_customer_password")."?id=".$customer_id;
 		$this->data['raw_page_url']=get_admin_customer_details_link($customer_id,$task_id);
 		$this->data['lang_pages']=get_lang_pages(get_admin_customer_details_link($customer_id,$task_id,NULL,TRUE));

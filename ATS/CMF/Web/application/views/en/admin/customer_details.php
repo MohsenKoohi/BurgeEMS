@@ -589,6 +589,9 @@
 				<div class="container">
 					<h2>{properties_text}</h2>	
 						<?php if($customer_info) { ?>
+							<link rel="stylesheet" type="text/css" href="{styles_url}/jquery-ui.min.css" />
+							<script src="{scripts_url}/jquery-ui.min.js"></script>
+
 							<?php echo form_open_multipart(get_admin_customer_details_link($customer_id,$task_id,"props"),array()); ?>
 								<input type="hidden" name="post_type" value="customer_properties" />	
 								<span></span>
@@ -711,6 +714,7 @@
 										<input type="submit" class=" button-primary four columns" value="{save_text}"/>
 								</div>				
 							</form>
+		
 							<script type="text/javascript">
 								$(document).ready(function()
 							   {
@@ -721,17 +725,15 @@
 							         source: function(request, response)
 							         {
 							            var term=request["term"];
-							            $.get(searchUrl+"/"+encodeURIComponent(term)+"?type=parent",
+							            $.get(searchUrl+"/"+encodeURIComponent(term)+"?type=parent&for=code",
 							              function(res)
 							              {
 							                var rets=[];
 							                for(var i=0;i<res.length;i++)
 							                  rets[rets.length]=
 							                    {
-							                      label:res[i].name
-							                      ,name:res[i].name
-							                      ,id:res[i].id						                      
-							                      ,value:term
+							                      label:res[i].code+" ("+res[i].name+")"
+							                      ,code:res[i].code
 							                    };
 
 							                response(rets); 
@@ -745,13 +747,11 @@
 							          select: function(event,ui)
 							          {
 							            var item=ui.item;
-							            var id=item.id;
+							            var code=item.code;
 							            var name=item.name;
+							            $(this).val(code);
 
-							            if(!$("div[data-id="+id+"]",$("#parents-list")).length)
-							            	$("#parents-list").append($("<div class='three columns' data-id='"+id+"'>"+name+"<span class='anti-float' onclick='$(this).parent().remove();'></span></div>"));
 							            
-							            el.val("");
 							            return false;
 							          }
 							      });
