@@ -145,14 +145,15 @@ class Message_manager_model extends CI_Model
 
 	public function set_group_members($group_id,$members)
 	{
-		$member_ids=explode(",", $members);
+		
 		$this->db
 			->from($this->message_group_member_table_name)
 			->where("mgm_group_id",$group_id)
 			->delete();
 
-		if($member_ids)
+		if($members)
 		{
+			$member_ids=explode(",", $members);
 			$ins=array();
 			foreach($member_ids as $cid)
 				$ins[]=array(

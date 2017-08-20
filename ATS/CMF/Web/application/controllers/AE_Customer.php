@@ -13,14 +13,20 @@ class AE_Customer extends Burge_CMF_Controller {
 	public function search($name)
 	{
 		$max_count=5;
-		$name=urldecode($name);
-		$name=persian_normalize($name);
-
 		$filter=array(
-			"name"=>$name
-			,"start"=>0
+			"start"=>0
 			,"length"=>$max_count
 		);
+
+		$search_for=$this->input->get("for");
+		if('name' == $search_for)
+		{
+			$name=urldecode($name);
+			$name=persian_normalize($name);
+			$filter['name']=$name;
+		}
+
+
 		if($this->input->get("type"))
 			$filter['type']=$this->input->get("type");
 		if($this->input->get("active"))

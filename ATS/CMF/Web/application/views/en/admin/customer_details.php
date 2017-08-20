@@ -712,6 +712,52 @@
 								</div>				
 							</form>
 							<script type="text/javascript">
+								$(document).ready(function()
+							   {
+							      var el=$("input[name=customer_father_code],input[name=customer_mother_code]");
+						      	var searchUrl="{parents_search_url}";
+							      	
+						      	el.autocomplete({
+							         source: function(request, response)
+							         {
+							            var term=request["term"];
+							            $.get(searchUrl+"/"+encodeURIComponent(term)+"?type=parent",
+							              function(res)
+							              {
+							                var rets=[];
+							                for(var i=0;i<res.length;i++)
+							                  rets[rets.length]=
+							                    {
+							                      label:res[i].name
+							                      ,name:res[i].name
+							                      ,id:res[i].id						                      
+							                      ,value:term
+							                    };
+
+							                response(rets); 
+
+							                return;       
+							              },"json"
+							            ); 
+							          },
+							          delay:700,
+							          minLength:1,
+							          select: function(event,ui)
+							          {
+							            var item=ui.item;
+							            var id=item.id;
+							            var name=item.name;
+
+							            if(!$("div[data-id="+id+"]",$("#parents-list")).length)
+							            	$("#parents-list").append($("<div class='three columns' data-id='"+id+"'>"+name+"<span class='anti-float' onclick='$(this).parent().remove();'></span></div>"));
+							            
+							            el.val("");
+							            return false;
+							          }
+							      });
+
+							   });
+
 								function typeChanged(el)
 								{
 									$("#props .teacher-div").addClass("disno");
