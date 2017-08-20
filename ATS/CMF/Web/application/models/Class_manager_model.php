@@ -331,12 +331,10 @@ class Class_manager_model extends CI_Model
 			->where("class_id", $class_id)
 			->delete($this->class_table_name);
 
-		$this->db
-			->set("customer_active",0)
-			->where("customer_class_id", $class_id)
-			->where("customer_type","student")
-			->update("customer");
-
+		$this->load->model('customer_manager_model');
+		foreach($this->get_students($class_id) as $s)
+			$this->customer_manager_model->deactivate_student($s['customer_id']);
+		
 		$this->db
 			->where("ct_class_id", $class_id)
 			->delete($this->class_teacher_table_name);
