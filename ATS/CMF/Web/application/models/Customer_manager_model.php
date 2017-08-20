@@ -209,6 +209,63 @@ class Customer_manager_model extends CI_Model
 		return;
 	}
 
+	public function deactivate_student($customer_id)
+	{
+		$row=$this->db
+			->select("customer_father_code, customer_mother_code")
+			->from($this->customer_table_name)
+			->where("customer_id", $customer_id)
+			->get()
+			->row_array();
+
+		if(!$row)
+			return;
+
+		$father_code=trim($row['customer_father_code']);
+		$mother_code=trim($row['customer_mother_code']);
+
+		$this->db
+			->set("customer_active",0)
+			->where("customer_id", $customer_id)
+			->update($this->customer_table_name);
+
+		if($father_code)
+		{
+			$res=$this->db
+				->select("COUNT(*) as count")
+				->from($this->customer_table_name)
+				->where("customer_father_code",$father_code)
+				->where("customer_active","1")
+				->get()
+				->row_array();
+	
+			if(!$res['count'])
+				$this->db
+					->set("customer_active",0)
+					->where("customer_code", $father_code)
+					->update($this->customer_table_name);
+		}
+
+		if($mother_code)
+		{
+			$res=$this->db
+				->select("COUNT(*) as count")
+				->from($this->customer_table_name)
+				->where("customer_mother_code",$mother_code)
+				->where("customer_active","1")
+				->get()
+				->row_array();
+
+			if(!$res['count'])	
+				$this->db
+					->set("customer_active",0)
+					->where("customer_code", $mother_code)
+					->update($this->customer_table_name);
+		}
+		
+		return;
+	}
+
 	public function get_parents($filter)
 	{
 		$this->db->select("main.customer_id, main.customer_name");

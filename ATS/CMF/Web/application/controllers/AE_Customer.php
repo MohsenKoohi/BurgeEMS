@@ -436,22 +436,26 @@ class AE_Customer extends Burge_CMF_Controller {
 		validate_persian_date($customer_birthday);
 
 		$args=array(
-			"customer_name"		=>$this->input->post("customer_name")
-			,"customer_type"		=>$this->input->post("customer_type")
-			,"customer_email"		=>$this->input->post("customer_email")
-			,"customer_code"		=>$this->input->post("customer_code")
+			"customer_name"				=>$this->input->post("customer_name")
+			,"customer_type"				=>$this->input->post("customer_type")
+			,"customer_email"				=>$this->input->post("customer_email")
+			,"customer_code"				=>$this->input->post("customer_code")
 			,"customer_father_code"		=>$this->input->post("customer_father_code")
 			,"customer_mother_code"		=>$this->input->post("customer_mother_code")
-			,"customer_province"	=>$this->input->post("customer_province")
-			,"customer_city"		=>$this->input->post("customer_city")
-			,"customer_address"	=>$this->input->post("customer_address")
-			,"customer_phone"		=>$this->input->post("customer_phone")
-			,"customer_mobile"	=>$this->input->post("customer_mobile")
-			,"customer_subject"	=>$this->input->post("customer_subject")
-			,"customer_class_id"	=>$this->input->post("customer_class_id")
-			,"customer_birthday"	=>$customer_birthday
-			,"customer_active"	=>($this->input->post("customer_active")==="on")
+			,"customer_province"			=>$this->input->post("customer_province")
+			,"customer_city"				=>$this->input->post("customer_city")
+			,"customer_address"			=>$this->input->post("customer_address")
+			,"customer_phone"				=>$this->input->post("customer_phone")
+			,"customer_mobile"			=>$this->input->post("customer_mobile")
+			,"customer_subject"			=>$this->input->post("customer_subject")
+			,"customer_class_id"			=>$this->input->post("customer_class_id")
+			,"customer_birthday"			=>$customer_birthday
+			,"customer_active"			=>($this->input->post("customer_active")==="on")
 		);
+
+		if( $this->input->post("customer_type") == 'student' )
+			if($this->input->post("customer_active")!=="on")
+				$this->customer_manager_model->deactivate_student($customer_id);
 
 		if(isset($_FILES['customer_image']) && $_FILES['customer_image']['name'])
 		{
