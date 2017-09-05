@@ -1,6 +1,6 @@
 <?php
 
-define('MAIN_ADDRESS',"192.168.2.100/Web/BurgeEMS/ATS/CMF/Web");
+define('MAIN_ADDRESS',"localhost/Web/BurgeEMS/ATS/CMF/Web");
 
 //if you have different domains for your different languages
 //define('MAIN_ADDRESS_EN',"your english webiste");

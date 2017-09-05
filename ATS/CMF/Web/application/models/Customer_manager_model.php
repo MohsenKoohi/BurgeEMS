@@ -173,19 +173,6 @@ class Customer_manager_model extends CI_Model
 		return;
 	}
 
-	public function get_total_customers($filter=array())
-	{
-		$this->db->select("COUNT(*) as count");
-		$this->db->from($this->customer_table_name);
-		$this->set_search_where_clause($filter);
-
-		$query=$this->db->get();
-
-		$row=$query->row_array();
-
-		return $row['count'];
-	}
-
 	public function delete_not_found_images()
 	{
 		$rows=$this->db
@@ -308,6 +295,19 @@ class Customer_manager_model extends CI_Model
 		$results=$query->result_array();
 
 		return $results;
+	}
+
+	public function get_total_customers($filter=array())
+	{
+		$this->db->select("COUNT(*) as count");
+		$this->db->from($this->customer_table_name);
+		$this->set_search_where_clause($filter);
+
+		$query=$this->db->get();
+
+		$row=$query->row_array();
+
+		return $row['count'];
 	}
 
 	public function get_customers($filter)
