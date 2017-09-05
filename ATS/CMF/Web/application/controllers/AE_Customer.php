@@ -116,7 +116,6 @@ class AE_Customer extends Burge_CMF_Controller {
 
 		$filter['active']=1;
 		$filter['order_by']="customer_order ASC";
-		$filter['get_password']=TRUE;
 
 		$customers=$this->customer_manager_model->get_customers($filter);
 		if(sizeof($customers)>1)
@@ -138,6 +137,24 @@ class AE_Customer extends Burge_CMF_Controller {
 
 			if(!$pass)
 				unset($customers[$index]);
+		}
+
+		if(isset($filter['class_id']))
+		{
+			$parents=$this->customer_manager_model->get_parents(array("child_class_id_in"=>array($filter['class_id'])));
+			foreach($parents as $index=>&$customer)
+			{
+				$pass=NULL;
+				if($customer['customer_code'])
+				{
+					$pass=$this->customer_manager_model->set_new_password_by_id($customer['customer_id']);
+					if($pass)
+						$customer['customer_pass']=$pass;
+				}
+
+				if($pass)
+					$customers[]=$customer;
+			}
 		}
 
 		$this->lang->load('ae_customer',$this->selected_lang);

@@ -255,7 +255,7 @@ class Customer_manager_model extends CI_Model
 
 	public function get_parents($filter)
 	{
-		$this->db->select("main.customer_id, main.customer_name");
+		$this->db->select("main.customer_id, main.customer_name, main.customer_code");
 		$this->db->from($this->customer_table_name." main");
 		
 		$this->db->join(
