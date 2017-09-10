@@ -47,7 +47,7 @@ class AE_Customer extends Burge_CMF_Controller {
 
     	return;
 	}
-
+	
 	public function index()
 	{
 		$this->lang->load('ae_customer',$this->selected_lang);
@@ -141,7 +141,10 @@ class AE_Customer extends Burge_CMF_Controller {
 
 		if(isset($filter['class_id']))
 		{
-			$parents=$this->customer_manager_model->get_parents(array("child_class_id_in"=>array($filter['class_id'])));
+			$parents=$this->customer_manager_model->get_parents(array(
+				"child_class_id_in"	=> array($filter['class_id'])
+				,"active"				=> 1
+			));
 			foreach($parents as $index=>&$customer)
 			{
 				$pass=NULL;
