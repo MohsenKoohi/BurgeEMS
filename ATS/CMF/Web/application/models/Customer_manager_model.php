@@ -1096,12 +1096,13 @@ class Customer_manager_model extends CI_Model
 	}
 
 	//returns a new pass or FALSE
-	public function set_new_password_by_id($customer_id)
+	public function set_new_password_by_id($customer_id, $pass=NULL)
 	{
 		$ret=FALSE;
 
 		//$pass=random_string("numeric",7);
-		$pass=random_string("alnum",7);
+		if(!$pass)
+			$pass=random_string("alnum",7);
 		$salt=random_string("alnum",32);
 
 		$this->db->set("customer_pass", $this->getPass($pass,$salt));

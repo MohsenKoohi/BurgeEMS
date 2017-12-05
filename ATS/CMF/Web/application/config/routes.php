@@ -55,7 +55,10 @@ $route[ADMIN_URL_FOLDER."/change_pass"]		="AE_Change_Pass";
 $route[ADMIN_URL_FOLDER."/logout"]				="AE_Logout";
 $route[ADMIN_URL_FOLDER."/access"]				="AE_Access/index/0";
 $route[ADMIN_URL_FOLDER."/access/(\-?\d+)"]	="AE_Access/index/$1";
+
 $route[ADMIN_URL_FOLDER."/module"]				="AE_Module";
+//$route["bcron_1388"]									="CE_Module/cron";
+
 $route[ADMIN_URL_FOLDER."/hit_counter"]		="AE_Hit_Counter";
 $route[ADMIN_URL_FOLDER."/log"]					="AE_Log";
 $route[ADMIN_URL_FOLDER."/constant"]			="AE_Constant";
@@ -153,6 +156,12 @@ $route["discussion/edit/(\d+)"]					= "CE_Class_Post/discussion_edit/$1";
 $route["class_post/(\d+)/file/inline"]					= "CE_File/inline/class_post/$1";
 $route["class_post/(\d+)/file/conf.json"]				= "CE_File/conf/class_post/$1";
 $route["class_post/(\d+)/file/([^\/]+)"]				= "CE_File/action/class_post/$1/$2";
+
+$route[ADMIN_URL_FOLDER."/es"]			= "AE_Es/index";
+
+$route[ADMIN_URL_FOLDER."/news_letter"]			= "AE_News_Letter/index";
+$route[ADMIN_URL_FOLDER."/news_letter/(\d+)"]	= "AE_News_Letter/template/$1";
+$route["news_letter"]									= "CE_News_Letter/index";
 
 $route['(((:any)/)*:any)']="CE_Home/redirect";
 

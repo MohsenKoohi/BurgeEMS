@@ -64,45 +64,6 @@
 				text-overflow: ellipsis;
 				display: block;
 			}
-
-			.task_histories .even-odd-bg  div.columns
-			{
-				box-shadow: 1px 1px #888,-1px -1px #ccc;
-				border-radius: 5px;
-				padding:10px;
-			}
-
-			.task_histories .even-odd-bg:nth-child(2n + 1)  div.columns
-			{
-				box-shadow: -1px -1px #888,1px 1px #ccc;
-			}
-			.task_histories .even-odd-bg  .two.columns
-			{
-				margin:5px;
-				width:calc(16.66% - 10px);
-			}
-
-			.task_histories .even-odd-bg  .three.columns
-			{
-				margin:5px;
-				width:calc(25% - 10px);
-			}
-			.task_histories .even-odd-bg  .six.columns
-			{
-				margin:5px;
-				width:calc(50% - 10px);
-			}
-
-			.task_histories .manager_note
-			{
-				margin-top:20px;
-			}
-
-			.task_histories > div
-			{
-				margin-top:10px;
-			}
-
 		</style>
 
 		<div class="tab-container">
@@ -586,7 +547,7 @@
 			</div>
 
 			<div class="tab" id="props" style="">
-				<div class="container">
+				<div class="container separated">
 					<h2>{properties_text}</h2>	
 						<?php if($customer_info) { ?>
 							<link rel="stylesheet" type="text/css" href="{styles_url}/jquery-ui.min.css" />
@@ -822,7 +783,30 @@
 								})
 							</script>
 						<?php } ?>				
-						
+				</div>
+
+				<br><br>
+				<div class="container separated">
+					<h2>{new_password_text}</h2>	
+						<?php if($customer_info) { ?>
+							<?php echo form_open(get_admin_customer_details_link($customer_id,$task_id,"props"),array()); ?>
+								<input type="hidden" name="post_type" value="set_password" />	
+								<span></span>
+								<div class="row even-odd-bg dont-magnify" >
+									<div class="three columns">
+										<label>{new_password_text}</label>
+									</div>
+									<div class="eight columns">
+										<input value="" type="password" name="customer_password" class="ltr full-width" />
+									</div>
+								</div>
+								<br><br>
+								<div class="row">
+										<div class="four columns">&nbsp;</div>
+										<input type="submit" class=" button-primary four columns" value="{save_text}"/>
+								</div>				
+							</form>
+						<?php } ?>				
 				</div>
 			</div>
 

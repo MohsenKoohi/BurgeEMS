@@ -99,6 +99,7 @@ $lang['registeration_email_content']='ثبت نام شما با موفقیت ا�
 			با استفاده از  <a style="color:#0870E3" href="$link">حساب کاربری</a> می توانید به 
 			صفحه خود دسترسی پیدا کنید.<br>';
 
+
 $lang['class']="کلاس";
 $lang['subject']="سمت";
 $lang['birthday']="تاریخ تولد";
@@ -117,3 +118,11 @@ $lang['view']="مشاهده";
 $lang['total']="مجموع";
 $lang['messages']="پیام‌ها";
 $lang['previous_year_rewards']='امتیازهای سال قبل';
+
+$lang['new_password']='رمز جدید';
+$lang['new_password_email_content']='
+	کاربر گرامی،<br>
+	رمز جدید شما <br>
+	<span style="font-family:times new roman">$pass</span><br/>
+	است.<br>';
+$lang['new_password_was_successfully_set']='رمز جدید با موفقیت ثبت شد.';

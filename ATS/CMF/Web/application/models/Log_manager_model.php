@@ -29,6 +29,8 @@ class Log_manager_model extends CI_Model
 		,"MODULE_ADD"				=>53
 		,"MODULE_ADD_NAME"		=>54
 		,"MODULE_RESORT"			=>55
+		,"MODULE_CRON_UPDATE"	=>56
+		,"MODULE_CRON_EXECUTE"	=>57
 
 		,"ACCESS_SET"				=>81
 		,"ACCESS_UNSET"			=>82
@@ -43,7 +45,6 @@ class Log_manager_model extends CI_Model
 		,"USER_GROUP_ADD"				=>107
 		,"USER_GROUP_DELETE"			=>108
 		,"USER_GROUP_CHANGE_PROPS"	=>109
-		
 
 		,"CONSTANT_SET"			=>131
 		,"CONSTANT_UNSET"			=>132		
@@ -93,6 +94,16 @@ class Log_manager_model extends CI_Model
 		,"MESSAGE_ADD"				=>1131
 		,"MESSAGE_GROUP_SET"		=>1132
 
+		,"ES_ADD"		=> 1171
+		,"ES_UPDATE"	=> 1172
+		,"ES_CRON"		=> 1173
+
+		,"NEWS_LETTER_TEMPLATE_ADD"		=> 1201
+		,"NEWS_LETTER_TEMPLATE_EDIT"		=> 1202
+		,"NEWS_LETTER_TEMPLATE_DELETE"	=> 1203
+		,"NEWS_LETTER_TEMPLATE_SEND"		=> 1204
+		,"NEWS_LETTER_EMAIL_ADD"			=> 1205
+
 		,"TIME_ADD"					=>2001
 
 		,"CLASS_ADD"						=> 2031
@@ -118,6 +129,7 @@ class Log_manager_model extends CI_Model
 		,"CLASS_POST_DELETE"				=> 2133
 		,"CLASS_POST_COMMENT"			=> 2134
 		,"CLASS_POST_VERIFY"				=> 2135
+
 	);
 
 	public function __construct()

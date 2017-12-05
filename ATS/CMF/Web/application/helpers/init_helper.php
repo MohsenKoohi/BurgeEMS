@@ -55,8 +55,7 @@ function &get_links($just_common=FALSE)
 			,'admin_contact_us'									=> ADMIN_SURL_LANG."/contact_us"
 			,'admin_contact_us_send_new'						=> ADMIN_SURL_LANG."/contact_us/send_new"
 			,'admin_contact_us_message_details_format'	=> ADMIN_SURL_LANG."/contact_us/message_id"
-
-			,'customer_contact_us'								=> HOME_URL_LANG."/contact_us"
+			,'customer_contact_us'								=> HOME_SURL_LANG."/contact_us"
 
 			,'admin_footer_link'									=> ADMIN_SURL_LANG."/footer_link"
 
@@ -121,6 +120,11 @@ function &get_links($just_common=FALSE)
 			,'customer_class_post_discussion_edit_format'		=> HOME_SURL_LANG."/discussion/edit/discussion_id"
 			,'customer_class_post_file_format'						=> HOME_SURL_LANG."/class_post/cp_id/file/inline"
 
+			,'admin_es'					=> ADMIN_SURL_LANG."/es"
+
+			,'admin_news_letter'							=> ADMIN_SURL_LANG."/news_letter"
+			,'admin_news_letter_template_format'	=> ADMIN_SURL_LANG."/news_letter/template_id"
+			,'customer_news_letter'						=> "news_letter"
 		));
 	}
 
@@ -128,6 +132,15 @@ function &get_links($just_common=FALSE)
 		return $LINKS_COMMON;
 	
 	return $LINKS;
+}
+
+function get_admin_news_letter_template_link($template_id, $do_not_set_lang=FALSE)
+{
+	return str_replace(
+		array("template_id")
+		,array($template_id)
+		,get_link("admin_news_letter_template_format",$do_not_set_lang)
+	);
 }
 
 function get_class_post_comment_file_path($cp_id,$comment_id,$file)
@@ -1282,7 +1295,25 @@ function burge_cmf_send_mail($receiver,$subject,$message)
 	$CI->email->subject($subject);
 	$CI->email->message($message);
 
-	$CI->email->send();
+	$result=$CI->email->send();
 
-	return;
+	return $result;
+}
+
+function burge_cmf_send_sms($receiver, $content)
+{
+	$url="";
+
+	$url=str_replace(
+		array("TO","CONTENT")
+		,array($receiver, utf8_encode($content))
+		,$url
+	);
+
+	if($url)
+		$result=file_get_contents($url);
+	else
+		$result=0;
+
+	return $result;
 }
