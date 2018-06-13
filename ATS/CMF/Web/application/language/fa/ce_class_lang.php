@@ -10,3 +10,5 @@ $lang['day_4_name']="سه‌شنبه";
 $lang['day_5_name']="چهارشنبه";
 $lang['day_6_name']="پنج‌شنبه";
 $lang['day_7_name']="جمعه";
+$lang['contact_time']="زمان تماس";
+$lang['curriculum_of']="برنامه کلاسی ";

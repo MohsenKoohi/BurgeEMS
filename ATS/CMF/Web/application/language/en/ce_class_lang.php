@@ -10,3 +10,4 @@ $lang['day_4_name']="Tuesday";
 $lang['day_5_name']="Wednesday";
 $lang['day_6_name']="Thursday";
 $lang['day_7_name']="Friday";
+$lang['curriculum_of']="Curriculum of ";
