@@ -479,6 +479,9 @@ class AE_Customer extends Burge_CMF_Controller {
 		if( $this->input->post("customer_type") == 'student' )
 			if($this->input->post("customer_active")!=="on")
 				$this->customer_manager_model->deactivate_student($customer_id);
+		
+		if( $this->input->post("customer_type") != 'student' )
+			$args['customer_class_id'] = NULL;
 
 		if(isset($_FILES['customer_image']) && $_FILES['customer_image']['name'])
 		{
